@@ -101,6 +101,7 @@
 					</script>
 
 					<span class="left-button edit-block" id="undoButton" onclick="myGrooveWriter.undoCommand();"><span class="left-button-content"><i class="fa fa-undo"></i>&nbsp;&nbsp;Undo</span></span>
+					<span class="left-button edit-block" id="redoButton" onclick="myGrooveWriter.redoCommand();"><span class="left-button-content"><i class="fa fa-repeat"></i>&nbsp;&nbsp;Redo</span></span>
 				</span>
 
 			</div>
@@ -117,6 +118,7 @@
 					</span>
 				</span>
 				<span id="upperRight">
+					<span class="rightButtons" id="myGrooveAnchor" onclick="myGrooveWriter.myGrooveAnchorClick(event);"><i class="fa fa-bars"></i> My Grooves</span>
 					<span class="rightButtons grooveDB_hidden" id="permutationAnchor" onclick="myGrooveWriter.permutationAnchorClick(event);"><i class="fa fa-bars"></i> Permutations</span>
 					<span class="rightButtons" id="groovesAnchor" onclick="myGrooveWriter.groovesAnchorClick(event);"><i class="fa fa-bars"></i> Grooves</span>
 					<span class="rightButtons" id="helpAnchor" onclick="myGrooveWriter.helpAnchorClick(event);"><i class="fa fa-bars"></i> Help</span>
@@ -180,6 +182,7 @@
 					<span class=" grooveDB_hidden pageBottomButton" id="downloadButton" onclick="myGrooveWriter.DownloadAnchorClick();"><span class="bottomButtonIcon"><i class="fa fa-download fa-2x"></i></span><span class="bottomButtonLabel">DOWNLOAD</span></span>
 					<span class=" grooveDB_hidden pageBottomButton" id="printButton" onclick="myGrooveWriter.printMusic();"><span class="bottomButtonIcon"><i class="fa fa-print fa-2x"></i></span><span class="bottomButtonLabel">PRINT</span></span>
 					<span class=" grooveDB_hidden pageBottomButton" id="shareSaveButton" onclick="event.preventDefault(); myGrooveWriter.show_FullURLPopup();"><span class="bottomButtonIcon"><i class="fa fa-share fa-2x"></i></span><span class="bottomButtonLabel">SHARE</span></span>
+					<span class=" grooveDB_hidden pageBottomButton" id="saveGrooveButton" onclick="event.preventDefault(); myGrooveWriter.saveCurrentGroove();"><span class="bottomButtonIcon"><i class="fa fa-save fa-2x"></i></span><span class="bottomButtonLabel">SAVE</span></span>
 				</div>
 
 				<div id="midiTextOutput">
@@ -290,6 +293,12 @@
 			</ul>
 		</div>
 		<div class="noteContextMenu">
+			<ul id="tom2ContextMenu" class="list">
+				<li onclick='myGrooveWriter.notePopupClick("tom2", "off");'>Off</li>
+				<li onclick='myGrooveWriter.notePopupClick("tom2", "normal");'>Tom Normal</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
 			<ul id="tom4ContextMenu" class="list">
 				<li onclick='myGrooveWriter.notePopupClick("tom4", "off");'>Off</li>
 				<li onclick='myGrooveWriter.notePopupClick("tom4", "normal");'>Tom Normal</li>
@@ -343,6 +352,14 @@
 			</ul>
 		</div>
 		<div class="noteContextMenu">
+			<ul id="tom2LabelContextMenu" class="list">
+				<li onclick='myGrooveWriter.noteLabelPopupClick("tom2", "all_off");'>all Toms <b>Off</b></li>
+				<li onclick='myGrooveWriter.noteLabelPopupClick("tom2", "all_on");'>all Toms <b>On</b></li>
+				<li id='mute_tom2_menu_item' onclick='myGrooveWriter.noteLabelPopupClick("tom2", "mute");'>mute tom sound</li>
+				<li onclick='myGrooveWriter.noteLabelPopupClick("tom2", "cancel");'>cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
 			<ul id="tom4LabelContextMenu" class="list">
 				<li onclick='myGrooveWriter.noteLabelPopupClick("tom4", "all_off");'>all Toms <b>Off</b></li>
 				<li onclick='myGrooveWriter.noteLabelPopupClick("tom4", "all_on");'>all Toms <b>On</b></li>
@@ -368,6 +385,11 @@
 				<li onclick='myGrooveWriter.noteLabelPopupClick("kick", "hh_foot_ands_on");'>HH foot &'s <b>On</b></li>
 				<li id='mute_kick_menu_item' onclick='myGrooveWriter.noteLabelPopupClick("kick", "mute");'>mute kick sound</li>
 				<li onclick='myGrooveWriter.noteLabelPopupClick("kick", "cancel");'>cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="myGrooveContextMenu" class="list">
+				<!-- Saved grooves will be dynamically populated here -->
 			</ul>
 		</div>
 		<div class="noteContextMenu">
@@ -465,6 +487,9 @@
 			</div>
 			<div id="metronomeAutoSpeedupConfigurationKeepIncreasing">
 				<input type="checkbox" checked id="metronomeAutoSpeedUpKeepGoingForever"><label for="metronomeAutoSpeedUpKeepGoingForever">Keep increasing after the first interval</label>
+			</div>
+			<div id="metronomeAutoSpeedupConfigurationSetDefault">
+				<input type="checkbox" id="metronomeAutoSpeedUpSetAsDefault"><label for="metronomeAutoSpeedUpSetAsDefault">Set as default</label>
 			</div>
 			<div id="metronomeAutoSpeedupConfigurationSliders">
 				<div id="metronomeAutoSpeedupConfigurationAmountLable">Amount in BPM</div>
