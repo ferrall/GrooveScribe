@@ -8,7 +8,8 @@ Readme for Groove Scribe
 
 ### How do I use it ###
 
-* Hosted here: http://www.mikeslessons.com/gscribe/
+* This branch is hosted here: https://scribe.bahar.co.il
+* Original version is hosted here: http://www.mikeslessons.com/gscribe/
 * Also here: http://montulli.github.io/GrooveScribe/
 
 ### How do I get set up? ###
