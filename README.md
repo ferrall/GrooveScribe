@@ -22,6 +22,7 @@ Perfect for drum teachers, students, composers, and anyone wanting to create, pr
 
 ## 🚀 Live Demos
 
+- **My Version**: [https://scribe.bahar.co.il](https://scribe.bahar.co.il)
 - **Original**: [mikeslessons.com/gscribe](http://www.mikeslessons.com/gscribe/)
 - **GitHub Pages**: [montulli.github.io/GrooveScribe](http://montulli.github.io/GrooveScribe/)
 - **This Enhanced Fork**: Deploy locally using our [deployment tools](#deployment)
@@ -274,11 +275,6 @@ checkFileAccess()          // File accessibility test
 - **Main Repository**: [montulli/GrooveScribe](https://github.com/montulli/GrooveScribe)
 - **Original Issues**: [Original Issues](https://github.com/montulli/GrooveScribe/issues)
 - **Author**: lou at montulli dot org (please use GitHub issues when possible)
-
-### Resources
-- **Markdown Guide**: [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-- **Technical Docs**: [SOURCE_CODE_README.md](SOURCE_CODE_README.md)
-- **Recent Changes**: [CHANGELOG_SESSION.md](CHANGELOG_SESSION.md)
 
 ---
 
