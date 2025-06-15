@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test My Grooves Modal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test My Grooves Modal</h1>
+    
+    <div class="test-section">
+        <h2>Setup Test Data</h2>
+        <button onclick="addTestGrooves()">Add Test Grooves to localStorage</button>
+        <button onclick="clearGrooves()">Clear All Grooves</button>
+        <button onclick="showStoredGrooves()">Show Stored Grooves</button>
+        <button onclick="testEditMode()">Test Edit Mode</button>
+        <button onclick="testSearchFeature()">Test Search Feature</button>
+        <button onclick="testAutoSpeedUpFeatures()">Test Auto Speed Up Features</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Open GrooveScribe</h2>
+        <button onclick="openGrooveScribe()">Open GrooveScribe</button>
+        <p>After opening GrooveScribe, click on "My Grooves" in the top right to test the modal.</p>
+        <p><strong>Features to test:</strong></p>
+        <ul>
+            <li>✅ Delete button uses a trash icon</li>
+            <li>✅ Edit button (pencil icon) next to delete button</li>
+            <li>✅ Clicking edit loads the groove and changes SAVE to UPDATE</li>
+            <li>✅ Saving while editing updates the existing groove instead of creating new one</li>
+            <li>✅ Search box at the top of My Grooves modal</li>
+            <li>✅ Auto-focus on search box when modal opens</li>
+            <li>✅ Search through title, author, and comment fields</li>
+            <li>✅ Search terms are highlighted in yellow</li>
+            <li>✅ Clear search with X button or Escape key</li>
+            <li>✅ Clicking in search area doesn't close the modal</li>
+            <li>✅ Auto Speed Up "Set as default" checkbox</li>
+            <li>✅ Green "Play+" button with auto speed up enabled</li>
+            <li>✅ Default settings are loaded and applied automatically</li>
+            <li>✅ Regular play button disables auto speed up</li>
+            <li>✅ Each button has its own play/pause state</li>
+            <li>✅ Buttons work independently</li>
+        </ul>
+    </div>
+
+    <script>
+        function addTestGrooves() {
+            const testGrooves = [
+                {
+                    id: Date.now() + 1,
+                    title: "Basic Rock Beat",
+                    author: "John Drummer",
+                    comment: "A simple rock beat perfect for beginners. This groove uses basic quarter note hi-hats with snare on 2 and 4.",
+                    url: "?TimeSig=4/4&Div=16&Title=Basic%20Rock%20Beat&Author=John%20Drummer&Comments=A%20simple%20rock%20beat&Tempo=120&Measures=1&H=|xxxxxxxxxxxxxxxx|&S=|----O-------O---|&K=|o-------o-------|",
+                    dateCreated: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 2,
+                    title: "Funky Groove with Ghost Notes",
+                    author: "Sarah Funkmaster",
+                    comment: "An advanced funk groove featuring ghost notes on the snare drum and syncopated hi-hat patterns. Great for intermediate to advanced players looking to develop their groove vocabulary.",
+                    url: "?TimeSig=4/4&Div=16&Title=Funky%20Groove&Author=Sarah%20Funkmaster&Comments=Advanced%20funk%20groove&Tempo=100&Measures=1&H=|x-xxx-xxx-xxx-xx|&S=|g-g-O-g-g-g-O-g-|&K=|o---o-o---o-----|",
+                    dateCreated: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 3,
+                    title: "Jazz Swing",
+                    author: "Miles Davis Jr.",
+                    comment: "Classic jazz swing pattern with ride cymbal",
+                    url: "?TimeSig=4/4&Div=12&Title=Jazz%20Swing&Author=Miles%20Davis%20Jr.&Comments=Classic%20jazz%20swing&Tempo=140&Measures=1&H=|r-r-r-r-r-r-|&S=|--O---O---|&K=|o-----o---|",
+                    dateCreated: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 4,
+                    title: "Latin Groove",
+                    author: "Carlos Percussion",
+                    comment: "",
+                    url: "?TimeSig=4/4&Div=16&Title=Latin%20Groove&Author=Carlos%20Percussion&Tempo=110&Measures=1&H=|x---x---x---x---|&S=|--O--g-O-gg--g-g|&K=|---o--o----o--o-|",
+                    dateCreated: new Date().toISOString()
+                },
+                {
+                    id: Date.now() + 5,
+                    title: "Simple 8th Note Rock",
+                    author: "Beginner Student",
+                    comment: "My first saved groove! Very basic but sounds good.",
+                    url: "?TimeSig=4/4&Div=8&Title=Simple%20Rock&Author=Beginner%20Student&Comments=My%20first%20groove&Tempo=80&Measures=1&H=|xxxxxxxx|&S=|--O---O-|&K=|o---o---|",
+                    dateCreated: new Date().toISOString()
+                }
+            ];
+            
+            localStorage.setItem('myGrooves', JSON.stringify(testGrooves));
+            document.getElementById('results').innerHTML = '<p style="color: green;">✓ Added ' + testGrooves.length + ' test grooves to localStorage</p>';
+        }
+        
+        function clearGrooves() {
+            localStorage.removeItem('myGrooves');
+            document.getElementById('results').innerHTML = '<p style="color: orange;">✓ Cleared all grooves from localStorage</p>';
+        }
+        
+        function showStoredGrooves() {
+            const stored = localStorage.getItem('myGrooves');
+            if (stored) {
+                const grooves = JSON.parse(stored);
+                let html = '<h3>Stored Grooves (' + grooves.length + '):</h3>';
+                grooves.forEach(groove => {
+                    html += '<div style="margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 3px;">';
+                    html += '<strong>' + groove.title + '</strong> by ' + groove.author + '<br>';
+                    if (groove.comment) {
+                        html += '<em>' + groove.comment + '</em><br>';
+                    }
+                    html += '<small>ID: ' + groove.id + '</small>';
+                    html += '</div>';
+                });
+                document.getElementById('results').innerHTML = html;
+            } else {
+                document.getElementById('results').innerHTML = '<p style="color: red;">No grooves found in localStorage</p>';
+            }
+        }
+        
+        function openGrooveScribe() {
+            window.open('index.html', '_blank');
+        }
+
+        function testEditMode() {
+            // First add test grooves if they don't exist
+            const stored = localStorage.getItem('myGrooves');
+            if (!stored || JSON.parse(stored).length === 0) {
+                addTestGrooves();
+            }
+
+            // Get the first groove and open it in edit mode
+            const grooves = JSON.parse(localStorage.getItem('myGrooves') || '[]');
+            if (grooves.length > 0) {
+                const firstGroove = grooves[0];
+                const editURL = firstGroove.url + '&editGrooveId=' + firstGroove.id;
+                window.open(editURL, '_blank');
+                document.getElementById('results').innerHTML = '<p style="color: blue;">✓ Opened first groove in edit mode. Check that SAVE button shows "UPDATE".</p>';
+            } else {
+                document.getElementById('results').innerHTML = '<p style="color: red;">No grooves found to edit.</p>';
+            }
+        }
+
+        function testSearchFeature() {
+            // First add test grooves if they don't exist
+            const stored = localStorage.getItem('myGrooves');
+            if (!stored || JSON.parse(stored).length === 0) {
+                addTestGrooves();
+            }
+
+            window.open('index.html', '_blank');
+            document.getElementById('results').innerHTML =
+                '<p style="color: blue;">✓ Opened GrooveScribe. Test search by:</p>' +
+                '<ol>' +
+                '<li>Click "My Grooves" in top right</li>' +
+                '<li>Notice the cursor is automatically in the search box</li>' +
+                '<li>Start typing immediately: "rock", "funk", "Carlos", "beginner", etc.</li>' +
+                '<li>Notice search terms are highlighted in yellow</li>' +
+                '<li>Use the X button or Escape key to clear search</li>' +
+                '<li>Verify clicking in search area doesn\'t close the modal</li>' +
+                '</ol>';
+        }
+
+        function testAutoSpeedUpFeatures() {
+            window.open('index.html', '_blank');
+            document.getElementById('results').innerHTML =
+                '<p style="color: blue;">✓ Opened GrooveScribe. Test Auto Speed Up features:</p>' +
+                '<ol>' +
+                '<li>Click the metronome icon in the player</li>' +
+                '<li>Click "Auto Speed Up" to open the configuration</li>' +
+                '<li>Set BPM amount and interval, check "Set as default"</li>' +
+                '<li>Click "Done" to save defaults</li>' +
+                '<li>Notice the green "Play+" button next to the regular play button</li>' +
+                '<li>Click the green "Play+" button to start with auto speed up enabled</li>' +
+                '<li>Verify the tempo increases automatically after the interval</li>' +
+                '<li>Click the green button again to pause (it should show pause icon)</li>' +
+                '<li>Click the regular play button to start WITHOUT auto speed up</li>' +
+                '<li>Verify each button maintains its own play/pause state</li>' +
+                '</ol>';
+        }
+    </script>
+</body>
+</html>
