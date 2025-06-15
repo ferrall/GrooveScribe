@@ -79,6 +79,32 @@ You can use the "Undo" action in the help menu to restore the measures that were
 </ul>
 -->
 
+<h3>🧪 Audio Testing & Diagnostics</h3>
+
+If you're experiencing audio issues or want to verify that all drum sounds are working properly, we've included comprehensive testing tools:
+
+<ul>
+<li><b><a href="test_drum_sounds.html">Audio Test Suite</a></b> - Complete diagnostic page that tests all drum sounds and reports success rates. Use this if drums aren't playing correctly.</li>
+<li><b>Debug Functions</b> - Open your browser's console (F12) and try these commands:
+	<ul>
+	<li><code>basicAudioTest()</code> - Test basic audio functionality</li>
+	<li><code>testDrumSound(35)</code> - Test kick drum (MIDI 35)</li>
+	<li><code>testDrumSound(38)</code> - Test snare drum (MIDI 38)</li>
+	<li><code>testDrumSound(47)</code> - Test tom sounds</li>
+	<li><code>checkFileAccess()</code> - Verify audio files are accessible</li>
+	</ul>
+</li>
+<li><b>Expected Results</b> - A properly working system should show:
+	<ul>
+	<li>80-90%+ success rate in the audio test suite</li>
+	<li>All 28 drum samples loading successfully</li>
+	<li>Clear audio playback for all drum sounds</li>
+	</ul>
+</li>
+</ul>
+
+<p><b>Note:</b> This enhanced version includes major audio system improvements. If you're using the original version and experiencing audio problems, consider using this enhanced fork for better reliability.</p>
+
 <h3>Editing tips</h3>
 <ul>
 <li>The "Hi-hat", "Snare", "Kick" and "Sticking" labels to the left of the editing grid have a menu when clicked.   You can quickly turn all the notes in a measure on or off using the menu.
