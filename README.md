@@ -276,11 +276,6 @@ checkFileAccess()          // File accessibility test
 - **Original Issues**: [Original Issues](https://github.com/montulli/GrooveScribe/issues)
 - **Author**: lou at montulli dot org (please use GitHub issues when possible)
 
-### Resources
-- **Markdown Guide**: [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-- **Technical Docs**: [SOURCE_CODE_README.md](SOURCE_CODE_README.md)
-- **Recent Changes**: [CHANGELOG_SESSION.md](CHANGELOG_SESSION.md)
-
 ---
 
 ## 🎉 Success Story
