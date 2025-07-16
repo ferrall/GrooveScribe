@@ -4293,6 +4293,7 @@ function GrooveWriter() {
 		var uiStickings = "|";
 		var uiHH = "|";
 		var uiTom1 = "|";
+		var uiTom2 = "|";
 		var uiTom4 = "|";
 		var uiSnare = "|";
 		var uiKick = "|";
