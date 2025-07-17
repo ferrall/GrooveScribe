@@ -781,6 +781,11 @@ function GrooveWriter() {
 				document.getElementById("tom1-" + class_cur_tom1_highlight_id).style.borderColor = "transparent";
 			class_cur_tom1_highlight_id = false;
 		}
+		if (class_cur_tom2_highlight_id !== false && class_cur_tom2_highlight_id != id) {
+			if (class_cur_tom2_highlight_id < class_notes_per_measure * class_number_of_measures)
+				document.getElementById("tom2-" + class_cur_tom1_highlight_id).style.borderColor = "transparent";
+			class_cur_tom2_highlight_id = false;
+		}
 		if (class_cur_tom4_highlight_id !== false && class_cur_tom4_highlight_id != id) {
 			if (class_cur_tom4_highlight_id < class_notes_per_measure * class_number_of_measures)
 				document.getElementById("tom4-" + class_cur_tom4_highlight_id).style.borderColor = "transparent";
@@ -800,8 +805,7 @@ function GrooveWriter() {
 		switch (instrument) {
 			case "hi-hat":
 				class_cur_hh_highlight_id = id;
-			
-805	break;
+				break;
 			case "tom1":
 				class_cur_tom1_highlight_id = id;
 				break;
@@ -818,7 +822,7 @@ function GrooveWriter() {
 				class_cur_kick_highlight_id = id;
 				break;
 			default:
-				console.log("bad case in hilight_note");
+				console.log("bad case in highlight_note");
 				break;
 		}
 
