@@ -4247,6 +4247,7 @@ function GrooveWriter() {
 			setNotesFromURLData("Stickings", Stickings, class_number_of_measures);
 			setNotesFromURLData("H", HH, class_number_of_measures);
 			setNotesFromURLData("T1", Tom1, class_number_of_measures);
+			setNotesFromURLData("T2", Tom2, class_number_of_measures);
 			setNotesFromURLData("T4", Tom4, class_number_of_measures);
 			setNotesFromURLData("S", Snare, class_number_of_measures);
 			setNotesFromURLData("K", Kick, class_number_of_measures);
