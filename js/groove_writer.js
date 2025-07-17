@@ -4324,6 +4324,7 @@ function GrooveWriter() {
 				uiStickings += get_sticking_state(i, "URL");
 				uiHH += get_hh_state(i, "URL");
 				uiTom1 += get_tom_state(i, 1, "URL");
+				uiTom2 += get_tom_state(i, 2, "URL");
 				uiTom4 += get_tom_state(i, 4, "URL");
 				uiSnare += get_snare_state(i, "URL");
 				uiKick += get_kick_state(i, "URL");
