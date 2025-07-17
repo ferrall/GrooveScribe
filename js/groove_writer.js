@@ -755,6 +755,7 @@ function GrooveWriter() {
 	// this means that only notes falling on the current beat will be highlighted.
 	var class_cur_hh_highlight_id = false;
 	var class_cur_tom1_highlight_id = false;
+	var class_cur_tom2_highlight_id = false;
 	var class_cur_tom4_highlight_id = false;
 	var class_cur_snare_highlight_id = false;
 	var class_cur_kick_highlight_id = false;
@@ -774,10 +775,10 @@ function GrooveWriter() {
 			if (class_cur_hh_highlight_id < class_notes_per_measure * class_number_of_measures)
 				document.getElementById("hi-hat" + class_cur_hh_highlight_id).style.borderColor = "transparent";
 			class_cur_hh_highlight_id = false;
-		}
+		} //not tom2 here either
 		if (class_cur_tom1_highlight_id !== false && class_cur_tom1_highlight_id != id) {
 			if (class_cur_tom1_highlight_id < class_notes_per_measure * class_number_of_measures)
-				document.getElementById("tom1-" + class_cur_tom4_highlight_id).style.borderColor = "transparent";
+				document.getElementById("tom1-" + class_cur_tom1_highlight_id).style.borderColor = "transparent";
 			class_cur_tom1_highlight_id = false;
 		}
 		if (class_cur_tom4_highlight_id !== false && class_cur_tom4_highlight_id != id) {
@@ -799,9 +800,13 @@ function GrooveWriter() {
 		switch (instrument) {
 			case "hi-hat":
 				class_cur_hh_highlight_id = id;
-				break;
+			
+805	break;
 			case "tom1":
 				class_cur_tom1_highlight_id = id;
+				break;
+			case "tom2":
+				class_cur_tom2_highlight_id = id;
 				break;
 			case "tom4":
 				class_cur_tom4_highlight_id = id;
@@ -1506,6 +1511,9 @@ function GrooveWriter() {
 			case "tom1":
 				contextMenu = document.getElementById("tom1ContextMenu");
 				break;
+			case "tom2":
+				contextMenu = document.getElementById("tom2ContextMenu");
+				break;
 			case "tom4":
 				contextMenu = document.getElementById("tom4ContextMenu");
 				break;
@@ -1554,6 +1562,9 @@ function GrooveWriter() {
 				case "tom1":
 					set_tom_state(id, 1, is_tom_on(id, 1) ? "off" : "normal", true);
 					break;
+				case "tom2":
+					set_tom_state(id, 2, is_tom_on(id, 2) ? "off" : "normal", true);
+					break;
 				case "tom4":
 					set_tom_state(id, 4, is_tom_on(id, 4) ? "off" : "normal", true);
 					break;
@@ -1585,6 +1596,9 @@ function GrooveWriter() {
 				break;
 			case "tom1":
 				set_tom1_state(id, new_setting, true);
+				break;
+			case "tom2":
+				set_tom2_state(id, new_setting, true);
 				break;
 			case "tom4":
 				set_tom4_state(id, new_setting, true);
@@ -4243,7 +4257,7 @@ function GrooveWriter() {
 			root.showHideToms(true, true, true);
 
 		// now set the right notes on and off
-		if (Stickings && HH && Tom1 && Tom4 && Snare && Kick) {
+		if (Stickings && HH && Tom1 && Tom2 && Tom4 && Snare && Kick) {
 			setNotesFromURLData("Stickings", Stickings, class_number_of_measures);
 			setNotesFromURLData("H", HH, class_number_of_measures);
 			setNotesFromURLData("T1", Tom1, class_number_of_measures);
