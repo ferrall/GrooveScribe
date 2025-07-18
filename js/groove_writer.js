@@ -1040,6 +1040,22 @@ function GrooveWriter() {
 		}
 	};
 
+	// the user has clicked on the Lab Camp grooves menu
+	root.labcampAnchorClick = function (event) {
+
+		var contextMenu = document.getElementById("labcampListWrapper");
+		if (contextMenu) {
+			var anchorPoint = document.getElementById("labcampAnchor");
+
+			if (anchorPoint) {
+				var anchorPos = getTagPosition(anchorPoint);
+				contextMenu.style.top = anchorPos.y + anchorPoint.offsetHeight + "px";
+				contextMenu.style.left = anchorPos.x + anchorPoint.offsetWidth - 283 + "px";
+			}
+			root.myGrooveUtils.showContextMenu(contextMenu);
+		}
+	};
+
 	// the user has clicked on the help menu
 	root.helpAnchorClick = function (event) {
 
@@ -4130,7 +4146,7 @@ function GrooveWriter() {
 		document.getElementById("shortenerCheckbox").checked = false;  // uncheck shortenerCheckbox, because it is not compatible
 		document.getElementById("embedCodeCheckbox").checked = true;  // this will be true if isn't already
 
-		var embedText = '<iframe width="100%" height="240" src="' + fullURL + '" frameborder="0" ></iframe>	';
+		var embedText = '<iframe width="100%" height="300" src="' + fullURL + '" frameborder="0" ></iframe>	';
 
 		var textField = document.getElementById(cssIdOfTextFieldToFill);
 		textField.value = embedText;

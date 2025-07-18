@@ -70,6 +70,7 @@
 		<script src="js/groove_writer.js"></script>
 		<script src="js/groove_utils.js"></script>
 		<script src="js/grooves.js"></script>
+		<script src="js/labcamp_grooves.js"></script>
 
 		<!-- Initialize myGrooveWriter immediately for inline scripts -->
 		<script>
@@ -186,6 +187,7 @@
 				<span id="upperRight">
 					<span class="rightButtons" id="myGrooveAnchor" onclick="myGrooveWriter.myGrooveAnchorClick(event);"><i class="fa fa-bars"></i> My Grooves</span>
 					<span class="rightButtons grooveDB_hidden" id="permutationAnchor" onclick="myGrooveWriter.permutationAnchorClick(event);"><i class="fa fa-bars"></i> Permutations</span>
+					<span class="rightButtons" id="labcampAnchor" onclick="myGrooveWriter.labcampAnchorClick(event);"><i class="fa fa-bars"></i> LabCamp</span>
 					<span class="rightButtons" id="groovesAnchor" onclick="myGrooveWriter.groovesAnchorClick(event);"><i class="fa fa-bars"></i> Grooves</span>
 					<span class="rightButtons" id="helpAnchor" onclick="myGrooveWriter.helpAnchorClick(event);"><i class="fa fa-bars"></i> Help</span>
 				</span>
@@ -477,6 +479,9 @@
 		<div id="grooveListWrapper">
 			<!-- Grooves will be populated by JavaScript after page load -->
 		</div>
+		<div id="labcampListWrapper">
+			<!-- Grooves will be populated by JavaScript after page load -->
+		</div>
 
 		<!-- dialog for the TIME label, hidden by default -->
 		<div id="timeSigPopup">
@@ -518,8 +523,8 @@
 			<div id="fullURLPopupSubTitle">Use this URL to share or save this groove</div>
 			<div id="fullURLPopupSubSubTitle">(You can also bookmark this page)</div>
 			<div id="fullURLPopupCheckboxes">
-				<span><label  id="shortURLLabel" class="fullURLPopupCheckboxLabel"><input disabled type="checkbox" id="shortenerCheckbox" onchange="myGrooveWriter.shortenerCheckboxChanged();">Short URL</label></span>
 				<span><label id="embedCodeLabel" class="fullURLPopupCheckboxLabel"><input type="checkbox" id="embedCodeCheckbox" onchange="myGrooveWriter.embedCodeCheckboxChanged();">Embed Code</label></span>
+				<span><label  id="shortURLLabel" class="fullURLPopupCheckboxLabel"><input disabled type="checkbox" id="shortenerCheckbox" onchange="myGrooveWriter.shortenerCheckboxChanged();">Short URL</label></span>
 			</div>
 			<div id="fullURLPopupTextFieldContainer"><input type="text" id="fullURLPopupTextField"></div>
 			<br>
@@ -589,6 +594,12 @@
 					const grooveListWrapper = document.getElementById('grooveListWrapper');
 					if (grooveListWrapper) {
 						grooveListWrapper.innerHTML = window.grooves.getGroovesAsHTML();
+					}
+				}
+				if (window.labcamp && typeof window.labcamp.getLabCampAsHTML === 'function') {
+					const labcampListWrapper = document.getElementById('grooveListWrapper');
+					if (labcampListWrapper) {
+						labcampListWrapper.innerHTML = window.labcamp.getGroovesAsHTML();
 					}
 				}
 
