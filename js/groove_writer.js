@@ -1161,6 +1161,10 @@ function GrooveWriter() {
 				}
 				break;
 
+			case "VisualSync":
+				root.show_VisualSyncConfiguration();
+				break;
+
 			case "Dropper":
 
 				break;
@@ -1506,6 +1510,9 @@ function GrooveWriter() {
 			case "tom1":
 				contextMenu = document.getElementById("tom1ContextMenu");
 				break;
+			case "tom2":
+				contextMenu = document.getElementById("tom2ContextMenu");
+				break;
 			case "tom4":
 				contextMenu = document.getElementById("tom4ContextMenu");
 				break;
@@ -1554,6 +1561,9 @@ function GrooveWriter() {
 				case "tom1":
 					set_tom_state(id, 1, is_tom_on(id, 1) ? "off" : "normal", true);
 					break;
+				case "tom2":
+					set_tom_state(id, 2, is_tom_on(id, 2) ? "off" : "normal", true);
+					break;
 				case "tom4":
 					set_tom_state(id, 4, is_tom_on(id, 4) ? "off" : "normal", true);
 					break;
@@ -1585,6 +1595,9 @@ function GrooveWriter() {
 				break;
 			case "tom1":
 				set_tom1_state(id, new_setting, true);
+				break;
+			case "tom2":
+				set_tom2_state(id, new_setting, true);
 				break;
 			case "tom4":
 				set_tom4_state(id, new_setting, true);
@@ -3884,6 +3897,41 @@ function GrooveWriter() {
 		return null;
 	};
 
+	// Visual Sync Configuration
+	root.show_VisualSyncConfiguration = function () {
+		var popup = document.getElementById("visualSyncConfiguration");
+
+		if (popup) {
+			popup.style.display = "block";
+		}
+
+		// Load current offset value (which may have been loaded from localStorage)
+		var currentOffset = root.myGrooveUtils.getVisualSyncOffset();
+		document.getElementById('visualSyncOffset').value = currentOffset;
+		document.getElementById('visualSyncOffsetOutput').innerHTML = currentOffset + ' ms';
+	};
+
+	root.close_VisualSyncConfiguration = function () {
+		var popup = document.getElementById("visualSyncConfiguration");
+
+		// Save as default if checkbox is checked
+		var setAsDefaultCheckbox = document.getElementById("visualSyncSetAsDefault");
+		if (setAsDefaultCheckbox && setAsDefaultCheckbox.checked) {
+			var currentOffset = root.myGrooveUtils.getVisualSyncOffset();
+			root.myGrooveUtils.saveVisualSyncOffset(currentOffset);
+			console.log('Visual sync offset saved as default:', currentOffset + 'ms');
+		}
+
+		if (popup)
+			popup.style.display = "none";
+	};
+
+	root.applyVisualSyncOffset = function () {
+		var offsetValue = parseInt(document.getElementById("visualSyncOffset").value, 10);
+		root.myGrooveUtils.setVisualSyncOffset(offsetValue);
+		document.getElementById('visualSyncOffsetOutput').innerHTML = offsetValue + ' ms';
+	};
+
 	// Enable auto speed up (called by the Play+ button)
 	root.enableAutoSpeedUp = function() {
 		class_metronome_auto_speed_up_active = true;
@@ -4293,6 +4341,7 @@ function GrooveWriter() {
 		var uiStickings = "|";
 		var uiHH = "|";
 		var uiTom1 = "|";
+		var uiTom2 = "|";
 		var uiTom4 = "|";
 		var uiSnare = "|";
 		var uiKick = "|";
@@ -4323,6 +4372,7 @@ function GrooveWriter() {
 				uiStickings += get_sticking_state(i, "URL");
 				uiHH += get_hh_state(i, "URL");
 				uiTom1 += get_tom_state(i, 1, "URL");
+				uiTom2 += get_tom_state(i, 2, "URL");
 				uiTom4 += get_tom_state(i, 4, "URL");
 				uiSnare += get_snare_state(i, "URL");
 				uiKick += get_kick_state(i, "URL");
@@ -4399,10 +4449,10 @@ function GrooveWriter() {
 							<span class="notes-row-container">\
 								<div class="line-labels">\
 									<div class="hh-label" onClick="myGrooveWriter.noteLabelClick(event, \'hh\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'hh\', ' + baseindex + ')">Hi-hat</div>\
-									<div class="tom-label" id="tom1-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom1\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom1\', ' + baseindex + ')">Tom</div>\
-									<div class="tom-label" id="tom2-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom2\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom2\', ' + baseindex + ')">Tom</div>\
+									<div class="tom-label" id="tom1-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom1\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom1\', ' + baseindex + ')">Tom 1</div>\
+									<div class="tom-label" id="tom2-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom2\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom2\', ' + baseindex + ')">Tom 2</div>\
 									<div class="snare-label" onClick="myGrooveWriter.noteLabelClick(event, \'snare\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'snare\', ' + baseindex + ')">Snare</div>\
-									<div class="tom-label" id="tom4-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom4\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom4\', ' + baseindex + ')">Tom</div>\
+									<div class="tom-label" id="tom4-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom4\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom4\', ' + baseindex + ')">Floor Tom</div>\
 									<div class="kick-label" onClick="myGrooveWriter.noteLabelClick(event, \'kick\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'kick\', ' + baseindex + ')">Kick</div>\
 								</div>\
 								<div class="music-line-container">\

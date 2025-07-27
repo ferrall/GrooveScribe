@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comprehensive Tom2 Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+    </style>
+</head>
+<body>
+    <h1>Comprehensive Tom2 Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">1. Environment Check</div>
+        <button onclick="checkEnvironment()">Check Environment</button>
+        <div id="env-status" class="status">Click to check environment...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">2. Audio System Check</div>
+        <button onclick="checkAudioSystems()">Check Audio Systems</button>
+        <div id="audio-status" class="status">Click to check audio systems...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">3. Tom2 Specific Test</div>
+        <button onclick="testTom2Specifically()">Test Tom2 Function</button>
+        <button onclick="testTom2Direct()">Test Tom2 Direct MIDI</button>
+        <div id="tom2-status" class="status">Click to test tom2...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">4. Compare All Toms</div>
+        <button onclick="compareAllToms()">Compare All Tom Functions</button>
+        <div id="compare-status" class="status">Click to compare toms...</div>
+    </div>
+
+    <!-- Load all the same scripts as the main application -->
+    <script src="./MIDI.js/js/MIDI/AudioDetect.js"></script>
+    <script src="./MIDI.js/js/MIDI/LoadPlugin.js"></script>
+    <script src="./MIDI.js/js/MIDI/Plugin.js"></script>
+    <script src="./MIDI.js/js/MIDI/Player.js"></script>
+    <script src="./MIDI.js/inc/DOMLoader.XMLHttp.js"></script>
+    <script src="./MIDI.js/inc/jasmid/stream.js"></script>
+    <script src="./MIDI.js/inc/jasmid/midifile.js"></script>
+    <script src="./MIDI.js/inc/jasmid/replayer.js"></script>
+    <script src="./MIDI.js/inc/Base64.js"></script>
+    <script src="./MIDI.js/inc/base64binary.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script src="js/groove_utils.js"></script>
+    <script src="js/grooves.js"></script>
+    <script src="js/simple-audio-system.js"></script>
+
+    <script>
+        function log(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+        }
+
+        function clearLog(elementId) {
+            document.getElementById(elementId).textContent = '';
+        }
+
+        function checkEnvironment() {
+            clearLog('env-status');
+            log('env-status', 'Checking environment...');
+            
+            // Check constants
+            const constants = [
+                'constant_OUR_MIDI_TOM1_NORMAL',
+                'constant_OUR_MIDI_TOM2_NORMAL',
+                'constant_OUR_MIDI_TOM4_NORMAL'
+            ];
+            
+            constants.forEach(constName => {
+                if (typeof window[constName] !== 'undefined') {
+                    log('env-status', `✓ ${constName} = ${window[constName]}`);
+                } else {
+                    log('env-status', `✗ ${constName} is undefined`);
+                }
+            });
+            
+            // Check functions
+            const functions = [
+                'set_tom1_state',
+                'set_tom2_state', 
+                'set_tom4_state',
+                'set_tom_state',
+                'play_single_note_for_note_setting'
+            ];
+            
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    log('env-status', `✓ ${funcName} is available`);
+                } else {
+                    log('env-status', `✗ ${funcName} is not available`);
+                }
+            });
+        }
+
+        function checkAudioSystems() {
+            clearLog('audio-status');
+            log('audio-status', 'Checking audio systems...');
+            
+            // Check MIDI.js
+            if (window.MIDI) {
+                log('audio-status', '✓ MIDI object exists');
+                if (window.MIDI.WebAudio) {
+                    log('audio-status', '✓ MIDI.WebAudio exists');
+                } else {
+                    log('audio-status', '✗ MIDI.WebAudio not available');
+                }
+            } else {
+                log('audio-status', '✗ MIDI object not found');
+            }
+            
+            // Check Simple Audio System
+            if (window.grooveScribeSimpleAudio) {
+                log('audio-status', '✓ grooveScribeSimpleAudio exists');
+                if (window.grooveScribeSimpleAudio.initialized) {
+                    log('audio-status', '✓ Simple audio system initialized');
+                } else {
+                    log('audio-status', '⚠ Simple audio system not initialized');
+                }
+            } else {
+                log('audio-status', '✗ grooveScribeSimpleAudio not found');
+            }
+            
+            // Check play function
+            if (window.play_single_note_for_note_setting) {
+                log('audio-status', '✓ play_single_note_for_note_setting available');
+            } else {
+                log('audio-status', '✗ play_single_note_for_note_setting not available');
+            }
+        }
+
+        function testTom2Specifically() {
+            clearLog('tom2-status');
+            log('tom2-status', 'Testing tom2 specifically...');
+            
+            try {
+                // Test set_tom2_state function
+                if (typeof set_tom2_state === 'function') {
+                    log('tom2-status', '✓ set_tom2_state function exists');
+                    
+                    // Test without sound
+                    log('tom2-status', 'Testing set_tom2_state(0, "normal", false)...');
+                    set_tom2_state(0, 'normal', false);
+                    log('tom2-status', '✓ set_tom2_state without sound completed');
+                    
+                    // Test with sound
+                    log('tom2-status', 'Testing set_tom2_state(0, "normal", true)...');
+                    set_tom2_state(0, 'normal', true);
+                    log('tom2-status', '✓ set_tom2_state with sound completed');
+                    
+                } else {
+                    log('tom2-status', '✗ set_tom2_state function not found');
+                }
+                
+            } catch (error) {
+                log('tom2-status', `✗ Error testing tom2: ${error.message}`);
+                log('tom2-status', `Stack: ${error.stack}`);
+            }
+        }
+
+        function testTom2Direct() {
+            clearLog('tom2-status');
+            log('tom2-status', 'Testing tom2 direct MIDI...');
+            
+            try {
+                if (typeof constant_OUR_MIDI_TOM2_NORMAL !== 'undefined') {
+                    const midiNote = constant_OUR_MIDI_TOM2_NORMAL;
+                    log('tom2-status', `Testing direct MIDI call for tom2 (${midiNote})...`);
+                    
+                    if (window.play_single_note_for_note_setting) {
+                        window.play_single_note_for_note_setting(midiNote);
+                        log('tom2-status', '✓ Direct MIDI call completed');
+                    } else {
+                        log('tom2-status', '✗ play_single_note_for_note_setting not available');
+                    }
+                } else {
+                    log('tom2-status', '✗ constant_OUR_MIDI_TOM2_NORMAL not defined');
+                }
+                
+            } catch (error) {
+                log('tom2-status', `✗ Error in direct tom2 test: ${error.message}`);
+            }
+        }
+
+        function compareAllToms() {
+            clearLog('compare-status');
+            log('compare-status', 'Comparing all tom functions...');
+            
+            const toms = [
+                { name: 'Tom1', func: 'set_tom1_state', midi: 'constant_OUR_MIDI_TOM1_NORMAL' },
+                { name: 'Tom2', func: 'set_tom2_state', midi: 'constant_OUR_MIDI_TOM2_NORMAL' },
+                { name: 'Tom4', func: 'set_tom4_state', midi: 'constant_OUR_MIDI_TOM4_NORMAL' }
+            ];
+            
+            toms.forEach(tom => {
+                log('compare-status', `\n--- Testing ${tom.name} ---`);
+                
+                // Check function exists
+                if (typeof window[tom.func] === 'function') {
+                    log('compare-status', `✓ ${tom.func} function exists`);
+                    
+                    try {
+                        // Test function call
+                        window[tom.func](0, 'normal', true);
+                        log('compare-status', `✓ ${tom.func} call completed`);
+                    } catch (error) {
+                        log('compare-status', `✗ ${tom.func} call failed: ${error.message}`);
+                    }
+                } else {
+                    log('compare-status', `✗ ${tom.func} function not found`);
+                }
+                
+                // Check MIDI constant
+                if (typeof window[tom.midi] !== 'undefined') {
+                    log('compare-status', `✓ ${tom.midi} = ${window[tom.midi]}`);
+                } else {
+                    log('compare-status', `✗ ${tom.midi} not defined`);
+                }
+            });
+        }
+
+        // Initialize GrooveWriter if needed
+        window.addEventListener('load', () => {
+            if (typeof GrooveWriter !== 'undefined' && !window.myGrooveWriter) {
+                window.myGrooveWriter = new GrooveWriter();
+                log('env-status', 'GrooveWriter initialized');
+            }
+        });
+
+        // Capture console errors
+        window.addEventListener('error', function(e) {
+            log('tom2-status', `JavaScript Error: ${e.message} at ${e.filename}:${e.lineno}`);
+        });
+    </script>
+</body>
+</html>

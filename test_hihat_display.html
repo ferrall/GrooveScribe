@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hi-Hat Display Test</title>
+    <link rel="stylesheet" href="css/groove_writer.css">
+    <style>
+        /* Updated hi-hat positioning for better visibility */
+        .hh_open {
+            position: absolute; top: 5px; left: 9px;
+            font-size: 16px;
+            color: transparent;
+        }
+        .hh_close {
+            position: absolute; top: 5px; left: 9px;
+            font-size: 16px;
+            color: transparent;
+            float:left;
+        }
+    </style>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .hi-hat-container {
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hi-Hat Display Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">Hi-Hat Element Test</div>
+        <div class="hi-hat-container">
+            <div id="hi-hat0" class="hi-hat">
+                <div class="hh_crash note_part" id="hh_crash0"><i class="fa fa-asterisk"></i></div>
+                <div class="hh_ride note_part" id="hh_ride0"><i class="fa fa-dot-circle-o"></i></div>
+                <div class="hh_ride_bell note_part" id="hh_ride_bell0"><i class="fa fa-bell-o"></i></div>
+                <div class="hh_cow_bell note_part" id="hh_cow_bell0"><i class="fa fa-plus-square-o"></i></div>
+                <div class="hh_stacker note_part" id="hh_stacker0"><i class="fa fa-bars"></i></div>
+                <div class="hh_metronome_normal note_part" id="hh_metronome_normal0"><i class="fa fa-neuter"></i></div>
+                <div class="hh_metronome_accent note_part" id="hh_metronome_accent0"><i class="fa fa-map-pin"></i></div>
+                <div class="hh_cross note_part" id="hh_cross0"><i class="fa fa-times"></i></div>
+                <div class="hh_open note_part" id="hh_open0"><i class="fa fa-circle-o"></i></div>
+                <div class="hh_close note_part" id="hh_close0"><i class="fa fa-plus"></i></div>
+                <div class="hh_accent note_part" id="hh_accent0"><i class="fa fa-angle-right"></i></div>
+            </div>
+        </div>
+        
+        <div>
+            <button onclick="testHiHatMode('normal')">Normal</button>
+            <button onclick="testHiHatMode('open')">Open</button>
+            <button onclick="testHiHatMode('close')">Close</button>
+            <button onclick="testHiHatMode('accent')">Accent</button>
+            <button onclick="testHiHatMode('ride')">Ride</button>
+            <button onclick="testHiHatMode('ride_bell')">Ride Bell</button>
+            <button onclick="testHiHatMode('cow_bell')">Cow Bell</button>
+            <button onclick="testHiHatMode('stacker')">Stacker</button>
+            <button onclick="testHiHatMode('crash')">Crash</button>
+            <button onclick="testHiHatMode('off')">Off</button>
+        </div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script>
+        // Color constants from groove_writer.js
+        const constant_note_on_color_hex = "#2484C0";
+        const constant_note_on_color_rgb = "rgb(36, 132, 192)";
+        const constant_note_hidden_color_rgb = "transparent";
+        const constant_hihat_note_off_color_hex = "#CCCCCC";
+
+        function testHiHatMode(mode) {
+            console.log('Testing hi-hat mode:', mode);
+            
+            // Reset all elements to transparent
+            const elements = ['hh_crash0', 'hh_ride0', 'hh_ride_bell0', 'hh_cow_bell0', 'hh_stacker0', 
+                            'hh_metronome_normal0', 'hh_metronome_accent0', 'hh_cross0', 'hh_open0', 'hh_close0', 'hh_accent0'];
+            
+            elements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.color = constant_note_hidden_color_rgb;
+            });
+
+            // Apply the specific mode styling (based on set_hh_state function)
+            switch (mode) {
+                case "off":
+                    document.getElementById("hh_cross0").style.color = constant_hihat_note_off_color_hex;
+                    break;
+                case "normal":
+                    document.getElementById("hh_cross0").style.color = constant_note_on_color_hex;
+                    break;
+                case "ride":
+                    document.getElementById("hh_ride0").style.color = constant_note_on_color_hex;
+                    break;
+                case "ride_bell":
+                    document.getElementById("hh_ride_bell0").style.color = constant_note_on_color_hex;
+                    break;
+                case "cow_bell":
+                    document.getElementById("hh_cow_bell0").style.color = constant_note_on_color_hex;
+                    break;
+                case "stacker":
+                    document.getElementById("hh_stacker0").style.color = constant_note_on_color_hex;
+                    break;
+                case "crash":
+                    document.getElementById("hh_crash0").style.color = constant_note_on_color_hex;
+                    break;
+                case "open":
+                    document.getElementById("hh_cross0").style.color = constant_note_on_color_hex;
+                    document.getElementById("hh_open0").style.color = constant_note_on_color_hex;
+                    break;
+                case "close":
+                    document.getElementById("hh_cross0").style.color = constant_note_on_color_hex;
+                    document.getElementById("hh_close0").style.color = constant_note_on_color_hex;
+                    break;
+                case "accent":
+                    document.getElementById("hh_cross0").style.color = constant_note_on_color_hex;
+                    document.getElementById("hh_accent0").style.color = constant_note_on_color_hex;
+                    break;
+            }
+        }
+
+        // Initialize with normal mode
+        testHiHatMode('normal');
+    </script>
+</body>
+</html>

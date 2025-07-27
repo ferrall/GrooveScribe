@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Final Tom Labels Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .tom-row {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: #f9f9f9;
+        }
+        .tom-position {
+            width: 120px;
+            font-weight: bold;
+            color: #333;
+        }
+        .tom-function {
+            width: 100px;
+            font-family: monospace;
+            color: #666;
+        }
+        .tom-label {
+            width: 100px;
+            font-weight: bold;
+            color: #2484C0;
+            font-size: 16px;
+        }
+        .tom-midi {
+            width: 80px;
+            font-size: 12px;
+            color: #999;
+        }
+        .tom-sound {
+            width: 120px;
+            font-size: 12px;
+            color: #999;
+        }
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        .header {
+            font-weight: bold;
+            background: #e9e9e9;
+            border-bottom: 2px solid #ccc;
+        }
+        .final {
+            background: #e6ffe6;
+            border-left: 4px solid #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <h1>Final Tom Labels Configuration</h1>
+    
+    <div class="test-container">
+        <div class="test-title">Final Tom Label Configuration</div>
+        <p>This shows the final tom labeling after all adjustments:</p>
+        
+        <div class="tom-row header">
+            <div class="tom-position">Visual Position</div>
+            <div class="tom-function">Function</div>
+            <div class="tom-label">Label</div>
+            <div class="tom-midi">MIDI</div>
+            <div class="tom-sound">Sound File</div>
+            <div>Test</div>
+        </div>
+        
+        <div class="tom-row final">
+            <div class="tom-position">Top (High Rack)</div>
+            <div class="tom-function">tom1</div>
+            <div class="tom-label">Tom 1</div>
+            <div class="tom-midi">MIDI 48</div>
+            <div class="tom-sound">10 Tom.mp3</div>
+            <button onclick="testTom(1, 'Tom 1')">Test</button>
+        </div>
+        
+        <div class="tom-row final">
+            <div class="tom-position">Middle (Med Rack)</div>
+            <div class="tom-function">tom2</div>
+            <div class="tom-label">Tom 2</div>
+            <div class="tom-midi">MIDI 47</div>
+            <div class="tom-sound">16 Tom.mp3</div>
+            <button onclick="testTom(2, 'Tom 2')">Test</button>
+        </div>
+        
+        <div class="tom-row final">
+            <div class="tom-position">Bottom (Floor)</div>
+            <div class="tom-function">tom4</div>
+            <div class="tom-label">Floor Tom</div>
+            <div class="tom-midi">MIDI 43</div>
+            <div class="tom-sound">Floor Tom.mp3</div>
+            <button onclick="testTom(4, 'Floor Tom')">Test</button>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Summary</div>
+        <p><strong>Final Configuration:</strong></p>
+        <ul>
+            <li><strong>Tom 1</strong> (top) = High rack tom - highest pitch</li>
+            <li><strong>Tom 2</strong> (middle) = Medium rack tom - medium pitch</li>
+            <li><strong>Floor Tom</strong> (bottom) = Floor tom - lowest pitch</li>
+        </ul>
+        <p><strong>Note:</strong> The labels now follow a logical progression from high to low, 
+        with the floor tom clearly identified as "Floor Tom" rather than a numbered tom.</p>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script src="js/simple-audio-system.js"></script>
+    <script>
+        function testTom(tomNum, expectedLabel) {
+            console.log(`Testing ${expectedLabel} (tom${tomNum} function)...`);
+            
+            try {
+                // Test the tom function
+                const funcName = `set_tom${tomNum}_state`;
+                if (typeof window[funcName] === 'function') {
+                    window[funcName](0, 'normal', true);
+                    console.log(`✓ ${expectedLabel} sound played successfully!`);
+                } else {
+                    console.log(`✗ Function ${funcName} not found`);
+                }
+            } catch (error) {
+                console.log(`✗ Error testing ${expectedLabel}: ${error.message}`);
+            }
+        }
+
+        // Initialize GrooveWriter if needed
+        window.addEventListener('load', () => {
+            if (typeof GrooveWriter !== 'undefined' && !window.myGrooveWriter) {
+                window.myGrooveWriter = new GrooveWriter();
+                console.log('GrooveWriter initialized - ready to test final tom configuration');
+            }
+        });
+    </script>
+</body>
+</html>

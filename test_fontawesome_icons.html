@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Font Awesome Icons Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .icon-test {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            text-align: center;
+            min-width: 100px;
+        }
+        .icon-test i {
+            font-size: 24px;
+            color: #2484C0;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .icon-name {
+            font-size: 12px;
+            color: #666;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+            border: 1px solid #00cc00;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Font Awesome Icons Test</h1>
+    
+    <div class="test-container">
+        <h2>Hi-Hat Icons Used in GrooveScribe</h2>
+        <p>These are the Font Awesome icons used for hi-hat notation:</p>
+        
+        <div class="icon-test">
+            <i class="fa fa-asterisk"></i>
+            <div class="icon-name">fa-asterisk<br>(Crash)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-dot-circle-o"></i>
+            <div class="icon-name">fa-dot-circle-o<br>(Ride)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-bell-o"></i>
+            <div class="icon-name">fa-bell-o<br>(Ride Bell)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-plus-square-o"></i>
+            <div class="icon-name">fa-plus-square-o<br>(Cowbell)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-bars"></i>
+            <div class="icon-name">fa-bars<br>(Stacker)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-neuter"></i>
+            <div class="icon-name">fa-neuter<br>(Metronome Normal)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-map-pin"></i>
+            <div class="icon-name">fa-map-pin<br>(Metronome Accent)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-times"></i>
+            <div class="icon-name">fa-times<br>(Cross/X)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-circle-o"></i>
+            <div class="icon-name">fa-circle-o<br>(Open)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-plus"></i>
+            <div class="icon-name">fa-plus<br>(Close)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-angle-right"></i>
+            <div class="icon-name">fa-angle-right<br>(Accent)</div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>Other GrooveScribe Icons</h2>
+        <p>Additional Font Awesome icons used throughout the application:</p>
+        
+        <div class="icon-test">
+            <i class="fa fa-undo"></i>
+            <div class="icon-name">fa-undo<br>(Undo)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-repeat"></i>
+            <div class="icon-name">fa-repeat<br>(Redo)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-trash fa-2x"></i>
+            <div class="icon-name">fa-trash<br>(Clear All)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-download fa-2x"></i>
+            <div class="icon-name">fa-download<br>(Download)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-print fa-2x"></i>
+            <div class="icon-name">fa-print<br>(Print)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-share fa-2x"></i>
+            <div class="icon-name">fa-share<br>(Share)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-save fa-2x"></i>
+            <div class="icon-name">fa-save<br>(Save)</div>
+        </div>
+        
+        <div class="icon-test">
+            <i class="fa fa-key"></i>
+            <div class="icon-name">fa-key<br>(Legend)</div>
+        </div>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <script>
+        // Test if Font Awesome is loaded properly
+        function testFontAwesome() {
+            const testElement = document.createElement('i');
+            testElement.className = 'fa fa-times';
+            testElement.style.position = 'absolute';
+            testElement.style.left = '-9999px';
+            document.body.appendChild(testElement);
+            
+            const computedStyle = window.getComputedStyle(testElement, ':before');
+            const content = computedStyle.getPropertyValue('content');
+            
+            document.body.removeChild(testElement);
+            
+            const statusDiv = document.getElementById('status');
+            
+            if (content && content !== 'none' && content !== '""') {
+                statusDiv.className = 'status success';
+                statusDiv.textContent = '✅ Font Awesome 4.7.0 is loaded correctly! All icons should be visible.';
+            } else {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '❌ Font Awesome is not loading properly. Icons will not display.';
+            }
+        }
+
+        // Run test when page loads
+        window.addEventListener('load', testFontAwesome);
+    </script>
+</body>
+</html>

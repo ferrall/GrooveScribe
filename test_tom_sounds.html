@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tom Sounds Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+        .midi-info {
+            font-size: 12px;
+            color: #666;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tom Sounds Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">Tom MIDI Sound Test</div>
+        <p>Test each tom sound individually:</p>
+        
+        <button onclick="testTomSound(48, 'Tom 1 (High Tom)')">Tom 1 <span class="midi-info">(MIDI 48)</span></button>
+        <button onclick="testTomSound(47, 'Tom 2 (Mid Tom)')">Tom 2 <span class="midi-info">(MIDI 47)</span></button>
+        <button onclick="testTomSound(45, 'Tom 3 (Low Tom)')">Tom 3 <span class="midi-info">(MIDI 45)</span></button>
+        <button onclick="testTomSound(43, 'Tom 4 (Floor Tom)')">Tom 4 <span class="midi-info">(MIDI 43)</span></button>
+        
+        <div class="status" id="status">Click a tom button to test sound...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Audio System Test</div>
+        <button onclick="testAudioSystem()">Initialize Audio System</button>
+        <button onclick="testAllTomSounds()">Test All Tom Sounds</button>
+        <div class="status" id="audioStatus">Click "Initialize Audio System" first</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Tom Function Test</div>
+        <p>Test the actual tom functions used by GrooveScribe:</p>
+        <button onclick="testTomFunction(1)">Test set_tom1_state</button>
+        <button onclick="testTomFunction(2)">Test set_tom2_state</button>
+        <button onclick="testTomFunction(4)">Test set_tom4_state</button>
+        <div class="status" id="functionStatus">Click a function test button...</div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script src="js/simple-audio-system.js"></script>
+    <script>
+        let audioSystem = null;
+
+        // MIDI note mappings for toms
+        const tomMidiMappings = {
+            1: 48, // Tom 1 (High Tom)
+            2: 47, // Tom 2 (Mid Tom) 
+            3: 45, // Tom 3 (Low Tom)
+            4: 43  // Tom 4 (Floor Tom)
+        };
+
+        function updateStatus(message, isError = false, isSuccess = false) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function updateAudioStatus(message, isError = false, isSuccess = false) {
+            const status = document.getElementById('audioStatus');
+            status.textContent = message;
+            status.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function updateFunctionStatus(message, isError = false, isSuccess = false) {
+            const status = document.getElementById('functionStatus');
+            status.textContent = message;
+            status.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function testTomSound(midiNote, tomName) {
+            updateStatus(`Testing ${tomName} (MIDI ${midiNote})...`);
+            
+            try {
+                // Try multiple audio systems
+                if (audioSystem && audioSystem.isInitialized) {
+                    audioSystem.playMidiNote(9, midiNote, 127, 0);
+                    updateStatus(`${tomName} played via custom audio system`, false, true);
+                } else if (window.play_single_note_for_note_setting) {
+                    window.play_single_note_for_note_setting(midiNote);
+                    updateStatus(`${tomName} played via legacy system`, false, true);
+                } else if (window.MIDI && window.MIDI.WebAudio) {
+                    window.MIDI.WebAudio.noteOn(9, midiNote, 127, 0);
+                    updateStatus(`${tomName} played via MIDI.js`, false, true);
+                } else {
+                    updateStatus(`No audio system available for ${tomName}`, true);
+                }
+            } catch (error) {
+                updateStatus(`Error playing ${tomName}: ${error.message}`, true);
+            }
+        }
+
+        async function testAudioSystem() {
+            updateAudioStatus("Initializing audio system...");
+            
+            try {
+                if (window.SimpleAudioSystem) {
+                    audioSystem = new SimpleAudioSystem();
+                    await audioSystem.initialize();
+                    updateAudioStatus("Simple Audio System initialized successfully", false, true);
+                } else {
+                    updateAudioStatus("Simple Audio System not available", true);
+                }
+            } catch (error) {
+                updateAudioStatus("Audio system initialization failed: " + error.message, true);
+            }
+        }
+
+        async function testAllTomSounds() {
+            if (!audioSystem && !window.play_single_note_for_note_setting) {
+                updateAudioStatus("No audio system available. Please initialize first.", true);
+                return;
+            }
+
+            updateAudioStatus("Testing all tom sounds...");
+            
+            for (const [tomNum, midiNote] of Object.entries(tomMidiMappings)) {
+                try {
+                    if (audioSystem) {
+                        audioSystem.playMidiNote(9, midiNote, 127, 0);
+                    } else if (window.play_single_note_for_note_setting) {
+                        window.play_single_note_for_note_setting(midiNote);
+                    }
+                    updateAudioStatus(`Playing Tom ${tomNum} (MIDI ${midiNote})...`);
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Wait between sounds
+                } catch (error) {
+                    updateAudioStatus(`Failed to play Tom ${tomNum}: ${error.message}`, true);
+                    return;
+                }
+            }
+            
+            updateAudioStatus("All tom sounds tested successfully", false, true);
+        }
+
+        function testTomFunction(tomNum) {
+            updateFunctionStatus(`Testing tom${tomNum} function...`);
+            
+            try {
+                // Test the actual GrooveScribe tom functions
+                switch (tomNum) {
+                    case 1:
+                        if (typeof set_tom1_state === 'function') {
+                            set_tom1_state(0, 'normal', true); // Test with sound
+                            updateFunctionStatus("set_tom1_state function works!", false, true);
+                        } else {
+                            updateFunctionStatus("set_tom1_state function not found", true);
+                        }
+                        break;
+                    case 2:
+                        if (typeof set_tom2_state === 'function') {
+                            set_tom2_state(0, 'normal', true); // Test with sound
+                            updateFunctionStatus("set_tom2_state function works!", false, true);
+                        } else {
+                            updateFunctionStatus("set_tom2_state function not found", true);
+                        }
+                        break;
+                    case 4:
+                        if (typeof set_tom4_state === 'function') {
+                            set_tom4_state(0, 'normal', true); // Test with sound
+                            updateFunctionStatus("set_tom4_state function works!", false, true);
+                        } else {
+                            updateFunctionStatus("set_tom4_state function not found", true);
+                        }
+                        break;
+                    default:
+                        updateFunctionStatus(`Invalid tom number: ${tomNum}`, true);
+                }
+            } catch (error) {
+                updateFunctionStatus(`Error testing tom${tomNum} function: ${error.message}`, true);
+            }
+        }
+
+        // Test if constants are available
+        window.addEventListener('load', () => {
+            const constantsStatus = [];
+            
+            if (typeof constant_OUR_MIDI_TOM1_NORMAL !== 'undefined') {
+                constantsStatus.push(`Tom1 MIDI: ${constant_OUR_MIDI_TOM1_NORMAL}`);
+            }
+            if (typeof constant_OUR_MIDI_TOM2_NORMAL !== 'undefined') {
+                constantsStatus.push(`Tom2 MIDI: ${constant_OUR_MIDI_TOM2_NORMAL}`);
+            }
+            if (typeof constant_OUR_MIDI_TOM4_NORMAL !== 'undefined') {
+                constantsStatus.push(`Tom4 MIDI: ${constant_OUR_MIDI_TOM4_NORMAL}`);
+            }
+            
+            if (constantsStatus.length > 0) {
+                updateStatus("Constants loaded: " + constantsStatus.join(", "));
+            } else {
+                updateStatus("MIDI constants not loaded", true);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -35,6 +35,11 @@ var global_midiInitialized = false;
 // global constants
 var constant_MAX_MEASURES = 10;
 var constant_DEFAULT_TEMPO = 80;
+
+// Audio-Visual synchronization offset (in milliseconds)
+// Positive values make visual highlighting appear earlier than audio
+// Negative values make visual highlighting appear later than audio
+var constant_VISUAL_SYNC_OFFSET_MS = 50; // Default 50ms early to compensate for audio latency
 var constant_ABC_STICK_R = '"R"x';
 var constant_ABC_STICK_L = '"L"x';
 var constant_ABC_STICK_BOTH = '"R/L"x';
@@ -3021,7 +3026,13 @@ function GrooveUtils() {
 	// This is different from the callbacks that we use for the midi code in this library to
 	// do events.   (Double chaining)
 	function ourMIDICallback(data) {
-		var percentComplete = (data.now / data.end);
+		// Apply visual synchronization offset to align visual highlighting with audio
+		var adjustedNow = data.now + constant_VISUAL_SYNC_OFFSET_MS;
+		var percentComplete = (adjustedNow / data.end);
+
+		// Clamp percentComplete to valid range [0, 1]
+		percentComplete = Math.max(0, Math.min(1, percentComplete));
+
 		root.midiEventCallbacks.percentProgress(root.midiEventCallbacks.classRoot, percentComplete * 100);
 
 		if (root.lastMidiTimeUpdate && root.lastMidiTimeUpdate < (data.now + 800)) {
@@ -3281,6 +3292,53 @@ function GrooveUtils() {
 		root.swingUpdateText(swingAmount);  // update the output
 	};
 
+	// Audio-Visual synchronization control
+	root.setVisualSyncOffset = function (offsetMs) {
+		constant_VISUAL_SYNC_OFFSET_MS = offsetMs;
+		// Save to localStorage for persistence
+		root.saveVisualSyncOffset(offsetMs);
+	};
+
+	root.getVisualSyncOffset = function () {
+		return constant_VISUAL_SYNC_OFFSET_MS;
+	};
+
+	// Save visual sync offset to localStorage
+	root.saveVisualSyncOffset = function (offsetMs) {
+		try {
+			localStorage.setItem('grooveScribeVisualSyncOffset', offsetMs.toString());
+		} catch (error) {
+			console.warn('Could not save visual sync offset to localStorage:', error);
+		}
+	};
+
+	// Load visual sync offset from localStorage
+	root.loadVisualSyncOffset = function () {
+		try {
+			const savedOffset = localStorage.getItem('grooveScribeVisualSyncOffset');
+			if (savedOffset !== null) {
+				const offsetValue = parseInt(savedOffset, 10);
+				if (!isNaN(offsetValue) && offsetValue >= -200 && offsetValue <= 200) {
+					return offsetValue;
+				}
+			}
+		} catch (error) {
+			console.warn('Could not load visual sync offset from localStorage:', error);
+		}
+		return null; // Return null if no valid saved value
+	};
+
+	// Initialize visual sync offset from localStorage on startup
+	root.initializeVisualSyncOffset = function () {
+		const savedOffset = root.loadVisualSyncOffset();
+		if (savedOffset !== null) {
+			constant_VISUAL_SYNC_OFFSET_MS = savedOffset;
+			console.log('Loaded visual sync offset from localStorage:', savedOffset + 'ms');
+		} else {
+			console.log('Using default visual sync offset:', constant_VISUAL_SYNC_OFFSET_MS + 'ms');
+		}
+	};
+
 	root.swingUpdateEvent = function (event) {
 
 		if (root.swingIsEnabled === false) {
@@ -3496,5 +3554,8 @@ function GrooveUtils() {
 		// enable or disable swing
 		root.swingEnabled(root.doesDivisionSupportSwing(division));
 	};
+
+	// Initialize visual sync offset from localStorage (called at end of constructor)
+	root.initializeVisualSyncOffset();
 
 } // end of class
