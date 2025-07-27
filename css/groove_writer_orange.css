@@ -607,15 +607,12 @@
 		color: #CCCCCC;
 		cursor: pointer;
 	}
-	.hh_open {
-		position: absolute; top: 3px; left: 9px;
-		font-size: 13px;
+	.hh_open, .hh_close {
+		position: absolute; top: 1px; left: 11px;
+		font-size: 16px;
 		color: transparent;
 	}
 	.hh_close {
-		position: absolute; top: 3px; left: 9px;
-		font-size: 13px;
-		color: transparent;
 		float:left;
 	}
 	.hh_accent {
@@ -1093,7 +1090,7 @@
 		font-family: monospace;
 		font-size: 14px;
 	}
-	#fullURLPopup, #metronomeAutoSpeedupConfiguration, #timeSigPopup {
+	#fullURLPopup, #metronomeAutoSpeedupConfiguration, #visualSyncConfiguration, #timeSigPopup {
 		/visibility: hidden;
 		display: none;
 		position:absolute; left:300px; top:250px; z-index:999;
@@ -1274,6 +1271,75 @@
 		border-radius: 5px;
 		padding: 5px 10px;
 	}
+
+	/* Visual Sync Configuration Popup Styling */
+	#visualSyncConfigurationSliders {
+		width: 370px;
+		margin: 0px auto;
+	}
+	#visualSyncOffset {
+		background: var(--highlight-color);
+		width: 365px;
+	}
+	#visualSyncOutputText {
+		font-size: 25px;
+		text-align: center;
+		margin-bottom: 10px;
+	}
+	#visualSyncOffsetOutput {
+		color: var(--highlight-color);
+		font-weight: 700;
+	}
+	#visualSyncConfigurationOffsetLabel {
+		font-size: 12px;
+		text-align: center;
+		margin-bottom: 5px;
+	}
+	#visualSyncDescription {
+		font-size: 12px;
+		color: var(--highlight-color);
+		text-align: center;
+		margin-bottom: 15px;
+		line-height: 1.4;
+	}
+	#visualSyncSaveDefault {
+		font-size: 12px;
+		color: var(--highlight-color);
+		text-align: center;
+		vertical-align: middle;
+		margin-bottom: 10px;
+	}
+	#visualSyncPresets {
+		text-align: center;
+		margin: 15px 0;
+	}
+	#visualSyncPresets button {
+		font-size: 11px;
+		margin: 2px;
+		padding: 3px 8px;
+		background: #f0f0f0;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+	#visualSyncPresets button:hover {
+		background: var(--highlight-color);
+		color: #FFF;
+	}
+	#visualSyncCloseButtonDiv {
+		text-align: center;
+		margin-top: 15px;
+	}
+	#visualSyncConfigurationCloseButton {
+		font-size: 16px;
+		font-weight: 500;
+		background: var(--highlight-color);
+		color: #FFF;
+		border: 0px;
+		border-radius: 5px;
+		padding: 5px 10px;
+	}
+
 	#showHideSecondMeasureButton {
 	}
 	#stickingsButton {

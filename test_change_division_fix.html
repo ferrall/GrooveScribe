@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change Division Fix Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+            border: 1px solid #00cc00;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        .division-test {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: #f9f9f9;
+        }
+        .division-name {
+            width: 120px;
+            font-weight: bold;
+            color: #333;
+        }
+        .division-value {
+            width: 60px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Change Division Fix Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">uiTom2 Reference Error Fix</div>
+        <p>Test if the "uiTom2 is not defined" error is fixed when changing divisions:</p>
+        
+        <div class="division-test">
+            <div class="division-name">16th Notes</div>
+            <div class="division-value">16</div>
+            <button onclick="testChangeDivision(16)">Test Division 16</button>
+        </div>
+        
+        <div class="division-test">
+            <div class="division-name">8th Notes</div>
+            <div class="division-value">8</div>
+            <button onclick="testChangeDivision(8)">Test Division 8</button>
+        </div>
+        
+        <div class="division-test">
+            <div class="division-name">32nd Notes</div>
+            <div class="division-value">32</div>
+            <button onclick="testChangeDivision(32)">Test Division 32</button>
+        </div>
+        
+        <div class="division-test">
+            <div class="division-name">8th Triplets</div>
+            <div class="division-value">12</div>
+            <button onclick="testChangeDivision(12)">Test Division 12</button>
+        </div>
+        
+        <div class="status" id="status">Click a division test button...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Console Error Monitor</div>
+        <p>Monitor for JavaScript errors during division changes:</p>
+        
+        <button onclick="clearErrorLog()">Clear Error Log</button>
+        <button onclick="testAllDivisions()">Test All Divisions</button>
+        
+        <div class="status" id="errorStatus">No errors detected</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Function Verification</div>
+        <p>Verify that the changeDivision function exists and has the correct parameters:</p>
+        
+        <button onclick="verifyFunction()">Verify changeDivision Function</button>
+        
+        <div class="status" id="functionStatus">Click to verify function...</div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script>
+        let errorLog = [];
+
+        function updateStatus(elementId, message, isError = false, isSuccess = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        // Capture console errors
+        const originalConsoleError = console.error;
+        console.error = function(...args) {
+            const message = args.join(' ');
+            errorLog.push(`ERROR: ${new Date().toLocaleTimeString()} - ${message}`);
+            updateErrorStatus();
+            originalConsoleError.apply(console, args);
+        };
+
+        // Capture JavaScript errors
+        window.addEventListener('error', function(e) {
+            const message = `${e.message} at ${e.filename}:${e.lineno}`;
+            errorLog.push(`JS ERROR: ${new Date().toLocaleTimeString()} - ${message}`);
+            updateErrorStatus();
+        });
+
+        function updateErrorStatus() {
+            const errorElement = document.getElementById('errorStatus');
+            if (errorLog.length === 0) {
+                errorElement.textContent = 'No errors detected';
+                errorElement.className = 'status success';
+            } else {
+                errorElement.textContent = errorLog.slice(-5).join('\n'); // Show last 5 errors
+                errorElement.className = 'status error';
+            }
+        }
+
+        function clearErrorLog() {
+            errorLog = [];
+            updateErrorStatus();
+        }
+
+        function testChangeDivision(division) {
+            updateStatus('status', `Testing changeDivision(${division})...`);
+            
+            try {
+                if (typeof window.myGrooveWriter && typeof window.myGrooveWriter.changeDivision === 'function') {
+                    window.myGrooveWriter.changeDivision(division);
+                    updateStatus('status', `✓ changeDivision(${division}) executed successfully!`, false, true);
+                } else {
+                    updateStatus('status', '✗ changeDivision function not found', true);
+                }
+            } catch (error) {
+                updateStatus('status', `✗ Error in changeDivision(${division}): ${error.message}`, true);
+                errorLog.push(`CAUGHT: ${new Date().toLocaleTimeString()} - ${error.message}`);
+                updateErrorStatus();
+            }
+        }
+
+        async function testAllDivisions() {
+            updateStatus('status', 'Testing all divisions...');
+            clearErrorLog();
+            
+            const divisions = [8, 12, 16, 24, 32, 48];
+            
+            for (const division of divisions) {
+                try {
+                    if (window.myGrooveWriter && window.myGrooveWriter.changeDivision) {
+                        window.myGrooveWriter.changeDivision(division);
+                        updateStatus('status', `✓ Division ${division}: OK`);
+                        await new Promise(resolve => setTimeout(resolve, 200));
+                    }
+                } catch (error) {
+                    updateStatus('status', `✗ Division ${division}: ${error.message}`, true);
+                    break;
+                }
+            }
+            
+            if (errorLog.length === 0) {
+                updateStatus('status', '✓ All divisions tested successfully!', false, true);
+            } else {
+                updateStatus('status', `✗ Errors detected during testing`, true);
+            }
+        }
+
+        function verifyFunction() {
+            updateStatus('functionStatus', 'Verifying changeDivision function...');
+            
+            try {
+                if (typeof window.myGrooveWriter === 'object') {
+                    updateStatus('functionStatus', '✓ myGrooveWriter object exists');
+                    
+                    if (typeof window.myGrooveWriter.changeDivision === 'function') {
+                        const funcStr = window.myGrooveWriter.changeDivision.toString();
+                        
+                        // Check if uiTom2 is declared in the function
+                        if (funcStr.includes('var uiTom2')) {
+                            updateStatus('functionStatus', '✓ changeDivision function exists and declares uiTom2 variable', false, true);
+                        } else {
+                            updateStatus('functionStatus', '✗ changeDivision function missing uiTom2 declaration', true);
+                        }
+                    } else {
+                        updateStatus('functionStatus', '✗ changeDivision function not found', true);
+                    }
+                } else {
+                    updateStatus('functionStatus', '✗ myGrooveWriter object not found', true);
+                }
+            } catch (error) {
+                updateStatus('functionStatus', `✗ Error verifying function: ${error.message}`, true);
+            }
+        }
+
+        // Initialize GrooveWriter
+        window.addEventListener('load', () => {
+            if (typeof GrooveWriter !== 'undefined' && !window.myGrooveWriter) {
+                window.myGrooveWriter = new GrooveWriter();
+                updateStatus('status', 'GrooveWriter initialized - ready to test changeDivision');
+            }
+        });
+    </script>
+</body>
+</html>

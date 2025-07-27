@@ -38,12 +38,15 @@ export class AudioManager {
       42: 'hihat_normal',   // constant_OUR_MIDI_HIHAT_NORMAL
       46: 'hihat_open',     // constant_OUR_MIDI_HIHAT_OPEN
       44: 'hihat_foot',     // constant_OUR_MIDI_HIHAT_FOOT
-      26: 'hihat_accent',   // constant_OUR_MIDI_HIHAT_ACCENT
+      108: 'hihat_accent',  // new mapping
+      26: 'hihat_accent',   // legacy alias (was constant_OUR_MIDI_HIHAT_ACCENT)
       51: 'ride',           // constant_OUR_MIDI_HIHAT_RIDE
       53: 'ride_bell',      // constant_OUR_MIDI_HIHAT_RIDE_BELL
-      56: 'cowbell',        // constant_OUR_MIDI_HIHAT_COW_BELL
+      105: 'cowbell',       // new mapping
+      56: 'cowbell',        // legacy alias (was constant_OUR_MIDI_HIHAT_COW_BELL)
       49: 'crash',          // constant_OUR_MIDI_HIHAT_CRASH
-      55: 'stacker',        // constant_OUR_MIDI_HIHAT_STACKER
+      52: 'stacker',        // new mapping
+      55: 'stacker',        // legacy alias (was constant_OUR_MIDI_HIHAT_STACKER)
       
       // Toms
       48: 'tom1',           // constant_OUR_MIDI_TOM1_NORMAL (High Tom)

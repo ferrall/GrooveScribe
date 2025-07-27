@@ -34,10 +34,10 @@
 		</script>
 
 		<!-- Stylesheets -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-		<link rel="stylesheet" type="text/css" href="css/share-button.min.css">
+		<link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="css/share-button.min.css" integrity="sha384-u667xIo/VqLBHklsdgrs9h3lkF8D9R+/S3+62Ln8rSlPYsRFbSNvi0mJ68C2STeV" crossorigin="anonymous">
 	    <link rel="stylesheet" type="text/css" href="css/groove_writer_orange.css">
-		<link rel="stylesheet" type="text/css" href="css/groove_display_orange.css">
+		<link rel="stylesheet" type="text/css" href="css/groove_display_orange.css" integrity="sha384-UxliP0y5HGstMx3tN5h8WBvQWWjk5FgKXs74IqsSU212KieU8Iv8/Dgs0J5lvjpX" crossorigin="anonymous">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -293,6 +293,7 @@
 				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuSpeedUp"   onclick='myGrooveWriter.metronomeOptionsMenuPopupClick("SpeedUp");' title="Increase the tempo automatically" >Auto speed up</li>
 				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuCountIn"   onclick='myGrooveWriter.metronomeOptionsMenuPopupClick("CountIn");' title="One measure of metronome count in at the start" >Count it in</li>
 				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuOffTheOne" onclick='myGrooveWriter.metronomeOptionsMenuPopupClick("OffTheOne");' title="Click on the e, &, or a">Offset click</li>
+				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuVisualSync" onclick='myGrooveWriter.metronomeOptionsMenuPopupClick("VisualSync");' title="Adjust visual-audio synchronization">Visual sync</li>
 				<!--
 				<li id="metronomeOptionsContextMenuDropper"   onclick='myGrooveWriter.metronomeOptionsMenuPopupClick("Dropper")'  >Beat Dropper</li>
 				-->
@@ -551,6 +552,36 @@
 			</div>
 			<div id="metronomeAutoSpeedupCloseButtonDiv">
 				<button id="metronomeAutoSpeedupConfigurationCloseButton" onclick="myGrooveWriter.close_MetronomeAutoSpeedupConfiguration('ok');">Done</button>
+			</div>
+		</div>
+
+		<!-- Visual Sync Configuration Popup -->
+		<div id="visualSyncConfiguration">
+			<div id="visualSyncOutputText">
+				Visual sync offset: <span id="visualSyncOffsetOutput">50 ms</span>
+			</div>
+			<div id="visualSyncDescription">
+				Adjust timing to synchronize visual highlighting with audio playback.<br>
+				<strong>Positive values:</strong> Visual appears earlier than audio<br>
+				<strong>Negative values:</strong> Visual appears later than audio
+			</div>
+			<div id="visualSyncConfigurationSliders">
+				<div id="visualSyncConfigurationOffsetLabel">Timing Offset (milliseconds)</div>
+				<input type="range" min="-200" max="200" value="50" step="5" class="visualSyncRange" id="visualSyncOffset" oninput="myGrooveWriter.applyVisualSyncOffset();">
+			</div>
+			<div id="visualSyncSaveDefault">
+				<input type="checkbox" id="visualSyncSetAsDefault"><label for="visualSyncSetAsDefault">Save as default for future sessions</label>
+			</div>
+			<div id="visualSyncPresets">
+				<strong>Presets:</strong>
+				<button onclick="document.getElementById('visualSyncOffset').value=-100; myGrooveWriter.applyVisualSyncOffset();">-100ms</button>
+				<button onclick="document.getElementById('visualSyncOffset').value=-50; myGrooveWriter.applyVisualSyncOffset();">-50ms</button>
+				<button onclick="document.getElementById('visualSyncOffset').value=0; myGrooveWriter.applyVisualSyncOffset();">0ms</button>
+				<button onclick="document.getElementById('visualSyncOffset').value=50; myGrooveWriter.applyVisualSyncOffset();">50ms</button>
+				<button onclick="document.getElementById('visualSyncOffset').value=100; myGrooveWriter.applyVisualSyncOffset();">100ms</button>
+			</div>
+			<div id="visualSyncCloseButtonDiv">
+				<button id="visualSyncConfigurationCloseButton" onclick="myGrooveWriter.close_VisualSyncConfiguration();">Done</button>
 			</div>
 		</div>
 

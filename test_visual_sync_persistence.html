@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visual Sync Persistence Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        .info {
+            background: #e6f3ff;
+            color: #0066cc;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        .test-btn {
+            background: #2196F3;
+            color: white;
+            border-color: #0b7dda;
+        }
+        .save-btn {
+            background: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+        .clear-btn {
+            background: #f44336;
+            color: white;
+            border-color: #da190b;
+        }
+        .test-row {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: #f9f9f9;
+        }
+        .test-name {
+            width: 200px;
+            font-weight: bold;
+            color: #333;
+        }
+        .test-result {
+            flex: 1;
+            color: #666;
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 5px;
+            margin: 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Visual Sync Persistence Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">localStorage Functionality Test</div>
+        <p>Test saving and loading visual sync offset settings:</p>
+        
+        <div class="test-row">
+            <div class="test-name">Save Offset Value:</div>
+            <input type="number" id="saveValue" value="75" min="-200" max="200" step="5">
+            <button class="save-btn" onclick="testSave()">Save to localStorage</button>
+            <div class="test-result" id="saveResult">Ready to test</div>
+        </div>
+        
+        <div class="test-row">
+            <div class="test-name">Load Offset Value:</div>
+            <button class="test-btn" onclick="testLoad()">Load from localStorage</button>
+            <div class="test-result" id="loadResult">Ready to test</div>
+        </div>
+        
+        <div class="test-row">
+            <div class="test-name">GrooveUtils Integration:</div>
+            <button class="test-btn" onclick="testGrooveUtilsIntegration()">Test Integration</button>
+            <div class="test-result" id="integrationResult">Ready to test</div>
+        </div>
+        
+        <div class="test-row">
+            <div class="test-name">Initialization Test:</div>
+            <button class="test-btn" onclick="testInitialization()">Test Startup Loading</button>
+            <div class="test-result" id="initResult">Ready to test</div>
+        </div>
+        
+        <div class="test-row">
+            <div class="test-name">Clear Storage:</div>
+            <button class="clear-btn" onclick="clearStorage()">Clear localStorage</button>
+            <div class="test-result" id="clearResult">Ready to clear</div>
+        </div>
+        
+        <div class="status" id="status">Click test buttons to verify localStorage functionality</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Persistence Verification</div>
+        <p>Test that settings persist across page reloads:</p>
+        
+        <ol>
+            <li><strong>Set a custom value:</strong> Use the save test above with a unique value (e.g., 75ms)</li>
+            <li><strong>Refresh the page:</strong> <button onclick="location.reload()">Refresh Page</button></li>
+            <li><strong>Check if value persists:</strong> Use the load test to verify the value was saved</li>
+            <li><strong>Test in main app:</strong> <button onclick="openMainApp()">Open GrooveScribe</button></li>
+            <li><strong>Verify in UI:</strong> Check if the metronome options → Visual sync shows your saved value</li>
+        </ol>
+        
+        <div class="status info" id="persistenceInfo">
+            Current localStorage value: <span id="currentStorageValue">Loading...</span>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">localStorage Details</div>
+        <div class="status" id="storageDetails">Loading storage information...</div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script>
+        let myGrooveUtils = null;
+
+        function updateStatus(message, className = '') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + className;
+        }
+
+        function updateResult(elementId, message, isSuccess = false, isError = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.color = isError ? '#cc0000' : (isSuccess ? '#006600' : '#666');
+        }
+
+        function testSave() {
+            const value = parseInt(document.getElementById('saveValue').value);
+            
+            if (isNaN(value) || value < -200 || value > 200) {
+                updateResult('saveResult', '✗ Invalid value (must be -200 to 200)', false, true);
+                return;
+            }
+            
+            try {
+                if (myGrooveUtils && typeof myGrooveUtils.saveVisualSyncOffset === 'function') {
+                    myGrooveUtils.saveVisualSyncOffset(value);
+                    updateResult('saveResult', `✓ Saved ${value}ms to localStorage`, true);
+                    updateCurrentStorageValue();
+                } else {
+                    // Direct localStorage test
+                    localStorage.setItem('grooveScribeVisualSyncOffset', value.toString());
+                    updateResult('saveResult', `✓ Saved ${value}ms directly to localStorage`, true);
+                    updateCurrentStorageValue();
+                }
+            } catch (error) {
+                updateResult('saveResult', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function testLoad() {
+            try {
+                if (myGrooveUtils && typeof myGrooveUtils.loadVisualSyncOffset === 'function') {
+                    const value = myGrooveUtils.loadVisualSyncOffset();
+                    if (value !== null) {
+                        updateResult('loadResult', `✓ Loaded ${value}ms from localStorage`, true);
+                    } else {
+                        updateResult('loadResult', '✓ No saved value found (using default)', true);
+                    }
+                } else {
+                    // Direct localStorage test
+                    const value = localStorage.getItem('grooveScribeVisualSyncOffset');
+                    if (value !== null) {
+                        updateResult('loadResult', `✓ Loaded ${value}ms directly from localStorage`, true);
+                    } else {
+                        updateResult('loadResult', '✓ No saved value found', true);
+                    }
+                }
+            } catch (error) {
+                updateResult('loadResult', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function testGrooveUtilsIntegration() {
+            try {
+                if (myGrooveUtils) {
+                    // Test the full cycle: save, get, set
+                    const testValue = 123;
+                    myGrooveUtils.saveVisualSyncOffset(testValue);
+                    myGrooveUtils.setVisualSyncOffset(testValue);
+                    const retrievedValue = myGrooveUtils.getVisualSyncOffset();
+                    
+                    if (retrievedValue === testValue) {
+                        updateResult('integrationResult', `✓ Integration works: ${retrievedValue}ms`, true);
+                    } else {
+                        updateResult('integrationResult', `✗ Integration failed: expected ${testValue}, got ${retrievedValue}`, false, true);
+                    }
+                } else {
+                    updateResult('integrationResult', '✗ GrooveUtils not available', false, true);
+                }
+            } catch (error) {
+                updateResult('integrationResult', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function testInitialization() {
+            try {
+                // Save a test value first
+                const testValue = 87;
+                localStorage.setItem('grooveScribeVisualSyncOffset', testValue.toString());
+                
+                // Create a new GrooveUtils instance to test initialization
+                const newGrooveUtils = new GrooveUtils();
+                const loadedValue = newGrooveUtils.getVisualSyncOffset();
+                
+                if (loadedValue === testValue) {
+                    updateResult('initResult', `✓ Initialization works: loaded ${loadedValue}ms`, true);
+                } else {
+                    updateResult('initResult', `✗ Initialization failed: expected ${testValue}, got ${loadedValue}`, false, true);
+                }
+            } catch (error) {
+                updateResult('initResult', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function clearStorage() {
+            try {
+                localStorage.removeItem('grooveScribeVisualSyncOffset');
+                updateResult('clearResult', '✓ localStorage cleared', true);
+                updateCurrentStorageValue();
+                updateStorageDetails();
+            } catch (error) {
+                updateResult('clearResult', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function updateCurrentStorageValue() {
+            try {
+                const value = localStorage.getItem('grooveScribeVisualSyncOffset');
+                const element = document.getElementById('currentStorageValue');
+                element.textContent = value !== null ? value + 'ms' : 'Not set';
+            } catch (error) {
+                document.getElementById('currentStorageValue').textContent = 'Error reading';
+            }
+        }
+
+        function updateStorageDetails() {
+            const details = document.getElementById('storageDetails');
+            
+            try {
+                const value = localStorage.getItem('grooveScribeVisualSyncOffset');
+                let info = 'localStorage Details:\n\n';
+                info += `• Key: 'grooveScribeVisualSyncOffset'\n`;
+                info += `• Value: ${value !== null ? value + 'ms' : 'Not set'}\n`;
+                info += `• Storage available: ${typeof Storage !== 'undefined' ? 'Yes' : 'No'}\n`;
+                
+                if (myGrooveUtils) {
+                    info += `• Current GrooveUtils offset: ${myGrooveUtils.getVisualSyncOffset()}ms\n`;
+                }
+                
+                // Check if localStorage is working
+                try {
+                    localStorage.setItem('test', 'test');
+                    localStorage.removeItem('test');
+                    info += '• localStorage functionality: Working\n';
+                } catch (e) {
+                    info += '• localStorage functionality: Error - ' + e.message + '\n';
+                }
+                
+                details.textContent = info;
+            } catch (error) {
+                details.textContent = 'Error getting storage details: ' + error.message;
+            }
+        }
+
+        function openMainApp() {
+            window.open('http://localhost:8888/GrooveScribe/', '_blank');
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            try {
+                if (typeof GrooveUtils !== 'undefined') {
+                    myGrooveUtils = new GrooveUtils();
+                    updateStatus('GrooveUtils initialized. Ready to test persistence.', 'success');
+                } else {
+                    updateStatus('GrooveUtils not available. Testing localStorage directly.', 'info');
+                }
+            } catch (error) {
+                updateStatus('Error initializing: ' + error.message, 'error');
+            }
+            
+            updateCurrentStorageValue();
+            updateStorageDetails();
+        });
+    </script>
+</body>
+</html>

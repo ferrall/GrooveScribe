@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Tom2 Issue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .debug-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+        .debug-output {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Tom2 Sound Issue</h1>
+    
+    <div class="debug-section">
+        <h3>1. Check Constants</h3>
+        <button onclick="checkConstants()">Check MIDI Constants</button>
+        <div id="constants-output" class="debug-output"></div>
+    </div>
+
+    <div class="debug-section">
+        <h3>2. Check Functions</h3>
+        <button onclick="checkFunctions()">Check Tom Functions</button>
+        <div id="functions-output" class="debug-output"></div>
+    </div>
+
+    <div class="debug-section">
+        <h3>3. Test Audio System</h3>
+        <button onclick="testAudioSystem()">Test Audio System</button>
+        <div id="audio-output" class="debug-output"></div>
+    </div>
+
+    <div class="debug-section">
+        <h3>4. Direct Tom2 Test</h3>
+        <button onclick="directTom2Test()">Direct Tom2 Test</button>
+        <div id="tom2-output" class="debug-output"></div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script src="js/simple-audio-system.js"></script>
+    <script>
+        function log(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+        }
+
+        function checkConstants() {
+            const output = 'constants-output';
+            document.getElementById(output).textContent = '';
+            
+            log(output, 'Checking MIDI constants...');
+            
+            const constants = [
+                'constant_OUR_MIDI_TOM1_NORMAL',
+                'constant_OUR_MIDI_TOM2_NORMAL', 
+                'constant_OUR_MIDI_TOM4_NORMAL'
+            ];
+            
+            constants.forEach(constName => {
+                if (typeof window[constName] !== 'undefined') {
+                    log(output, `✓ ${constName} = ${window[constName]}`);
+                } else {
+                    log(output, `✗ ${constName} is undefined`);
+                }
+            });
+        }
+
+        function checkFunctions() {
+            const output = 'functions-output';
+            document.getElementById(output).textContent = '';
+            
+            log(output, 'Checking tom functions...');
+            
+            const functions = [
+                'set_tom1_state',
+                'set_tom2_state',
+                'set_tom4_state',
+                'set_tom_state',
+                'play_single_note_for_note_setting'
+            ];
+            
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    log(output, `✓ ${funcName} is available`);
+                } else {
+                    log(output, `✗ ${funcName} is not available`);
+                }
+            });
+        }
+
+        function testAudioSystem() {
+            const output = 'audio-output';
+            document.getElementById(output).textContent = '';
+            
+            log(output, 'Testing audio systems...');
+            
+            // Check MIDI.js
+            if (window.MIDI) {
+                log(output, '✓ MIDI object exists');
+                if (window.MIDI.WebAudio) {
+                    log(output, '✓ MIDI.WebAudio exists');
+                } else {
+                    log(output, '✗ MIDI.WebAudio not available');
+                }
+            } else {
+                log(output, '✗ MIDI object not found');
+            }
+            
+            // Check SimpleAudioSystem
+            if (window.SimpleAudioSystem) {
+                log(output, '✓ SimpleAudioSystem available');
+            } else {
+                log(output, '✗ SimpleAudioSystem not available');
+            }
+            
+            // Check play_single_note_for_note_setting
+            if (window.play_single_note_for_note_setting) {
+                log(output, '✓ play_single_note_for_note_setting available');
+                
+                // Test with tom2 MIDI note
+                try {
+                    log(output, 'Testing tom2 sound (MIDI 47)...');
+                    window.play_single_note_for_note_setting(47);
+                    log(output, '✓ Tom2 sound call completed');
+                } catch (error) {
+                    log(output, `✗ Tom2 sound error: ${error.message}`);
+                }
+            } else {
+                log(output, '✗ play_single_note_for_note_setting not available');
+            }
+        }
+
+        function directTom2Test() {
+            const output = 'tom2-output';
+            document.getElementById(output).textContent = '';
+            
+            log(output, 'Direct tom2 function test...');
+            
+            try {
+                // Test if set_tom2_state exists and works
+                if (typeof set_tom2_state === 'function') {
+                    log(output, '✓ set_tom2_state function exists');
+                    
+                    // Test without sound first
+                    log(output, 'Testing set_tom2_state without sound...');
+                    set_tom2_state(0, 'normal', false);
+                    log(output, '✓ set_tom2_state (no sound) completed');
+                    
+                    // Test with sound
+                    log(output, 'Testing set_tom2_state with sound...');
+                    set_tom2_state(0, 'normal', true);
+                    log(output, '✓ set_tom2_state (with sound) completed');
+                    
+                } else {
+                    log(output, '✗ set_tom2_state function not found');
+                }
+                
+                // Test direct MIDI call
+                if (typeof constant_OUR_MIDI_TOM2_NORMAL !== 'undefined') {
+                    log(output, `Testing direct MIDI call for tom2 (${constant_OUR_MIDI_TOM2_NORMAL})...`);
+                    
+                    if (window.play_single_note_for_note_setting) {
+                        window.play_single_note_for_note_setting(constant_OUR_MIDI_TOM2_NORMAL);
+                        log(output, '✓ Direct MIDI call completed');
+                    } else {
+                        log(output, '✗ play_single_note_for_note_setting not available');
+                    }
+                } else {
+                    log(output, '✗ constant_OUR_MIDI_TOM2_NORMAL not defined');
+                }
+                
+            } catch (error) {
+                log(output, `✗ Error in direct tom2 test: ${error.message}`);
+                log(output, `Stack trace: ${error.stack}`);
+            }
+        }
+
+        // Capture console errors
+        window.addEventListener('error', function(e) {
+            log('tom2-output', `JavaScript Error: ${e.message} at ${e.filename}:${e.lineno}`);
+        });
+
+        // Override console.log to capture debug messages
+        const originalConsoleLog = console.log;
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            log('tom2-output', 'Console: ' + args.join(' '));
+        };
+    </script>
+</body>
+</html>

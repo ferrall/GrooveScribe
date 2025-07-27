@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Backward Compatible MIDI Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .midi-test {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: #f9f9f9;
+        }
+        .sound-name {
+            width: 120px;
+            font-weight: bold;
+            color: #333;
+        }
+        .midi-new {
+            width: 80px;
+            color: #2484C0;
+            font-weight: bold;
+        }
+        .midi-legacy {
+            width: 80px;
+            color: #999;
+            font-style: italic;
+        }
+        button {
+            margin: 2px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        .new-btn {
+            background: #e6ffe6;
+            border-color: #00cc00;
+        }
+        .legacy-btn {
+            background: #fff0e6;
+            border-color: #ff9900;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        .header {
+            font-weight: bold;
+            background: #e9e9e9;
+            border-bottom: 2px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Backward Compatible MIDI Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">MIDI Mapping Compatibility Test</div>
+        <p>Test both new and legacy MIDI note mappings to ensure backward compatibility:</p>
+        
+        <div class="midi-test header">
+            <div class="sound-name">Sound</div>
+            <div class="midi-new">New MIDI</div>
+            <div class="midi-legacy">Legacy MIDI</div>
+            <div>Test Buttons</div>
+        </div>
+        
+        <div class="midi-test">
+            <div class="sound-name">Hi-hat Accent</div>
+            <div class="midi-new">108</div>
+            <div class="midi-legacy">26 (legacy)</div>
+            <div>
+                <button class="new-btn" onclick="testMidi(108, 'Hi-hat Accent (new)')">Test 108</button>
+                <button class="legacy-btn" onclick="testMidi(26, 'Hi-hat Accent (legacy)')">Test 26</button>
+            </div>
+        </div>
+        
+        <div class="midi-test">
+            <div class="sound-name">Cowbell</div>
+            <div class="midi-new">105</div>
+            <div class="midi-legacy">56 (legacy)</div>
+            <div>
+                <button class="new-btn" onclick="testMidi(105, 'Cowbell (new)')">Test 105</button>
+                <button class="legacy-btn" onclick="testMidi(56, 'Cowbell (legacy)')">Test 56</button>
+            </div>
+        </div>
+        
+        <div class="midi-test">
+            <div class="sound-name">Stacker</div>
+            <div class="midi-new">52</div>
+            <div class="midi-legacy">55 (legacy)</div>
+            <div>
+                <button class="new-btn" onclick="testMidi(52, 'Stacker (new)')">Test 52</button>
+                <button class="legacy-btn" onclick="testMidi(55, 'Stacker (legacy)')">Test 55</button>
+            </div>
+        </div>
+        
+        <div class="status" id="status">Click any test button to verify MIDI mappings...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Batch Compatibility Test</div>
+        <button onclick="testAllMappings()">Test All New & Legacy Mappings</button>
+        <button onclick="initializeAudio()">Initialize Audio System</button>
+        <div class="status" id="batchStatus">Click "Initialize Audio System" first</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Explanation</div>
+        <p><strong>Why Backward Compatibility Matters:</strong></p>
+        <ul>
+            <li><strong>Existing Grooves</strong>: Saved grooves may contain the old MIDI numbers</li>
+            <li><strong>Legacy Code</strong>: Other parts of the codebase might still reference old constants</li>
+            <li><strong>Silent Failures</strong>: Without aliases, old MIDI numbers would be undefined and muted</li>
+            <li><strong>Gradual Migration</strong>: Allows smooth transition from old to new mappings</li>
+        </ul>
+        <p><strong>Implementation:</strong> Both old and new MIDI numbers now map to the same sound samples, 
+        ensuring no functionality is lost during the transition.</p>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/simple-audio-system.js"></script>
+    <script>
+        let audioSystem = null;
+
+        function updateStatus(message, isError = false, isSuccess = false) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function updateBatchStatus(message, isError = false, isSuccess = false) {
+            const status = document.getElementById('batchStatus');
+            status.textContent = message;
+            status.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function testMidi(midiNote, description) {
+            updateStatus(`Testing ${description} (MIDI ${midiNote})...`);
+            
+            try {
+                // Try multiple audio systems
+                if (audioSystem && audioSystem.isInitialized) {
+                    audioSystem.playMidiNote(9, midiNote, 127, 0);
+                    updateStatus(`✓ ${description} played via SimpleAudioSystem`, false, true);
+                } else if (window.play_single_note_for_note_setting) {
+                    window.play_single_note_for_note_setting(midiNote);
+                    updateStatus(`✓ ${description} played via legacy system`, false, true);
+                } else {
+                    updateStatus(`✗ No audio system available for ${description}`, true);
+                }
+            } catch (error) {
+                updateStatus(`✗ Error playing ${description}: ${error.message}`, true);
+            }
+        }
+
+        async function initializeAudio() {
+            updateBatchStatus("Initializing audio system...");
+            
+            try {
+                if (window.SimpleAudioSystem) {
+                    audioSystem = new SimpleAudioSystem();
+                    await audioSystem.initialize();
+                    updateBatchStatus("Simple Audio System initialized successfully", false, true);
+                } else {
+                    updateBatchStatus("Simple Audio System not available", true);
+                }
+            } catch (error) {
+                updateBatchStatus("Audio system initialization failed: " + error.message, true);
+            }
+        }
+
+        async function testAllMappings() {
+            if (!audioSystem && !window.play_single_note_for_note_setting) {
+                updateBatchStatus("No audio system available. Please initialize first.", true);
+                return;
+            }
+
+            updateBatchStatus("Testing all MIDI mappings...");
+            
+            const mappings = [
+                { new: 108, legacy: 26, name: 'Hi-hat Accent' },
+                { new: 105, legacy: 56, name: 'Cowbell' },
+                { new: 52, legacy: 55, name: 'Stacker' }
+            ];
+            
+            let results = [];
+            
+            for (const mapping of mappings) {
+                try {
+                    // Test new mapping
+                    if (audioSystem) {
+                        audioSystem.playMidiNote(9, mapping.new, 127, 0);
+                    } else if (window.play_single_note_for_note_setting) {
+                        window.play_single_note_for_note_setting(mapping.new);
+                    }
+                    results.push(`✓ ${mapping.name} (new ${mapping.new}): OK`);
+                    
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    
+                    // Test legacy mapping
+                    if (audioSystem) {
+                        audioSystem.playMidiNote(9, mapping.legacy, 127, 0);
+                    } else if (window.play_single_note_for_note_setting) {
+                        window.play_single_note_for_note_setting(mapping.legacy);
+                    }
+                    results.push(`✓ ${mapping.name} (legacy ${mapping.legacy}): OK`);
+                    
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    
+                } catch (error) {
+                    results.push(`✗ ${mapping.name}: ${error.message}`);
+                }
+            }
+            
+            updateBatchStatus(results.join('\n'), false, true);
+        }
+    </script>
+</body>
+</html>

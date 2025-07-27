@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tom2 Clicking Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/groove_writer.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .tom-test-area {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .tom-visual {
+            margin-right: 20px;
+        }
+        .tom {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background: white;
+        }
+        .tom_circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #333;
+            background: transparent;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .tom-info {
+            flex: 1;
+        }
+        .tom-label {
+            font-weight: bold;
+            color: #2484C0;
+            font-size: 16px;
+        }
+        .tom-function {
+            font-family: monospace;
+            color: #666;
+            font-size: 14px;
+        }
+        .tom-status {
+            color: #999;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+            border: 1px solid #00cc00;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tom2 Clicking Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">Tom2 Click Test (Now labeled "Tom 4")</div>
+        <p>Test if tom2 (middle position, now labeled "Tom 4") is clickable after the fix:</p>
+        
+        <div class="tom-test-area">
+            <div class="tom-visual">
+                <div id="tom2-0" class="tom" onclick="testTom2Click(event, 'left')" oncontextmenu="event.preventDefault(); testTom2Click(event, 'right')">
+                    <div class="tom_circle note_part" id="tom_circle2-0"></div>
+                </div>
+            </div>
+            <div class="tom-info">
+                <div class="tom-label">Tom 4 (Middle Position)</div>
+                <div class="tom-function">Function: tom2 / MIDI: 47</div>
+                <div class="tom-status">Left click to toggle, right click for context menu</div>
+            </div>
+        </div>
+        
+        <div class="status" id="clickStatus">Click the tom above to test...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Function Tests</div>
+        <p>Test the tom2 functions directly:</p>
+        
+        <button onclick="testTom2Function()">Test set_tom2_state Function</button>
+        <button onclick="testTom2RightClick()">Test tom2 Right Click Handler</button>
+        <button onclick="testTom2PopupClick()">Test tom2 Popup Click Handler</button>
+        
+        <div class="status" id="functionStatus">Click a function test button...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Context Menu Test</div>
+        <p>Test if the tom2 context menu exists:</p>
+        
+        <button onclick="testTom2ContextMenu()">Check tom2ContextMenu Element</button>
+        
+        <div class="status" id="menuStatus">Click to check context menu...</div>
+        
+        <!-- Tom2 Context Menu (should exist in main app) -->
+        <div class="noteContextMenu" style="display: none;">
+            <ul id="tom2ContextMenu" class="list">
+                <li onclick='testPopupClick("tom2", "off");'>Off</li>
+                <li onclick='testPopupClick("tom2", "normal");'>Tom 4 Normal</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script src="js/simple-audio-system.js"></script>
+    <script>
+        let tom2State = 'off';
+
+        function updateStatus(elementId, message, isError = false, isSuccess = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function testTom2Click(event, clickType) {
+            const message = `Tom2 ${clickType} click detected!`;
+            updateStatus('clickStatus', message, false, true);
+            
+            // Toggle visual state
+            const circle = document.getElementById('tom_circle2-0');
+            if (tom2State === 'off') {
+                circle.style.backgroundColor = '#2484C0';
+                tom2State = 'on';
+                updateStatus('clickStatus', `${message} Tom2 turned ON`, false, true);
+            } else {
+                circle.style.backgroundColor = 'transparent';
+                tom2State = 'off';
+                updateStatus('clickStatus', `${message} Tom2 turned OFF`, false, true);
+            }
+            
+            // Test sound if possible
+            try {
+                if (typeof set_tom2_state === 'function') {
+                    set_tom2_state(0, tom2State === 'on' ? 'normal' : 'off', true);
+                }
+            } catch (error) {
+                console.log('Sound test failed:', error);
+            }
+        }
+
+        function testTom2Function() {
+            updateStatus('functionStatus', 'Testing set_tom2_state function...');
+            
+            try {
+                if (typeof set_tom2_state === 'function') {
+                    set_tom2_state(0, 'normal', true);
+                    updateStatus('functionStatus', '✓ set_tom2_state function works!', false, true);
+                } else {
+                    updateStatus('functionStatus', '✗ set_tom2_state function not found', true);
+                }
+            } catch (error) {
+                updateStatus('functionStatus', `✗ Error: ${error.message}`, true);
+            }
+        }
+
+        function testTom2RightClick() {
+            updateStatus('functionStatus', 'Testing tom2 right click handler...');
+            
+            try {
+                if (typeof window.myGrooveWriter && typeof window.myGrooveWriter.noteRightClick === 'function') {
+                    // Create a mock event
+                    const mockEvent = { preventDefault: () => {} };
+                    window.myGrooveWriter.noteRightClick(mockEvent, 'tom2', 0);
+                    updateStatus('functionStatus', '✓ tom2 right click handler works!', false, true);
+                } else {
+                    updateStatus('functionStatus', '✗ noteRightClick function not found', true);
+                }
+            } catch (error) {
+                updateStatus('functionStatus', `✗ Right click error: ${error.message}`, true);
+            }
+        }
+
+        function testTom2PopupClick() {
+            updateStatus('functionStatus', 'Testing tom2 popup click handler...');
+            
+            try {
+                if (typeof window.myGrooveWriter && typeof window.myGrooveWriter.notePopupClick === 'function') {
+                    window.myGrooveWriter.notePopupClick('tom2', 'normal');
+                    updateStatus('functionStatus', '✓ tom2 popup click handler works!', false, true);
+                } else {
+                    updateStatus('functionStatus', '✗ notePopupClick function not found', true);
+                }
+            } catch (error) {
+                updateStatus('functionStatus', `✗ Popup click error: ${error.message}`, true);
+            }
+        }
+
+        function testTom2ContextMenu() {
+            updateStatus('menuStatus', 'Checking tom2ContextMenu element...');
+            
+            const contextMenu = document.getElementById('tom2ContextMenu');
+            if (contextMenu) {
+                updateStatus('menuStatus', '✓ tom2ContextMenu element exists!', false, true);
+            } else {
+                updateStatus('menuStatus', '✗ tom2ContextMenu element not found', true);
+            }
+        }
+
+        function testPopupClick(type, setting) {
+            updateStatus('menuStatus', `Testing popup click: ${type} ${setting}`, false, true);
+            
+            try {
+                if (typeof window.myGrooveWriter && typeof window.myGrooveWriter.notePopupClick === 'function') {
+                    window.myGrooveWriter.notePopupClick(type, setting);
+                }
+            } catch (error) {
+                updateStatus('menuStatus', `Error: ${error.message}`, true);
+            }
+        }
+
+        // Initialize GrooveWriter
+        window.addEventListener('load', () => {
+            if (typeof GrooveWriter !== 'undefined' && !window.myGrooveWriter) {
+                window.myGrooveWriter = new GrooveWriter();
+                updateStatus('clickStatus', 'GrooveWriter initialized - ready to test tom2 clicking');
+            }
+        });
+    </script>
+</body>
+</html>

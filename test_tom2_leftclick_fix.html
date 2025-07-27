@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tom2 Left Click Fix Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+            border: 1px solid #00cc00;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tom2 Left Click Fix Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">Tom2 Left Click Function Test</div>
+        <p>Test if the tom2 left click function now works without errors:</p>
+        
+        <button onclick="testTom2LeftClick()">Test Tom2 Left Click</button>
+        <button onclick="testAllTomLeftClicks()">Test All Tom Left Clicks</button>
+        
+        <div class="status" id="leftClickStatus">Click a button to test...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Console Error Check</div>
+        <p>Check if the "Bad case in noteLeftClick: tom2" error is gone:</p>
+        
+        <button onclick="clearConsoleAndTest()">Clear Console & Test Tom2</button>
+        
+        <div class="status" id="consoleStatus">Click to test console errors...</div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script src="js/simple-audio-system.js"></script>
+    <script>
+        let consoleErrors = [];
+
+        function updateStatus(elementId, message, isError = false, isSuccess = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        // Capture console errors
+        const originalConsoleError = console.error;
+        const originalConsoleLog = console.log;
+        
+        console.error = function(...args) {
+            consoleErrors.push('ERROR: ' + args.join(' '));
+            originalConsoleError.apply(console, args);
+        };
+        
+        console.log = function(...args) {
+            const message = args.join(' ');
+            if (message.includes('Bad case in noteLeftClick')) {
+                consoleErrors.push('LOG: ' + message);
+            }
+            originalConsoleLog.apply(console, args);
+        };
+
+        function testTom2LeftClick() {
+            updateStatus('leftClickStatus', 'Testing tom2 left click...');
+            
+            try {
+                if (typeof window.myGrooveWriter && typeof window.myGrooveWriter.noteLeftClick === 'function') {
+                    // Create a mock event
+                    const mockEvent = { preventDefault: () => {} };
+                    
+                    // Test tom2 left click
+                    window.myGrooveWriter.noteLeftClick(mockEvent, 'tom2', 0);
+                    
+                    updateStatus('leftClickStatus', '✓ Tom2 left click executed successfully!', false, true);
+                } else {
+                    updateStatus('leftClickStatus', '✗ noteLeftClick function not found', true);
+                }
+            } catch (error) {
+                updateStatus('leftClickStatus', `✗ Error: ${error.message}`, true);
+            }
+        }
+
+        function testAllTomLeftClicks() {
+            updateStatus('leftClickStatus', 'Testing all tom left clicks...');
+            
+            const toms = ['tom1', 'tom2', 'tom4'];
+            const results = [];
+            
+            try {
+                if (typeof window.myGrooveWriter && typeof window.myGrooveWriter.noteLeftClick === 'function') {
+                    const mockEvent = { preventDefault: () => {} };
+                    
+                    toms.forEach(tom => {
+                        try {
+                            window.myGrooveWriter.noteLeftClick(mockEvent, tom, 0);
+                            results.push(`✓ ${tom}: OK`);
+                        } catch (error) {
+                            results.push(`✗ ${tom}: ${error.message}`);
+                        }
+                    });
+                    
+                    updateStatus('leftClickStatus', results.join('\n'), false, true);
+                } else {
+                    updateStatus('leftClickStatus', '✗ noteLeftClick function not found', true);
+                }
+            } catch (error) {
+                updateStatus('leftClickStatus', `✗ Error: ${error.message}`, true);
+            }
+        }
+
+        function clearConsoleAndTest() {
+            updateStatus('consoleStatus', 'Clearing console and testing tom2...');
+            
+            // Clear previous errors
+            consoleErrors = [];
+            
+            // Test tom2 left click
+            try {
+                if (typeof window.myGrooveWriter && typeof window.myGrooveWriter.noteLeftClick === 'function') {
+                    const mockEvent = { preventDefault: () => {} };
+                    window.myGrooveWriter.noteLeftClick(mockEvent, 'tom2', 0);
+                    
+                    // Check for console errors
+                    setTimeout(() => {
+                        const tom2Errors = consoleErrors.filter(error => 
+                            error.includes('tom2') || error.includes('Bad case in noteLeftClick')
+                        );
+                        
+                        if (tom2Errors.length === 0) {
+                            updateStatus('consoleStatus', '✓ No console errors for tom2! Fix successful.', false, true);
+                        } else {
+                            updateStatus('consoleStatus', `✗ Console errors found:\n${tom2Errors.join('\n')}`, true);
+                        }
+                    }, 100);
+                } else {
+                    updateStatus('consoleStatus', '✗ noteLeftClick function not found', true);
+                }
+            } catch (error) {
+                updateStatus('consoleStatus', `✗ Error: ${error.message}`, true);
+            }
+        }
+
+        // Initialize GrooveWriter
+        window.addEventListener('load', () => {
+            if (typeof GrooveWriter !== 'undefined' && !window.myGrooveWriter) {
+                window.myGrooveWriter = new GrooveWriter();
+                updateStatus('leftClickStatus', 'GrooveWriter initialized - ready to test tom2 left click');
+            }
+        });
+    </script>
+</body>
+</html>

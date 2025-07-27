@@ -414,13 +414,13 @@
 		cursor: pointer;
 	}
 	.hh_open {
-		position: absolute; top: 7px; left: 7px;
-		font-size: 13px;
+		position: absolute; top: 5px; left: 9px;
+		font-size: 16px;
 		color: transparent;
 	}
 	.hh_close {
-		position: absolute; top: 7px; left: 7px;
-		font-size: 13px;
+		position: absolute; top: 5px; left: 9px;
+		font-size: 16px;
 		color: transparent;
 		float:left;
 	}
