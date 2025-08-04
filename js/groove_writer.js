@@ -1186,6 +1186,10 @@ function GrooveWriter() {
 				}
 				break;
 
+			case "VisualSync":
+				root.show_VisualSyncConfiguration();
+				break;
+
 			case "Dropper":
 
 				break;
@@ -3918,6 +3922,41 @@ function GrooveWriter() {
 		return null;
 	};
 
+	// Visual Sync Configuration
+	root.show_VisualSyncConfiguration = function () {
+		var popup = document.getElementById("visualSyncConfiguration");
+
+		if (popup) {
+			popup.style.display = "block";
+		}
+
+		// Load current offset value (which may have been loaded from localStorage)
+		var currentOffset = root.myGrooveUtils.getVisualSyncOffset();
+		document.getElementById('visualSyncOffset').value = currentOffset;
+		document.getElementById('visualSyncOffsetOutput').innerHTML = currentOffset + ' ms';
+	};
+
+	root.close_VisualSyncConfiguration = function () {
+		var popup = document.getElementById("visualSyncConfiguration");
+
+		// Save as default if checkbox is checked
+		var setAsDefaultCheckbox = document.getElementById("visualSyncSetAsDefault");
+		if (setAsDefaultCheckbox && setAsDefaultCheckbox.checked) {
+			var currentOffset = root.myGrooveUtils.getVisualSyncOffset();
+			root.myGrooveUtils.saveVisualSyncOffset(currentOffset);
+			console.log('Visual sync offset saved as default:', currentOffset + 'ms');
+		}
+
+		if (popup)
+			popup.style.display = "none";
+	};
+
+	root.applyVisualSyncOffset = function () {
+		var offsetValue = parseInt(document.getElementById("visualSyncOffset").value, 10);
+		root.myGrooveUtils.setVisualSyncOffset(offsetValue);
+		document.getElementById('visualSyncOffsetOutput').innerHTML = offsetValue + ' ms';
+	};
+
 	// Enable auto speed up (called by the Play+ button)
 	root.enableAutoSpeedUp = function() {
 		class_metronome_auto_speed_up_active = true;
@@ -4436,10 +4475,10 @@ function GrooveWriter() {
 							<span class="notes-row-container">\
 								<div class="line-labels">\
 									<div class="hh-label" onClick="myGrooveWriter.noteLabelClick(event, \'hh\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'hh\', ' + baseindex + ')">Hi-hat</div>\
-									<div class="tom-label" id="tom1-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom1\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom1\', ' + baseindex + ')">Tom</div>\
-									<div class="tom-label" id="tom2-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom2\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom2\', ' + baseindex + ')">Tom</div>\
+									<div class="tom-label" id="tom1-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom1\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom1\', ' + baseindex + ')">Tom 1</div>\
+									<div class="tom-label" id="tom2-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom2\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom2\', ' + baseindex + ')">Tom 2</div>\
 									<div class="snare-label" onClick="myGrooveWriter.noteLabelClick(event, \'snare\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'snare\', ' + baseindex + ')">Snare</div>\
-									<div class="tom-label" id="tom4-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom4\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom4\', ' + baseindex + ')">Tom</div>\
+									<div class="tom-label" id="tom4-label" onClick="myGrooveWriter.noteLabelClick(event, \'tom4\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'tom4\', ' + baseindex + ')">Floor Tom</div>\
 									<div class="kick-label" onClick="myGrooveWriter.noteLabelClick(event, \'kick\', ' + baseindex + ')" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, \'kick\', ' + baseindex + ')">Kick</div>\
 								</div>\
 								<div class="music-line-container">\

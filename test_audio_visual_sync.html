@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio-Visual Synchronization Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .sync-controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .control-row {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .control-label {
+            width: 200px;
+            font-weight: bold;
+        }
+        .control-input {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .control-value {
+            width: 80px;
+            text-align: center;
+            font-family: monospace;
+            background: #fff;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        .play-btn {
+            background: #4CAF50;
+            color: white;
+            border-color: #45a049;
+        }
+        .stop-btn {
+            background: #f44336;
+            color: white;
+            border-color: #da190b;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+        .info {
+            background: #e6f3ff;
+            color: #0066cc;
+        }
+        .preset-buttons {
+            margin: 10px 0;
+        }
+        .preset-btn {
+            background: #2196F3;
+            color: white;
+            border-color: #0b7dda;
+            margin: 2px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Audio-Visual Synchronization Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">Synchronization Control</div>
+        <p>Adjust the timing offset to synchronize visual highlighting with audio playback:</p>
+        
+        <div class="sync-controls">
+            <div class="control-row">
+                <div class="control-label">Visual Sync Offset:</div>
+                <input type="range" class="control-input" id="syncOffset" 
+                       min="-200" max="200" value="50" step="5">
+                <div class="control-value" id="syncValue">50 ms</div>
+            </div>
+            
+            <div class="preset-buttons">
+                <strong>Presets:</strong>
+                <button class="preset-btn" onclick="setSyncOffset(-100)">-100ms (Late)</button>
+                <button class="preset-btn" onclick="setSyncOffset(-50)">-50ms</button>
+                <button class="preset-btn" onclick="setSyncOffset(0)">0ms (No offset)</button>
+                <button class="preset-btn" onclick="setSyncOffset(50)">50ms (Default)</button>
+                <button class="preset-btn" onclick="setSyncOffset(100)">100ms (Early)</button>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <button class="play-btn" onclick="testPlayback()">▶ Test Playback</button>
+                <button class="stop-btn" onclick="stopPlayback()">⏹ Stop</button>
+                <button onclick="resetToDefault()">Reset to Default</button>
+            </div>
+        </div>
+        
+        <div class="status" id="status">Adjust the offset slider and test playback to find the best synchronization.</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Instructions</div>
+        <div style="line-height: 1.6;">
+            <p><strong>How to test synchronization:</strong></p>
+            <ol>
+                <li><strong>Play a groove</strong> - Use the test playback button or go to the main GrooveScribe page</li>
+                <li><strong>Watch the visual highlighting</strong> - Observe how the note highlighting moves across the staff</li>
+                <li><strong>Listen to the audio</strong> - Pay attention to when you hear each drum sound</li>
+                <li><strong>Adjust the offset</strong> - Use the slider to make visual and audio align perfectly</li>
+                <li><strong>Test different tempos</strong> - Synchronization might vary at different speeds</li>
+            </ol>
+            
+            <p><strong>Offset values:</strong></p>
+            <ul>
+                <li><strong>Positive values</strong> (e.g., +50ms): Visual highlighting appears <em>earlier</em> than audio</li>
+                <li><strong>Negative values</strong> (e.g., -50ms): Visual highlighting appears <em>later</em> than audio</li>
+                <li><strong>Zero</strong>: No timing adjustment</li>
+            </ul>
+            
+            <p><strong>Recommended starting point:</strong> 50ms (default) compensates for typical audio system latency.</p>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Current Settings</div>
+        <div class="status info" id="currentSettings">Loading current settings...</div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script>
+        let myGrooveUtils = null;
+        let myGrooveWriter = null;
+
+        function updateStatus(message, className = '') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + className;
+        }
+
+        function updateSyncValue() {
+            const slider = document.getElementById('syncOffset');
+            const valueDisplay = document.getElementById('syncValue');
+            const value = parseInt(slider.value);
+            
+            valueDisplay.textContent = value + ' ms';
+            
+            // Apply the offset if GrooveUtils is available
+            if (myGrooveUtils && typeof myGrooveUtils.setVisualSyncOffset === 'function') {
+                myGrooveUtils.setVisualSyncOffset(value);
+                updateStatus(`Visual sync offset set to ${value}ms`, 'success');
+                updateCurrentSettings();
+            }
+        }
+
+        function setSyncOffset(value) {
+            const slider = document.getElementById('syncOffset');
+            slider.value = value;
+            updateSyncValue();
+        }
+
+        function resetToDefault() {
+            setSyncOffset(50);
+        }
+
+        function updateCurrentSettings() {
+            const currentSettings = document.getElementById('currentSettings');
+            if (myGrooveUtils && typeof myGrooveUtils.getVisualSyncOffset === 'function') {
+                const offset = myGrooveUtils.getVisualSyncOffset();
+                currentSettings.textContent = `Current visual sync offset: ${offset}ms`;
+            } else {
+                currentSettings.textContent = 'GrooveUtils not initialized';
+            }
+        }
+
+        function testPlayback() {
+            if (myGrooveUtils && typeof myGrooveUtils.startMIDI_playback === 'function') {
+                myGrooveUtils.startMIDI_playback();
+                updateStatus('Test playback started. Watch for visual-audio synchronization.', 'info');
+            } else {
+                updateStatus('GrooveUtils not available. Please test on the main GrooveScribe page.', 'error');
+            }
+        }
+
+        function stopPlayback() {
+            if (myGrooveUtils && typeof myGrooveUtils.stopMIDI_playback === 'function') {
+                myGrooveUtils.stopMIDI_playback();
+                updateStatus('Playback stopped.', 'info');
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            // Set up slider event listener
+            const slider = document.getElementById('syncOffset');
+            slider.addEventListener('input', updateSyncValue);
+            
+            // Try to initialize GrooveUtils
+            try {
+                if (typeof GrooveUtils !== 'undefined') {
+                    myGrooveUtils = new GrooveUtils();
+                    updateStatus('GrooveUtils initialized. You can test synchronization adjustments.', 'success');
+                } else {
+                    updateStatus('GrooveUtils not available. Offset will be applied when you return to GrooveScribe.', 'info');
+                }
+                
+                if (typeof GrooveWriter !== 'undefined') {
+                    myGrooveWriter = new GrooveWriter();
+                }
+            } catch (error) {
+                updateStatus('Error initializing: ' + error.message, 'error');
+            }
+            
+            // Set initial value
+            updateSyncValue();
+            updateCurrentSettings();
+        });
+    </script>
+</body>
+</html>

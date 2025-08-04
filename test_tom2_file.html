@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Tom2 Audio File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+            border: 1px solid #00cc00;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Tom2 Audio File</h1>
+    
+    <div class="test-section">
+        <h3>Direct Audio File Test</h3>
+        <p>Test if the tom2 audio file can be loaded and played directly:</p>
+        
+        <button onclick="testTom2File()">Test 16 Tom.mp3</button>
+        <button onclick="testAllTomFiles()">Test All Tom Files</button>
+        
+        <div id="file-status" class="status">Click a button to test...</div>
+        
+        <audio id="testAudio" controls style="display: none;"></audio>
+    </div>
+
+    <div class="test-section">
+        <h3>File Accessibility Test</h3>
+        <p>Check if tom files are accessible via HTTP:</p>
+        
+        <button onclick="checkFileAccess()">Check File Access</button>
+        
+        <div id="access-status" class="status">Click to check file access...</div>
+    </div>
+
+    <script>
+        function updateStatus(elementId, message, isError = false, isSuccess = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function testTom2File() {
+            updateStatus('file-status', 'Testing 16 Tom.mp3...');
+            
+            const audio = document.getElementById('testAudio');
+            const tomFilePath = 'soundfont/NewDrumSamples/MP3/16 Tom.mp3';
+            
+            audio.style.display = 'block';
+            
+            audio.addEventListener('loadeddata', function() {
+                updateStatus('file-status', '✓ 16 Tom.mp3 loaded successfully! You can play it with the controls below.', false, true);
+            }, { once: true });
+            
+            audio.addEventListener('error', function(e) {
+                updateStatus('file-status', `✗ Error loading 16 Tom.mp3: ${e.target.error ? e.target.error.message : 'Unknown error'}`, true);
+            }, { once: true });
+            
+            audio.addEventListener('canplay', function() {
+                // Auto-play the tom sound
+                audio.play().then(() => {
+                    updateStatus('file-status', '✓ 16 Tom.mp3 is playing! If you hear sound, the file is working.', false, true);
+                }).catch(error => {
+                    updateStatus('file-status', `✓ File loaded but autoplay blocked: ${error.message}. Use controls to play.`, false, true);
+                });
+            }, { once: true });
+            
+            audio.src = tomFilePath;
+            audio.load();
+        }
+
+        function testAllTomFiles() {
+            updateStatus('file-status', 'Testing all tom files...');
+            
+            const tomFiles = [
+                '10 Tom.mp3',    // Tom 1
+                '16 Tom.mp3',    // Tom 2
+                'Rack Tom.mp3',  // Tom 3
+                'Floor Tom.mp3'  // Tom 4
+            ];
+            
+            let testIndex = 0;
+            
+            function testNextFile() {
+                if (testIndex >= tomFiles.length) {
+                    updateStatus('file-status', '✓ All tom files tested successfully!', false, true);
+                    return;
+                }
+                
+                const fileName = tomFiles[testIndex];
+                const filePath = `soundfont/NewDrumSamples/MP3/${fileName}`;
+                
+                updateStatus('file-status', `Testing ${fileName}...`);
+                
+                const audio = new Audio();
+                
+                audio.addEventListener('loadeddata', function() {
+                    updateStatus('file-status', `✓ ${fileName} loaded successfully`);
+                    testIndex++;
+                    setTimeout(testNextFile, 500);
+                }, { once: true });
+                
+                audio.addEventListener('error', function(e) {
+                    updateStatus('file-status', `✗ Error loading ${fileName}: ${e.target.error ? e.target.error.message : 'Unknown error'}`, true);
+                    return;
+                }, { once: true });
+                
+                audio.src = filePath;
+                audio.load();
+            }
+            
+            testNextFile();
+        }
+
+        async function checkFileAccess() {
+            updateStatus('access-status', 'Checking file access...');
+            
+            const tomFiles = [
+                { name: 'Tom 1', file: '10 Tom.mp3' },
+                { name: 'Tom 2', file: '16 Tom.mp3' },
+                { name: 'Tom 3', file: 'Rack Tom.mp3' },
+                { name: 'Tom 4', file: 'Floor Tom.mp3' }
+            ];
+            
+            const results = [];
+            
+            for (const tom of tomFiles) {
+                try {
+                    const response = await fetch(`soundfont/NewDrumSamples/MP3/${tom.file}`);
+                    if (response.ok) {
+                        const size = response.headers.get('content-length');
+                        results.push(`✓ ${tom.name} (${tom.file}): ${size ? Math.round(size/1024) + 'KB' : 'OK'}`);
+                    } else {
+                        results.push(`✗ ${tom.name} (${tom.file}): HTTP ${response.status}`);
+                    }
+                } catch (error) {
+                    results.push(`✗ ${tom.name} (${tom.file}): ${error.message}`);
+                }
+            }
+            
+            updateStatus('access-status', results.join('\n'));
+        }
+    </script>
+</body>
+</html>

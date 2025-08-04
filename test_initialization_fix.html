@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Initialization Fix Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        .info {
+            background: #e6f3ff;
+            color: #0066cc;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Initialization Fix Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">GrooveUtils Initialization Test</div>
+        <p>Test if GrooveUtils initializes without errors after the function order fix:</p>
+        
+        <button onclick="testInitialization()">Test GrooveUtils Initialization</button>
+        <button onclick="testMultipleInstances()">Test Multiple Instances</button>
+        <button onclick="testWithSavedValue()">Test With Saved Value</button>
+        
+        <div class="status" id="status">Click a test button to verify the initialization fix</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Error Monitoring</div>
+        <p>Monitor for JavaScript errors during initialization:</p>
+        
+        <div class="status" id="errorStatus">No errors detected</div>
+        
+        <button onclick="clearErrors()">Clear Error Log</button>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Function Order Verification</div>
+        <p>Verify that the initializeVisualSyncOffset function is properly defined:</p>
+        
+        <button onclick="verifyFunctionOrder()">Verify Function Order</button>
+        
+        <div class="status" id="functionStatus">Click to verify function definitions</div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script>
+        let errorLog = [];
+
+        function updateStatus(message, className = '') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + className;
+        }
+
+        function updateErrorStatus() {
+            const errorElement = document.getElementById('errorStatus');
+            if (errorLog.length === 0) {
+                errorElement.textContent = 'No errors detected';
+                errorElement.className = 'status success';
+            } else {
+                errorElement.textContent = errorLog.slice(-3).join('\n'); // Show last 3 errors
+                errorElement.className = 'status error';
+            }
+        }
+
+        function updateFunctionStatus(message, className = '') {
+            const status = document.getElementById('functionStatus');
+            status.textContent = message;
+            status.className = 'status ' + className;
+        }
+
+        // Capture console errors
+        const originalConsoleError = console.error;
+        console.error = function(...args) {
+            const message = args.join(' ');
+            errorLog.push(`ERROR: ${new Date().toLocaleTimeString()} - ${message}`);
+            updateErrorStatus();
+            originalConsoleError.apply(console, args);
+        };
+
+        // Capture JavaScript errors
+        window.addEventListener('error', function(e) {
+            const message = `${e.message} at ${e.filename}:${e.lineno}`;
+            errorLog.push(`JS ERROR: ${new Date().toLocaleTimeString()} - ${message}`);
+            updateErrorStatus();
+        });
+
+        function clearErrors() {
+            errorLog = [];
+            updateErrorStatus();
+        }
+
+        function testInitialization() {
+            updateStatus('Testing GrooveUtils initialization...', 'info');
+            
+            try {
+                const grooveUtils = new GrooveUtils();
+                
+                if (grooveUtils && typeof grooveUtils.getVisualSyncOffset === 'function') {
+                    const offset = grooveUtils.getVisualSyncOffset();
+                    updateStatus(`✓ GrooveUtils initialized successfully!\nVisual sync offset: ${offset}ms`, 'success');
+                } else {
+                    updateStatus('✗ GrooveUtils initialized but missing functions', 'error');
+                }
+            } catch (error) {
+                updateStatus(`✗ Initialization failed: ${error.message}`, 'error');
+                errorLog.push(`CAUGHT: ${new Date().toLocaleTimeString()} - ${error.message}`);
+                updateErrorStatus();
+            }
+        }
+
+        function testMultipleInstances() {
+            updateStatus('Testing multiple GrooveUtils instances...', 'info');
+            
+            try {
+                const instances = [];
+                for (let i = 0; i < 3; i++) {
+                    instances.push(new GrooveUtils());
+                }
+                
+                const offsets = instances.map(instance => instance.getVisualSyncOffset());
+                const allSame = offsets.every(offset => offset === offsets[0]);
+                
+                if (allSame) {
+                    updateStatus(`✓ Multiple instances work correctly!\nAll instances have offset: ${offsets[0]}ms`, 'success');
+                } else {
+                    updateStatus(`✗ Inconsistent offsets: ${offsets.join(', ')}`, 'error');
+                }
+            } catch (error) {
+                updateStatus(`✗ Multiple instances failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testWithSavedValue() {
+            updateStatus('Testing initialization with saved localStorage value...', 'info');
+            
+            try {
+                // Save a test value
+                const testValue = 123;
+                localStorage.setItem('grooveScribeVisualSyncOffset', testValue.toString());
+                
+                // Create new instance
+                const grooveUtils = new GrooveUtils();
+                const loadedOffset = grooveUtils.getVisualSyncOffset();
+                
+                if (loadedOffset === testValue) {
+                    updateStatus(`✓ Saved value loaded correctly!\nLoaded offset: ${loadedOffset}ms`, 'success');
+                } else {
+                    updateStatus(`✗ Saved value not loaded: expected ${testValue}, got ${loadedOffset}`, 'error');
+                }
+                
+                // Clean up
+                localStorage.removeItem('grooveScribeVisualSyncOffset');
+            } catch (error) {
+                updateStatus(`✗ Saved value test failed: ${error.message}`, 'error');
+            }
+        }
+
+        function verifyFunctionOrder() {
+            updateFunctionStatus('Verifying function definitions...', 'info');
+            
+            try {
+                if (typeof GrooveUtils === 'function') {
+                    // Create an instance to check if initialization works
+                    const testInstance = new GrooveUtils();
+                    
+                    // Check if all required functions exist
+                    const requiredFunctions = [
+                        'initializeVisualSyncOffset',
+                        'setVisualSyncOffset',
+                        'getVisualSyncOffset',
+                        'saveVisualSyncOffset',
+                        'loadVisualSyncOffset'
+                    ];
+                    
+                    const missingFunctions = requiredFunctions.filter(funcName => 
+                        typeof testInstance[funcName] !== 'function'
+                    );
+                    
+                    if (missingFunctions.length === 0) {
+                        updateFunctionStatus('✓ All visual sync functions are properly defined and accessible', 'success');
+                    } else {
+                        updateFunctionStatus(`✗ Missing functions: ${missingFunctions.join(', ')}`, 'error');
+                    }
+                } else {
+                    updateFunctionStatus('✗ GrooveUtils constructor not available', 'error');
+                }
+            } catch (error) {
+                updateFunctionStatus(`✗ Function verification failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            updateStatus('Page loaded. Ready to test initialization fix.');
+            updateErrorStatus();
+            
+            // Automatically test initialization
+            setTimeout(() => {
+                testInitialization();
+            }, 500);
+        });
+    </script>
+</body>
+</html>

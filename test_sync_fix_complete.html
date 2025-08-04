@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio-Visual Sync Fix - Complete Test</title>
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        .info {
+            background: #e6f3ff;
+            color: #0066cc;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        .feature-test {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: #f9f9f9;
+        }
+        .feature-name {
+            width: 200px;
+            font-weight: bold;
+            color: #333;
+        }
+        .feature-status {
+            flex: 1;
+            color: #666;
+        }
+        .test-btn {
+            background: #2196F3;
+            color: white;
+            border-color: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+    <h1>Audio-Visual Synchronization Fix - Complete Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">Synchronization Fix Verification</div>
+        <p>Test all components of the audio-visual synchronization fix:</p>
+        
+        <div class="feature-test">
+            <div class="feature-name">Visual Sync Offset Constant</div>
+            <div class="feature-status" id="constant-status">Checking...</div>
+            <button class="test-btn" onclick="testConstant()">Test</button>
+        </div>
+        
+        <div class="feature-test">
+            <div class="feature-name">GrooveUtils Sync Functions</div>
+            <div class="feature-status" id="functions-status">Checking...</div>
+            <button class="test-btn" onclick="testFunctions()">Test</button>
+        </div>
+        
+        <div class="feature-test">
+            <div class="feature-name">MIDI Callback Timing</div>
+            <div class="feature-status" id="timing-status">Checking...</div>
+            <button class="test-btn" onclick="testTiming()">Test</button>
+        </div>
+        
+        <div class="feature-test">
+            <div class="feature-name">Metronome Menu Option</div>
+            <div class="feature-status" id="menu-status">Checking...</div>
+            <button class="test-btn" onclick="testMenu()">Test</button>
+        </div>
+        
+        <div class="feature-test">
+            <div class="feature-name">Visual Sync Popup</div>
+            <div class="feature-status" id="popup-status">Checking...</div>
+            <button class="test-btn" onclick="testPopup()">Test</button>
+        </div>
+        
+        <button onclick="testAllFeatures()">Test All Features</button>
+        <button onclick="openMainApp()">Open Main GrooveScribe</button>
+        
+        <div class="status" id="status">Click individual test buttons or "Test All Features"</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">How to Test Synchronization</div>
+        <div style="line-height: 1.6;">
+            <ol>
+                <li><strong>Open GrooveScribe:</strong> Click "Open Main GrooveScribe" button above</li>
+                <li><strong>Create or load a groove:</strong> Add some notes to the staff</li>
+                <li><strong>Access Visual Sync:</strong> Click the metronome options menu (gear icon next to metronome buttons)</li>
+                <li><strong>Select "Visual sync":</strong> This should open the synchronization adjustment popup</li>
+                <li><strong>Play the groove:</strong> Use the play button to start playback</li>
+                <li><strong>Observe synchronization:</strong> Watch how the visual highlighting moves with the audio</li>
+                <li><strong>Adjust if needed:</strong> Use the slider in the Visual Sync popup to fine-tune timing</li>
+            </ol>
+            
+            <p><strong>Expected behavior:</strong></p>
+            <ul>
+                <li>Visual highlighting should move in sync with the audio playback</li>
+                <li>The default 50ms offset should compensate for typical audio latency</li>
+                <li>Adjusting the offset should immediately affect the synchronization</li>
+                <li>Different offset values should produce noticeable timing differences</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Technical Details</div>
+        <div class="status info" id="technical-details">Loading technical information...</div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/groove_writer.js"></script>
+    <script>
+        function updateStatus(message, className = '') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + className;
+        }
+
+        function updateFeatureStatus(elementId, message, isSuccess = false, isError = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.color = isError ? '#cc0000' : (isSuccess ? '#006600' : '#666');
+        }
+
+        function testConstant() {
+            updateFeatureStatus('constant-status', 'Testing...');
+            
+            try {
+                if (typeof constant_VISUAL_SYNC_OFFSET_MS !== 'undefined') {
+                    updateFeatureStatus('constant-status', `✓ Constant exists: ${constant_VISUAL_SYNC_OFFSET_MS}ms`, true);
+                } else {
+                    updateFeatureStatus('constant-status', '✗ Constant not found', false, true);
+                }
+            } catch (error) {
+                updateFeatureStatus('constant-status', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function testFunctions() {
+            updateFeatureStatus('functions-status', 'Testing...');
+            
+            try {
+                if (typeof GrooveUtils !== 'undefined') {
+                    const utils = new GrooveUtils();
+                    
+                    if (typeof utils.setVisualSyncOffset === 'function' && 
+                        typeof utils.getVisualSyncOffset === 'function') {
+                        
+                        // Test setting and getting
+                        utils.setVisualSyncOffset(100);
+                        const value = utils.getVisualSyncOffset();
+                        
+                        if (value === 100) {
+                            updateFeatureStatus('functions-status', '✓ Functions work correctly', true);
+                        } else {
+                            updateFeatureStatus('functions-status', `✗ Functions don't work: got ${value}`, false, true);
+                        }
+                    } else {
+                        updateFeatureStatus('functions-status', '✗ Functions not found', false, true);
+                    }
+                } else {
+                    updateFeatureStatus('functions-status', '✗ GrooveUtils not available', false, true);
+                }
+            } catch (error) {
+                updateFeatureStatus('functions-status', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function testTiming() {
+            updateFeatureStatus('timing-status', 'Testing...');
+            
+            try {
+                // Check if the timing adjustment is in the MIDI callback
+                const grooveUtilsSource = GrooveUtils.toString();
+                
+                if (grooveUtilsSource.includes('constant_VISUAL_SYNC_OFFSET_MS') && 
+                    grooveUtilsSource.includes('adjustedNow')) {
+                    updateFeatureStatus('timing-status', '✓ Timing adjustment implemented', true);
+                } else {
+                    updateFeatureStatus('timing-status', '✗ Timing adjustment not found', false, true);
+                }
+            } catch (error) {
+                updateFeatureStatus('timing-status', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function testMenu() {
+            updateFeatureStatus('menu-status', 'Testing...');
+            
+            try {
+                const menuElement = document.getElementById('metronomeOptionsContextMenuVisualSync');
+                
+                if (menuElement) {
+                    updateFeatureStatus('menu-status', '✓ Menu option exists', true);
+                } else {
+                    updateFeatureStatus('menu-status', '✗ Menu option not found', false, true);
+                }
+            } catch (error) {
+                updateFeatureStatus('menu-status', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function testPopup() {
+            updateFeatureStatus('popup-status', 'Testing...');
+            
+            try {
+                const popupElement = document.getElementById('visualSyncConfiguration');
+                
+                if (popupElement) {
+                    updateFeatureStatus('popup-status', '✓ Popup exists', true);
+                } else {
+                    updateFeatureStatus('popup-status', '✗ Popup not found', false, true);
+                }
+            } catch (error) {
+                updateFeatureStatus('popup-status', `✗ Error: ${error.message}`, false, true);
+            }
+        }
+
+        function testAllFeatures() {
+            updateStatus('Testing all synchronization features...', 'info');
+            
+            testConstant();
+            setTimeout(() => testFunctions(), 100);
+            setTimeout(() => testTiming(), 200);
+            setTimeout(() => testMenu(), 300);
+            setTimeout(() => testPopup(), 400);
+            
+            setTimeout(() => {
+                updateStatus('All tests completed. Check individual results above.', 'success');
+            }, 500);
+        }
+
+        function openMainApp() {
+            window.open('http://localhost:8888/GrooveScribe/', '_blank');
+        }
+
+        function updateTechnicalDetails() {
+            const details = document.getElementById('technical-details');
+            
+            let info = 'Audio-Visual Synchronization Fix Details:\n\n';
+            
+            try {
+                if (typeof constant_VISUAL_SYNC_OFFSET_MS !== 'undefined') {
+                    info += `• Default offset: ${constant_VISUAL_SYNC_OFFSET_MS}ms\n`;
+                } else {
+                    info += '• Default offset: Not available\n';
+                }
+                
+                if (typeof GrooveUtils !== 'undefined') {
+                    const utils = new GrooveUtils();
+                    if (typeof utils.getVisualSyncOffset === 'function') {
+                        info += `• Current offset: ${utils.getVisualSyncOffset()}ms\n`;
+                    }
+                }
+                
+                info += '\n• Implementation: Timing offset applied in MIDI callback\n';
+                info += '• UI Control: Added to metronome options menu\n';
+                info += '• Range: -200ms to +200ms in 5ms steps\n';
+                info += '• Purpose: Compensate for audio system latency\n';
+                
+            } catch (error) {
+                info += `Error getting details: ${error.message}`;
+            }
+            
+            details.textContent = info;
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            updateTechnicalDetails();
+            updateStatus('Ready to test synchronization features');
+        });
+    </script>
+</body>
+</html>

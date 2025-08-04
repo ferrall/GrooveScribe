@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complete Hi-Hat Test</title>
+    <link rel="stylesheet" href="css/groove_writer.css">
+    <link rel="stylesheet" href="font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: white;
+            border-radius: 5px;
+        }
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        .hi-hat-container {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 3px;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background: #e9e9e9;
+        }
+        button.active {
+            background: #2484C0;
+            color: white;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .error {
+            background: #ffe6e6;
+            color: #cc0000;
+        }
+        .success {
+            background: #e6ffe6;
+            color: #006600;
+        }
+        .midi-info {
+            font-size: 12px;
+            color: #666;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Complete Hi-Hat Test</h1>
+    
+    <div class="test-container">
+        <div class="test-title">Hi-Hat Visual Display Test</div>
+        <div class="hi-hat-container">
+            <div id="hi-hat0" class="hi-hat">
+                <div class="hh_crash note_part" id="hh_crash0"><i class="fa fa-asterisk"></i></div>
+                <div class="hh_ride note_part" id="hh_ride0"><i class="fa fa-dot-circle-o"></i></div>
+                <div class="hh_ride_bell note_part" id="hh_ride_bell0"><i class="fa fa-bell-o"></i></div>
+                <div class="hh_cow_bell note_part" id="hh_cow_bell0"><i class="fa fa-plus-square-o"></i></div>
+                <div class="hh_stacker note_part" id="hh_stacker0"><i class="fa fa-bars"></i></div>
+                <div class="hh_metronome_normal note_part" id="hh_metronome_normal0"><i class="fa fa-neuter"></i></div>
+                <div class="hh_metronome_accent note_part" id="hh_metronome_accent0"><i class="fa fa-map-pin"></i></div>
+                <div class="hh_cross note_part" id="hh_cross0"><i class="fa fa-times"></i></div>
+                <div class="hh_open note_part" id="hh_open0"><i class="fa fa-circle-o"></i></div>
+                <div class="hh_close note_part" id="hh_close0"><i class="fa fa-plus"></i></div>
+                <div class="hh_accent note_part" id="hh_accent0"><i class="fa fa-angle-right"></i></div>
+            </div>
+        </div>
+        
+        <div>
+            <button onclick="testHiHatMode('normal')" data-midi="42">Normal <span class="midi-info">(MIDI 42)</span></button>
+            <button onclick="testHiHatMode('open')" data-midi="46">Open <span class="midi-info">(MIDI 46)</span></button>
+            <button onclick="testHiHatMode('close')" data-midi="42">Close <span class="midi-info">(MIDI 42)</span></button>
+            <button onclick="testHiHatMode('accent')" data-midi="108">Accent <span class="midi-info">(MIDI 108)</span></button>
+            <button onclick="testHiHatMode('ride')" data-midi="51">Ride <span class="midi-info">(MIDI 51)</span></button>
+            <button onclick="testHiHatMode('ride_bell')" data-midi="53">Ride Bell <span class="midi-info">(MIDI 53)</span></button>
+            <button onclick="testHiHatMode('cow_bell')" data-midi="105">Cow Bell <span class="midi-info">(MIDI 105)</span></button>
+            <button onclick="testHiHatMode('stacker')" data-midi="52">Stacker <span class="midi-info">(MIDI 52)</span></button>
+            <button onclick="testHiHatMode('crash')" data-midi="49">Crash <span class="midi-info">(MIDI 49)</span></button>
+            <button onclick="testHiHatMode('off')">Off</button>
+        </div>
+        
+        <div class="status" id="status">Ready to test...</div>
+    </div>
+
+    <div class="test-container">
+        <div class="test-title">Audio System Test</div>
+        <button onclick="testAudioSystem()">Test Audio System</button>
+        <button onclick="testAllSounds()">Test All Hi-Hat Sounds</button>
+        <div class="status" id="audioStatus">Click "Test Audio System" to check audio functionality</div>
+    </div>
+
+    <script src="js/groove_utils.js"></script>
+    <script src="js/simple-audio-system.js"></script>
+    <script>
+        // Color constants from groove_writer.js
+        const constant_note_on_color_hex = "#2484C0";
+        const constant_note_on_color_rgb = "rgb(36, 132, 192)";
+        const constant_note_hidden_color_rgb = "transparent";
+        const constant_hihat_note_off_color_hex = "#CCCCCC";
+
+        let currentMode = null;
+        let audioSystem = null;
+
+        // MIDI note mappings for hi-hat sounds
+        const midiMappings = {
+            'normal': 42,
+            'open': 46,
+            'close': 42,
+            'accent': 108,
+            'ride': 51,
+            'ride_bell': 53,
+            'cow_bell': 105,
+            'stacker': 52,
+            'crash': 49
+        };
+
+        function updateStatus(message, isError = false, isSuccess = false) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function updateAudioStatus(message, isError = false, isSuccess = false) {
+            const status = document.getElementById('audioStatus');
+            status.textContent = message;
+            status.className = 'status' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+        }
+
+        function testHiHatMode(mode) {
+            console.log('Testing hi-hat mode:', mode);
+            currentMode = mode;
+            
+            // Update button states
+            document.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Reset all elements to transparent
+            const elements = ['hh_crash0', 'hh_ride0', 'hh_ride_bell0', 'hh_cow_bell0', 'hh_stacker0', 
+                            'hh_metronome_normal0', 'hh_metronome_accent0', 'hh_cross0', 'hh_open0', 'hh_close0', 'hh_accent0'];
+            
+            elements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.color = constant_note_hidden_color_rgb;
+            });
+
+            // Apply the specific mode styling (based on set_hh_state function)
+            switch (mode) {
+                case "off":
+                    document.getElementById("hh_cross0").style.color = constant_hihat_note_off_color_hex;
+                    updateStatus("Hi-hat set to OFF - cross should be gray");
+                    break;
+                case "normal":
+                    document.getElementById("hh_cross0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to NORMAL - cross should be blue");
+                    break;
+                case "ride":
+                    document.getElementById("hh_ride0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to RIDE - circle with dot should be blue");
+                    break;
+                case "ride_bell":
+                    document.getElementById("hh_ride_bell0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to RIDE BELL - bell icon should be blue");
+                    break;
+                case "cow_bell":
+                    document.getElementById("hh_cow_bell0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to COW BELL - square with plus should be blue");
+                    break;
+                case "stacker":
+                    document.getElementById("hh_stacker0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to STACKER - bars icon should be blue");
+                    break;
+                case "crash":
+                    document.getElementById("hh_crash0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to CRASH - asterisk should be blue");
+                    break;
+                case "open":
+                    document.getElementById("hh_cross0").style.color = constant_note_on_color_hex;
+                    document.getElementById("hh_open0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to OPEN - cross should be blue AND small circle above should be blue", false, true);
+                    break;
+                case "close":
+                    document.getElementById("hh_cross0").style.color = constant_note_on_color_hex;
+                    document.getElementById("hh_close0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to CLOSE - cross should be blue AND plus above should be blue");
+                    break;
+                case "accent":
+                    document.getElementById("hh_cross0").style.color = constant_note_on_color_hex;
+                    document.getElementById("hh_accent0").style.color = constant_note_on_color_hex;
+                    updateStatus("Hi-hat set to ACCENT - cross should be blue AND > symbol above should be blue", false, true);
+                    break;
+            }
+
+            // Test sound if audio system is available
+            if (audioSystem && mode !== 'off') {
+                const midiNote = midiMappings[mode];
+                if (midiNote) {
+                    try {
+                        audioSystem.playMidiNote(9, midiNote, 127, 0);
+                        updateStatus(updateStatus.textContent + " - Sound played successfully", false, true);
+                    } catch (error) {
+                        updateStatus(updateStatus.textContent + " - Sound failed: " + error.message, true);
+                    }
+                }
+            }
+        }
+
+        async function testAudioSystem() {
+            updateAudioStatus("Initializing audio system...");
+            
+            try {
+                if (window.SimpleAudioSystem) {
+                    audioSystem = new SimpleAudioSystem();
+                    await audioSystem.initialize();
+                    updateAudioStatus("Simple Audio System initialized successfully", false, true);
+                } else if (window.play_single_note_for_note_setting) {
+                    updateAudioStatus("Legacy audio system available", false, true);
+                } else {
+                    updateAudioStatus("No audio system found", true);
+                }
+            } catch (error) {
+                updateAudioStatus("Audio system initialization failed: " + error.message, true);
+            }
+        }
+
+        async function testAllSounds() {
+            if (!audioSystem && !window.play_single_note_for_note_setting) {
+                updateAudioStatus("No audio system available. Please test audio system first.", true);
+                return;
+            }
+
+            updateAudioStatus("Testing all hi-hat sounds...");
+            
+            for (const [mode, midiNote] of Object.entries(midiMappings)) {
+                try {
+                    if (audioSystem) {
+                        audioSystem.playMidiNote(9, midiNote, 127, 0);
+                    } else if (window.play_single_note_for_note_setting) {
+                        window.play_single_note_for_note_setting(midiNote);
+                    }
+                    updateAudioStatus(`Playing ${mode} (MIDI ${midiNote})...`);
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Wait between sounds
+                } catch (error) {
+                    updateAudioStatus(`Failed to play ${mode}: ${error.message}`, true);
+                    return;
+                }
+            }
+            
+            updateAudioStatus("All hi-hat sounds tested successfully", false, true);
+        }
+
+        // Initialize with normal mode
+        window.addEventListener('load', () => {
+            testHiHatMode('normal');
+        });
+    </script>
+</body>
+</html>
