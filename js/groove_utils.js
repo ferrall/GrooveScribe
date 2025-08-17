@@ -1056,7 +1056,7 @@ function GrooveUtils() {
 				fullURL += 'GrooveEmbed.html';
 		} else if(url_destination == "fullGrooveScribe") {
 			// asking for the full GrooveScribe link
-			fullURL = 'https://www.mikeslessons.com/gscribe';
+			fullURL = 'https://ferrall.github.io/GrooveScribe'; // point to my installation
 		}
 
 		fullURL += '?';
