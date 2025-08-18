@@ -21,8 +21,8 @@ GrooveScribe is a powerful HTML application for drummers that combines:
 Perfect for drum teachers, students, composers, and anyone wanting to create, practice, or share drum patterns.
 
 ## 🚀 Live Demos
-
-- **My Version**: [https://scribe.bahar.co.il](https://scribe.bahar.co.il)
+- **CF Version**: [https://ferrall.github.io/GrooveScribe/](https://ferrall.github.io/GrooveScribe/)
+- **Base Version**: [https://scribe.bahar.co.il](https://scribe.bahar.co.il)
 - **Original**: [mikeslessons.com/gscribe](http://www.mikeslessons.com/gscribe/)
 - **GitHub Pages**: [montulli.github.io/GrooveScribe](http://montulli.github.io/GrooveScribe/)
 - **This Enhanced Fork**: Deploy locally using our [deployment tools](#deployment)
