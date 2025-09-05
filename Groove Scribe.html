@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<!-- saved from url=(0257)https://scribe.bahar.co.il/?TimeSig=4/4&Div=16&Tempo=80&Measures=1&H=|xxxx-%2Dxxxxxxxxxx|&S=|-O-%2DO-%2D-%2D-%2D-O-%2D-|&K=|o-%2D-%2D-%2D-o-%2D-%2D-o-|&T1=|-%2D-%2D-%2D-%2D-%2Do-%2D-o-|&T2=|-%2Doo-%2D-%2D-%2D-%2D-%2D-%2D|&T4=|-%2D-%2D-%2Doo-%2D-%2D-%2D-%2D| -->
+<html lang="en"><!-- HTML for the Groove Writer part of the Groove Scribe HTML application --><!--Copyright 2015-2024 Lou Montulli, Mike Johnston  GPL V2.0 Please See LICENSE.txt for more details --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Groove Scribe</title>
+
+		<!-- PWA and Mobile App Configuration -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="theme-color" content="#393939">
+
+		<!-- Aggressive cache prevention -->
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+
+		<!-- Icons -->
+		<link rel="icon" type="image/png" sizes="192x192" href="https://scribe.bahar.co.il/images/gscribe-icon-192.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="https://scribe.bahar.co.il/images/gscribe-icon-96.png">
+		<link rel="apple-touch-icon" href="https://scribe.bahar.co.il/images/apple-touch-icon.png">
+
+		<!-- Open Graph Meta Tags -->
+		<meta property="og:title" content="Groove Scribe - Drum Notation Tool">
+		<meta property="og:description" content="Groove Scribe allows drummers to easily create grooves, listen, share, print sheet music, and more. Use the Groove Scribe to create new grooves, figure out the groove to your favorite song, or write down the groove to your latest tune.">
+		<meta property="og:site_name" content="GrooveScribe at MikesLessons.com">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="https://mikeslessons.com/groove/images/GScribe_Logo_on_orange.png">
+
+		<!-- Dynamic OG Image -->
+		<script>
+			if (window.location.search) {
+				document.write('<meta property="og:image" content="https://gscribe-png-image.herokuapp.com/' + window.location.search + '">');
+			}
+		</script><meta property="og:image" content="https://gscribe-png-image.herokuapp.com/?TimeSig=4/4&amp;Div=16&amp;Tempo=80&amp;Measures=1&amp;H=|xxxxxxxxxxxxxxxx|&amp;S=|-O--O-------O---|&amp;K=|o-------o-----o-|&amp;T1=|----------o---o-|&amp;T2=|--oo------------|&amp;T4=|------oo--------|&amp;cb=20250905-173941&amp;cb=20250905-173942">
+
+		<!-- Stylesheets -->
+		<link rel="stylesheet" href="./Groove Scribe_files/font-awesome.min.799aeb25.css">
+		<link rel="stylesheet" type="text/css" href="./Groove Scribe_files/share-button.min.56fe45e1.css">
+	    <link rel="stylesheet" type="text/css" href="./Groove Scribe_files/groove_writer_orange.1ba6d2ab.css">
+		<link rel="stylesheet" type="text/css" href="./Groove Scribe_files/groove_display_orange.a8c54639.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com/">
+		<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+		<link href="./Groove Scribe_files/css2" rel="stylesheet">
+
+		<!-- Version Display Styles -->
+		<style>
+			.version-display {
+				position: fixed;
+				bottom: 10px;
+				left: 10px;
+				background: rgba(0, 0, 0, 0.7);
+				color: #fff;
+				padding: 5px 10px;
+				border-radius: 4px;
+				font-family: 'Lato', Arial, sans-serif;
+				font-size: 12px;
+				z-index: 1000;
+				cursor: help;
+				transition: background-color 0.3s ease;
+			}
+
+			.version-display:hover {
+				background: rgba(0, 0, 0, 0.9);
+			}
+
+			.version-tooltip {
+				position: absolute;
+				bottom: 100%;
+				left: 0;
+				background: rgba(0, 0, 0, 0.95);
+				color: #fff;
+				padding: 8px 12px;
+				border-radius: 4px;
+				font-size: 11px;
+				white-space: nowrap;
+				opacity: 0;
+				visibility: hidden;
+				transition: opacity 0.3s ease, visibility 0.3s ease;
+				margin-bottom: 5px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+			}
+
+			.version-display:hover .version-tooltip {
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.version-tooltip::after {
+				content: '';
+				position: absolute;
+				top: 100%;
+				left: 20px;
+				border: 5px solid transparent;
+				border-top-color: rgba(0, 0, 0, 0.95);
+			}
+		</style>
+
+		<!-- Legacy MIDI.js libraries (removed: using Simple Audio System instead) -->
+
+		<!-- ABC notation rendering -->
+		<script type="text/javascript" src="./Groove Scribe_files/abc2svg-1.c2fc3785.js.download" defer=""></script>
+
+		<!-- SVG to PNG conversion -->
+		<script type="text/javascript" src="./Groove Scribe_files/pablo.min.f6c89275.js.download" defer=""></script>
+
+		<!-- Social sharing -->
+		<script src="./Groove Scribe_files/share-button.min.b2d13d74.js.download" defer=""></script>
+
+		<!-- MIDI file generation -->
+		<script src="./Groove Scribe_files/jsmidgen.29028648.js.download" type="text/javascript" defer=""></script>
+
+        <!-- Modern Web Audio system bridging MIDI.js API with scheduler-ready buffers -->
+		<script src="./Groove Scribe_files/modern-audio-system.7664ff89.js.download" defer=""></script>
+
+		<!-- Project JavaScript files (ordered: utils -> writer -> grooves) -->
+		<script src="./Groove Scribe_files/groove_utils.6e2560ff.js.download" defer=""></script>
+		<script src="./Groove Scribe_files/groove_writer.4f0661a7.js.download" defer=""></script>
+		<script src="./Groove Scribe_files/grooves.02c4a086.js.download" defer=""></script>
+		<!-- App initialization (defensive/idempotent) -->
+		<script src="./Groove Scribe_files/init.99ae2e40.js.download" defer=""></script>
+		<!-- UI handlers migrated from inline onclick -->
+		<script src="./Groove Scribe_files/handlers.42b63d4a.js.download" defer=""></script>
+
+
+		<!-- Initialization moved to js/init.js for clarity and reliability -->
+
+    <style>
+					.spinner {
+						border: 4px solid #f3f3f3;
+						border-top: 4px solid #2484C0;
+						border-radius: 50%;
+						width: 40px;
+						height: 40px;
+						animation: spin 1s linear infinite;
+						margin-bottom: 20px;
+					}
+					@keyframes spin {
+						0% { transform: rotate(0deg); }
+						100% { transform: rotate(360deg); }
+					}
+				</style></head>
+
+
+
+    <body>
+
+	<div id="GrooveWriter">
+		<div class="nonPrintable">
+			<div id="LeftHandNav">
+				<span id="divisionButtonContainer">
+					<span id="logoInSubdivision" class="left-button-content"><img src="./Groove Scribe_files/GScribe_Logo_lone_g.svg"></span>
+					<span class="left-button edit-block" id="timeLabel" style="display: block;"><span class="left-button-content"><span><span id="timeSigLabel" class="buttonFraction"><sup>4</sup>/<sub>4</sub></span><span id="timeSubLabel">TIME</span></span></span></span>
+					<span class="left-button subdivision edit-block" id="subdivision_8ths" style="display: block;"><span class="left-button-content"><span><span class="buttonFraction"><sup>1</sup>/<sub>8</sub></span>NOTES</span></span></span>
+					<span class="left-button subdivision edit-block buttonSelected" id="subdivision_16ths" style="display: block;"><span class="left-button-content"><span><span class="buttonFraction"><sup>1</sup>/<sub>16</sub></span>NOTES</span></span></span>
+					<span class="left-button subdivision edit-block" id="subdivision_32ths" style="display: block;"><span class="left-button-content"><span><span class="buttonFraction"><sup>1</sup>/<sub>32</sub></span>NOTES</span></span></span>
+					<span class="left-button subdivision edit-block" id="subdivision_12ths" style="display: block;"><span class="left-button-content"><span><span class="buttonFraction"><sup>1</sup>/<sub>8</sub></span>TRIPLETS</span></span></span>
+					<span class="left-button subdivision edit-block" id="subdivision_24ths" style="display: block;"><span class="left-button-content"><span><span class="buttonFraction"><sup>1</sup>/<sub>16</sub></span>TRIPLETS</span></span></span>
+					<span class="left-button subdivision edit-block" id="subdivision_48ths" style="display: block;"><span class="left-button-content"><span>MIXED<br>Division</span></span></span>
+
+					<!-- View/Edit and Advanced Edit buttons will be added by JavaScript -->
+
+					<span class="left-button edit-block" id="undoButton" style="display: block;"><span class="left-button-content"><i class="fa fa-undo"></i>&nbsp;&nbsp;Undo</span></span>
+					<span class="left-button edit-block" id="redoButton" style="display: block;"><span class="left-button-content"><i class="fa fa-repeat"></i>&nbsp;&nbsp;Redo</span></span>
+				<span class="left-button"><span class="left-button-content"><span id="view-edit-switch">Switch to VIEW mode</span></span></span></span>
+
+			</div>
+			<div id="TopNav" class="fullWidthEle">
+				<span id="logoTextUpperLeft"><img src="./Groove Scribe_files/GScribe_Logo_word_stack.svg"></span>
+				<span id="upperLeft">
+					<span id="metronomeContainer">
+						<span id="metronomeLabel">METRONOME:</span>
+						<span class="metronomeButton buttonSelected" id="metronomeOff">OFF</span>
+						<span class="metronomeButton" id="metronome4ths">4th</span>
+						<span class="metronomeButton" id="metronome8ths">8th</span>
+						<span class="metronomeButton" id="metronome16ths">16th</span>
+						<span class="metronomeButton Options grooveDB_hidden" id="metronomeOptionsAnchor">Options</span>
+					</span>
+				</span>
+				<span id="upperRight">
+					<span class="rightButtons" id="myGrooveAnchor"><i class="fa fa-bars"></i> My Grooves</span>
+					<span class="rightButtons grooveDB_hidden enabled" id="permutationAnchor"><i class="fa fa-bars"></i> Permutations</span>
+					<span class="rightButtons" id="groovesAnchor"><i class="fa fa-bars"></i> Grooves</span>
+					<span class="rightButtons" id="helpAnchor"><i class="fa fa-bars"></i> Help</span>
+				</span>
+			</div>
+			<div id="midiPlayer" class="fullWidthEle"><div id="playerControl1" class="playerControl">	<div class="playerControlsRow" id="playerControlsRow1">		<span title="Play/Pause" class="midiPlayImage Stopped" id="midiPlayImage1"></span>		<span title="Play with Auto Speed Up" class="midiPlayPlusImage Stopped" id="midiPlayPlusImage1"></span>       <span class="MIDIPlayTime" id="MIDIPlayTime1">0:00</span><span class="tempoAndProgress" id="tempoAndProgress1">			<div class="tempoRow">				<span class="tempoLabel">BPM</span>				<input type="text" for="tempo" class="tempoTextField" pattern="\d+" id="tempoTextField1" value="80">				<input type="range" min="30" max="300" value="90" class="tempoInput" id="tempoInput1" list="tempoSettings">			</div>			<div class="swingRow">				<span class="swingLabel">SWING</span>				<span for="swingAmount" class="swingOutput" id="swingOutput1">0%</span>				<input type="range" min="0" max="50" value="0" class="swingInput" id="swingInput1" list="swingSettings" step="5">			</div>       </span></div></div></div>
+		</div>
+
+		<div id="RightHandContent">
+			<div class="nonPrintable">
+
+				<div id="PermutationOptions"></div>
+			</div>
+
+			<div class="Printable">
+				<!-- rendering area -->
+				<div id="sheetMusicDiv" class="fullWidthEle">
+					<div id="svgTarget" class="svgTarget"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" color="black" width="11.47in" height="1.06in" viewBox="0 0 826 77">
+<title>abc2svg - 6.</title><style type="text/css">
+.fill {fill: currentColor}
+.stroke {stroke: currentColor; fill: none; stroke-width: .7}
+.f1_1 {font:italic 14px serif}
+</style><defs>
+<path id="pclef" class="stroke" style="stroke-width:1.4" d="m-4 10h5.4v-20h-5.4v20"></path>
+<ellipse id="hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="fill"></ellipse>
+<path id="Xhead" d="m-3,-3 l6,6 m0,-6 l-6,6" class="stroke" style="stroke-width:1.2"></path>
+<g id="accent" class="stroke">
+	<path d="m-4 0l8 -2l-8 -2" style="stroke-width:1.2"></path>
+</g>
+</defs><g transform="scale(0.75)"><path class="stroke" d="m1101.33 79.04v-24.00"></path>
+<path class="stroke" d="m1098.33 79.04v-24.00"></path>
+<path class="stroke" d="m0.00 79.04
+h1101.33m-1101.33 -6h1101.33m-1101.33 -6h1101.33m-1101.33 -6h1101.33m-1101.33 -6h1101.33"></path>
+<use x="12.00" y="67.04" xlink:href="#pclef"></use>
+<g style="font:bold 16px serif" transform="translate(30.50,79.04) scale(1.2,1)">
+	<text y="-12" text-anchor="middle">4</text>
+	<text text-anchor="middle">4</text>
+</g>
+<path class="fill" d="m51.66 35.84
+l202.67 0.00v3.20l-202.67 0.00"></path>
+<path class="fill" d="m52.00 40.84
+l201.99 0.00v3.20l-201.99 0.00"></path>
+<path class="stroke" d="m52.00 76.04v-39.20"></path>
+<use x="48.50" y="76.04" xlink:href="#hd"></use>
+<use x="48.50" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_0" x="42.00" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m119.33 64.04v-27.20"></path>
+<use x="115.83" y="64.04" xlink:href="#hd"></use>
+<use x="115.83" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_1" x="109.33" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m186.66 61.04v-24.20"></path>
+<use x="183.16" y="61.04" xlink:href="#hd"></use>
+<use x="183.16" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_2" x="176.66" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m253.99 61.04v-24.20"></path>
+<use x="250.49" y="61.04" xlink:href="#hd"></use>
+<use x="250.49" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_3" x="243.99" y="46.04" width="13.00" height="42.00"></rect>
+<path class="fill" d="m328.46 35.84
+l163.28 0.00v3.20l-163.28 0.00"></path>
+<path class="fill" d="m424.07 40.84
+l67.33 0.00v3.20l-67.33 0.00"></path>
+<path class="stroke" d="m328.80 64.04v-27.20"></path>
+<use x="325.30" y="64.04" xlink:href="#hd"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_4" x="318.80" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m424.07 70.04v-33.20"></path>
+<use x="420.57" y="70.04" xlink:href="#hd"></use>
+<use x="420.57" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_5" x="414.07" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m491.39 70.04v-33.20"></path>
+<use x="487.89" y="70.04" xlink:href="#hd"></use>
+<use x="487.89" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_6" x="481.39" y="46.04" width="13.00" height="42.00"></rect>
+<path class="fill" d="m565.86 31.84
+l202.67 0.00v3.20l-202.67 0.00"></path>
+<path class="fill" d="m566.20 36.84
+l201.99 0.00v3.20l-201.99 0.00"></path>
+<path class="stroke" d="m566.20 76.04v-43.20"></path>
+<use x="562.70" y="76.04" xlink:href="#hd"></use>
+<use x="562.70" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_7" x="556.20" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m633.53 52.04v-19.20"></path>
+<use x="630.03" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_8" x="623.53" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m700.86 58.04v-25.20"></path>
+<use x="697.36" y="58.04" xlink:href="#hd"></use>
+<use x="697.36" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_9" x="690.86" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m768.19 52.04v-19.20"></path>
+<use x="764.69" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_10" x="758.19" y="46.04" width="13.00" height="42.00"></rect>
+<path class="fill" d="m842.66 31.84
+l202.67 0.00v3.20l-202.67 0.00"></path>
+<path class="fill" d="m843.00 36.84
+l201.99 0.00v3.20l-201.99 0.00"></path>
+<path class="stroke" d="m843.00 64.04v-31.20"></path>
+<use x="839.50" y="64.04" xlink:href="#hd"></use>
+<use x="839.50" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_11" x="833.00" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m910.33 52.04v-19.20"></path>
+<use x="906.83" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_12" x="900.33" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m977.66 76.04v-43.20"></path>
+<use x="974.16" y="76.04" xlink:href="#hd"></use>
+<use x="974.16" y="58.04" xlink:href="#hd"></use>
+<use x="974.16" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_13" x="967.66" y="46.04" width="13.00" height="42.00"></rect>
+<path class="stroke" d="m1044.99 52.04v-19.20"></path>
+<use x="1041.49" y="52.04" xlink:href="#Xhead"></use>
+<rect style="fill: transparent;" class="abcr" id="abcNoteNum_1_14" x="1034.99" y="46.04" width="13.00" height="42.00"></rect>
+<use x="115.83" y="31.34" xlink:href="#accent"></use>
+<use x="325.30" y="31.34" xlink:href="#accent"></use>
+<use x="839.50" y="27.34" xlink:href="#accent"></use>
+</g></svg></div>
+				</div>
+			</div>
+			<div class="nonPrintable">
+
+				<p class="warnings">Warnings:</p>
+				<div class="warnings" id="diverr"></div>
+
+				<div id="sheetMusicTextFields" class="fullWidthEle grooveDB_hidden edit-block" style="display: block;">
+					<span class="sheetMusicTextField"><b>Title:</b> <input class="sheetMusicInputField" id="tuneTitle" onchange="myGrooveWriter.refresh_ABC();" type="text"></span>
+					<span class="sheetMusicTextField"><b>Author:</b> <input class="sheetMusicInputField" id="tuneAuthor" onchange="myGrooveWriter.refresh_ABC();" type="text"></span>
+					<span class="sheetMusicTextField"><b>Comment:</b> <input class="sheetMusicInputField" id="tuneComments" onchange="myGrooveWriter.refresh_ABC();" type="text"></span>
+					<span id="KeyButton"><input type="checkbox" class="hiddenCheckbox" id="showLegend"><label id="LegendLabel" for="showLegend"><i class="fa fa-key"></i></label></span>
+				</div>
+
+				<div id="musicalInput" class="fullWidthEle edit-block" style="display: block;">
+					<div id="measureContainer">						<div class="staff-container" id="staff-container1">							<div class="stickings-row-container">								<div class="line-labels">									<div class="stickings-label" onclick="myGrooveWriter.noteLabelClick(event, &#39;stickings&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, &#39;stickings&#39;, 1)">STICKINGS</div>								</div>								<div class="music-line-container">
+																		<div class="notes-container">
+										<div class="stickings-container">											<div class="opening_note_space"> </div>														<div id="sticking0" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right0" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 0)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left0" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 0)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both0" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 0)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count0" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 0)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking1" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right1" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 1)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left1" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 1)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both1" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 1)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count1" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 1)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking2" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right2" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 2)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left2" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 2)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both2" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 2)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count2" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 2)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking3" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right3" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 3)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left3" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 3)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both3" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 3)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count3" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 3)" style="color: transparent;">C</div>
+														</div>
+													<div class="space_between_note_groups"> </div>
+														<div id="sticking4" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right4" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 4)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left4" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 4)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both4" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 4)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count4" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 4)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking5" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right5" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 5)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left5" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 5)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both5" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 5)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count5" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 5)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking6" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right6" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 6)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left6" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 6)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both6" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 6)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count6" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 6)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking7" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right7" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 7)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left7" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 7)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both7" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 7)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count7" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 7)" style="color: transparent;">C</div>
+														</div>
+													<div class="space_between_note_groups"> </div>
+														<div id="sticking8" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right8" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 8)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left8" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 8)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both8" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 8)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count8" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 8)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking9" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right9" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 9)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left9" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 9)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both9" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 9)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count9" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 9)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking10" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right10" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 10)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left10" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 10)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both10" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 10)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count10" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 10)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking11" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right11" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 11)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left11" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 11)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both11" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 11)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count11" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 11)" style="color: transparent;">C</div>
+														</div>
+													<div class="space_between_note_groups"> </div>
+														<div id="sticking12" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right12" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 12)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left12" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 12)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both12" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 12)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count12" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 12)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking13" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right13" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 13)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left13" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 13)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both13" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 13)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count13" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 13)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking14" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right14" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 14)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left14" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 14)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both14" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 14)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count14" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 14)" style="color: transparent;">C</div>
+														</div>
+																											<div id="sticking15" class="sticking">
+															<div class="sticking_right note_part" id="sticking_right15" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 15)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;sticking&#39;" style="color: rgb(204, 204, 204);">R</div>
+															<div class="sticking_left note_part" id="sticking_left15" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 15)" style="color: rgb(204, 204, 204);">L</div>
+															<div class="sticking_both note_part" id="sticking_both15" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 15)" style="color: transparent;">R/L</div>
+															<div class="sticking_count note_part" id="sticking_count15" onclick="myGrooveWriter.noteLeftClick(event, &#39;sticking&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;sticking&#39;, 15)" style="color: transparent;">C</div>
+														</div>
+													<div class="end_note_space"></div>
+</div>
+									</div>								</div>							</div>
+							<span class="notes-row-container">								<div class="line-labels">									<div class="hh-label" onclick="myGrooveWriter.noteLabelClick(event, &#39;hh&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, &#39;hh&#39;, 1)">Hi-hat</div>									<div class="tom-label" id="tom1-label" onclick="myGrooveWriter.noteLabelClick(event, &#39;tom1&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, &#39;tom1&#39;, 1)" style="visibility: visible;">Tom 1</div>									<div class="tom-label" id="tom2-label" onclick="myGrooveWriter.noteLabelClick(event, &#39;tom2&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, &#39;tom2&#39;, 1)" style="visibility: visible;">Tom 2</div>									<div class="snare-label" onclick="myGrooveWriter.noteLabelClick(event, &#39;snare&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, &#39;snare&#39;, 1)">Snare</div>									<div class="tom-label" id="tom4-label" onclick="myGrooveWriter.noteLabelClick(event, &#39;tom4&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, &#39;tom4&#39;, 1)" style="visibility: visible;">Floor Tom</div>									<div class="kick-label" onclick="myGrooveWriter.noteLabelClick(event, &#39;kick&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteLabelClick(event, &#39;kick&#39;, 1)">Kick</div>								</div>								<div class="music-line-container">																		<div class="notes-container">									<div class="staff-line-1"></div>									<div class="staff-line-2"></div>									<div class="staff-line-3"></div>									<div class="staff-line-4"></div>									<div class="staff-line-5"></div>
+										<div class="background-highlight-container">											<div class="opening_note_space"> </div>						<div id="bg-highlight0" class="bg-highlight">												</div>
+						<div id="bg-highlight1" class="bg-highlight">												</div>
+						<div id="bg-highlight2" class="bg-highlight">												</div>
+						<div id="bg-highlight3" class="bg-highlight">												</div>
+<div class="space_between_note_groups"> </div> 
+						<div id="bg-highlight4" class="bg-highlight">												</div>
+						<div id="bg-highlight5" class="bg-highlight">												</div>
+						<div id="bg-highlight6" class="bg-highlight">												</div>
+						<div id="bg-highlight7" class="bg-highlight">												</div>
+<div class="space_between_note_groups"> </div> 
+						<div id="bg-highlight8" class="bg-highlight">												</div>
+						<div id="bg-highlight9" class="bg-highlight">												</div>
+						<div id="bg-highlight10" class="bg-highlight">												</div>
+						<div id="bg-highlight11" class="bg-highlight">												</div>
+<div class="space_between_note_groups"> </div> 
+						<div id="bg-highlight12" class="bg-highlight">												</div>
+						<div id="bg-highlight13" class="bg-highlight">												</div>
+						<div id="bg-highlight14" class="bg-highlight">												</div>
+						<div id="bg-highlight15" class="bg-highlight">												</div>
+<div class="end_note_space"></div>
+</div>
+										<div class="hi-hat-container">											<div class="opening_note_space"> </div>														<div id="hi-hat0" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 0)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 0)">															<div class="hh_crash note_part" id="hh_crash0" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride0" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell0" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell0" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker0" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal0" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent0" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross0" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open0" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close0" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent0" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat1" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 1)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 1)">															<div class="hh_crash note_part" id="hh_crash1" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride1" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell1" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell1" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker1" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal1" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent1" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross1" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open1" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close1" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent1" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat2" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 2)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 2)">															<div class="hh_crash note_part" id="hh_crash2" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride2" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell2" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell2" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker2" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal2" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent2" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross2" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open2" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close2" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent2" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat3" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 3)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 3)">															<div class="hh_crash note_part" id="hh_crash3" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride3" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell3" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell3" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker3" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal3" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent3" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross3" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open3" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close3" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent3" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+													<div class="space_between_note_groups"> </div> 
+														<div id="hi-hat4" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 4)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 4)">															<div class="hh_crash note_part" id="hh_crash4" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride4" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell4" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell4" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker4" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal4" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent4" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross4" style="color: rgb(204, 204, 204);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open4" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close4" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent4" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat5" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 5)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 5)">															<div class="hh_crash note_part" id="hh_crash5" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride5" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell5" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell5" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker5" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal5" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent5" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross5" style="color: rgb(204, 204, 204);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open5" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close5" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent5" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat6" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 6)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 6)">															<div class="hh_crash note_part" id="hh_crash6" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride6" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell6" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell6" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker6" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal6" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent6" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross6" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open6" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close6" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent6" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat7" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 7)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 7)">															<div class="hh_crash note_part" id="hh_crash7" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride7" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell7" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell7" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker7" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal7" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent7" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross7" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open7" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close7" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent7" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+													<div class="space_between_note_groups"> </div> 
+														<div id="hi-hat8" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 8)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 8)">															<div class="hh_crash note_part" id="hh_crash8" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride8" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell8" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell8" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker8" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal8" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent8" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross8" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open8" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close8" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent8" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat9" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 9)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 9)">															<div class="hh_crash note_part" id="hh_crash9" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride9" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell9" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell9" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker9" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal9" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent9" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross9" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open9" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close9" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent9" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat10" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 10)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 10)">															<div class="hh_crash note_part" id="hh_crash10" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride10" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell10" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell10" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker10" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal10" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent10" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross10" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open10" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close10" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent10" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat11" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 11)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 11)">															<div class="hh_crash note_part" id="hh_crash11" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride11" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell11" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell11" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker11" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal11" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent11" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross11" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open11" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close11" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent11" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+													<div class="space_between_note_groups"> </div> 
+														<div id="hi-hat12" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 12)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 12)">															<div class="hh_crash note_part" id="hh_crash12" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride12" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell12" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell12" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker12" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal12" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent12" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross12" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open12" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close12" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent12" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat13" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 13)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 13)">															<div class="hh_crash note_part" id="hh_crash13" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride13" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell13" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell13" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker13" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal13" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent13" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross13" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open13" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close13" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent13" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat14" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 14)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 14)">															<div class="hh_crash note_part" id="hh_crash14" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride14" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell14" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell14" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker14" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal14" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent14" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross14" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open14" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close14" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent14" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+																											<div id="hi-hat15" class="hi-hat" onclick="myGrooveWriter.noteLeftClick(event, &#39;hh&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;hh&#39;, 15)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;hh&#39;, 15)">															<div class="hh_crash note_part" id="hh_crash15" style="color: transparent;"><i class="fa fa-asterisk"></i></div>															<div class="hh_ride note_part" id="hh_ride15" style="color: transparent;"><i class="fa fa-dot-circle-o"></i></div>															<div class="hh_ride_bell note_part" id="hh_ride_bell15" style="color: transparent;"><i class="fa fa-bell-o"></i></div>															<div class="hh_cow_bell note_part" id="hh_cow_bell15" style="color: transparent;"><i class="fa fa-plus-square-o"></i></div>															<div class="hh_stacker note_part" id="hh_stacker15" style="color: transparent;"><i class="fa fa-bars"></i></div>															<div class="hh_metronome_normal note_part" id="hh_metronome_normal15" style="color: transparent;"><i class="fa fa-neuter"></i></div>															<div class="hh_metronome_accent note_part" id="hh_metronome_accent15" style="color: transparent;"><i class="fa fa-map-pin"></i></div>															<div class="hh_cross note_part" id="hh_cross15" style="color: rgb(0, 0, 0);"><i class="fa fa-times"></i></div>															<div class="hh_open note_part" id="hh_open15" style="color: transparent;"><i class="fa fa-circle-o"></i></div>															<div class="hh_close note_part" id="hh_close15" style="color: transparent;"><i class="fa fa-plus"></i></div>															<div class="hh_accent note_part" id="hh_accent15" style="color: transparent;"><i class="fa fa-angle-right"></i></div>														</div>
+													<div class="unmuteHHButton" id="unmutehhButton1" onclick="myGrooveWriter.muteInstrument(&quot;hh&quot;, 1, false)"><span class="fa-stack unmuteHHStack"><i class="fa fa-ban fa-stack-2x" style="color:red"></i><i class="fa fa-volume-down fa-stack-1x"></i></span></div><div class="end_note_space"></div>
+</div>
+										<div class="toms-container" id="tom1-container" style="visibility: visible;">											<div class="opening_note_space"> </div>						<div id="tom1-0" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 0)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 0)">							<div class="tom_circle note_part" id="tom_circle1-0" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-1" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 1)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 1)">							<div class="tom_circle note_part" id="tom_circle1-1" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-2" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 2)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 2)">							<div class="tom_circle note_part" id="tom_circle1-2" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-3" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 3)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 3)">							<div class="tom_circle note_part" id="tom_circle1-3" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom1-4" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 4)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 4)">							<div class="tom_circle note_part" id="tom_circle1-4" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-5" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 5)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 5)">							<div class="tom_circle note_part" id="tom_circle1-5" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-6" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 6)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 6)">							<div class="tom_circle note_part" id="tom_circle1-6" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-7" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 7)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 7)">							<div class="tom_circle note_part" id="tom_circle1-7" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom1-8" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 8)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 8)">							<div class="tom_circle note_part" id="tom_circle1-8" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-9" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 9)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 9)">							<div class="tom_circle note_part" id="tom_circle1-9" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-10" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 10)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 10)">							<div class="tom_circle note_part" id="tom_circle1-10" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-11" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 11)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 11)">							<div class="tom_circle note_part" id="tom_circle1-11" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom1-12" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 12)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 12)">							<div class="tom_circle note_part" id="tom_circle1-12" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-13" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 13)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 13)">							<div class="tom_circle note_part" id="tom_circle1-13" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-14" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 14)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 14)">							<div class="tom_circle note_part" id="tom_circle1-14" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom1-15" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom1&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom1&#39;, 15)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom1&#39;, 15)">							<div class="tom_circle note_part" id="tom_circle1-15" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<span class="unmuteTom1Button" id="unmutetom1Button1" onclick="myGrooveWriter.muteInstrument(&quot;tom1&quot;, 1, false)"><span class="fa-stack unmuteStack"><i class="fa fa-ban fa-stack-2x" style="color:red"></i><i class="fa fa-volume-down fa-stack-1x"></i></span><div class="end_note_space"></div>
+</span></div>
+										<div class="toms-container" id="tom2-container" style="visibility: visible;">											<div class="opening_note_space"> </div>						<div id="tom2-0" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 0)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 0)">							<div class="tom_circle note_part" id="tom_circle2-0" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-1" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 1)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 1)">							<div class="tom_circle note_part" id="tom_circle2-1" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-2" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 2)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 2)">							<div class="tom_circle note_part" id="tom_circle2-2" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-3" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 3)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 3)">							<div class="tom_circle note_part" id="tom_circle2-3" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom2-4" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 4)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 4)">							<div class="tom_circle note_part" id="tom_circle2-4" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-5" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 5)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 5)">							<div class="tom_circle note_part" id="tom_circle2-5" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-6" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 6)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 6)">							<div class="tom_circle note_part" id="tom_circle2-6" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-7" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 7)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 7)">							<div class="tom_circle note_part" id="tom_circle2-7" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom2-8" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 8)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 8)">							<div class="tom_circle note_part" id="tom_circle2-8" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-9" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 9)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 9)">							<div class="tom_circle note_part" id="tom_circle2-9" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-10" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 10)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 10)">							<div class="tom_circle note_part" id="tom_circle2-10" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-11" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 11)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 11)">							<div class="tom_circle note_part" id="tom_circle2-11" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom2-12" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 12)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 12)">							<div class="tom_circle note_part" id="tom_circle2-12" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-13" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 13)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 13)">							<div class="tom_circle note_part" id="tom_circle2-13" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-14" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 14)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 14)">							<div class="tom_circle note_part" id="tom_circle2-14" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom2-15" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom2&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom2&#39;, 15)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom2&#39;, 15)">							<div class="tom_circle note_part" id="tom_circle2-15" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<span class="unmuteTom2Button" id="unmutetom2Button1" onclick="myGrooveWriter.muteInstrument(&quot;tom2&quot;, 1, false)"><span class="fa-stack unmuteStack"><i class="fa fa-ban fa-stack-2x" style="color:red"></i><i class="fa fa-volume-down fa-stack-1x"></i></span><div class="end_note_space"></div>
+</span></div>
+										<div class="snare-container">											<div class="opening_note_space"> </div> <div id="snare0" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 0)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 0)"><div class="snare_ghost note_part" id="snare_ghost0" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle0" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick0" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz0" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam0" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag0" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent0" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare1" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 1)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 1)"><div class="snare_ghost note_part" id="snare_ghost1" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle1" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick1" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz1" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam1" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag1" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent1" style="color: rgb(255, 255, 255);">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare2" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 2)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 2)"><div class="snare_ghost note_part" id="snare_ghost2" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle2" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick2" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz2" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam2" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag2" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent2" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare3" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 3)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 3)"><div class="snare_ghost note_part" id="snare_ghost3" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle3" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick3" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz3" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam3" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag3" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent3" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div class="space_between_note_groups"> </div> <div id="snare4" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 4)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 4)"><div class="snare_ghost note_part" id="snare_ghost4" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle4" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick4" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz4" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam4" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag4" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent4" style="color: rgb(255, 255, 255);">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare5" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 5)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 5)"><div class="snare_ghost note_part" id="snare_ghost5" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle5" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick5" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz5" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam5" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag5" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent5" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare6" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 6)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 6)"><div class="snare_ghost note_part" id="snare_ghost6" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle6" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick6" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz6" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam6" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag6" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent6" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare7" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 7)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 7)"><div class="snare_ghost note_part" id="snare_ghost7" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle7" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick7" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz7" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam7" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag7" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent7" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div class="space_between_note_groups"> </div> <div id="snare8" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 8)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 8)"><div class="snare_ghost note_part" id="snare_ghost8" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle8" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick8" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz8" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam8" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag8" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent8" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare9" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 9)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 9)"><div class="snare_ghost note_part" id="snare_ghost9" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle9" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick9" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz9" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam9" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag9" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent9" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare10" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 10)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 10)"><div class="snare_ghost note_part" id="snare_ghost10" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle10" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick10" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz10" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam10" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag10" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent10" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare11" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 11)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 11)"><div class="snare_ghost note_part" id="snare_ghost11" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle11" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick11" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz11" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam11" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag11" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent11" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div class="space_between_note_groups"> </div> <div id="snare12" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 12)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 12)"><div class="snare_ghost note_part" id="snare_ghost12" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle12" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick12" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz12" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam12" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag12" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent12" style="color: rgb(255, 255, 255);">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare13" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 13)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 13)"><div class="snare_ghost note_part" id="snare_ghost13" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle13" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick13" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz13" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam13" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag13" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent13" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare14" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 14)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 14)"><div class="snare_ghost note_part" id="snare_ghost14" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle14" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick14" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz14" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam14" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag14" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent14" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<div id="snare15" class="snare" onclick="myGrooveWriter.noteLeftClick(event, &#39;snare&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;snare&#39;, 15)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;snare&#39;, 15)"><div class="snare_ghost note_part" id="snare_ghost15" style="color: transparent;">(<i class="fa fa-circle dot_in_snare_ghost_note"></i>)</div><div class="snare_circle note_part" id="snare_circle15" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div><div class="snare_xstick note_part" id="snare_xstick15" style="color: transparent;"><i class="fa fa-times"></i></div><div class="snare_buzz note_part" id="snare_buzz15" style="color: transparent;"><i class="fa fa-bars"></i></div><div class="snare_flam note_part" id="snare_flam15" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.flam_fill {fill: currentColor}		.flam_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="flam_ghd" class="flam_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="flam_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="flam_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">		<path class="flam_stroke" d="m52.1 53.34v-14M52.1 39.34c0.6 3.4 5.6 3.8 3 10 1.2-4.4-1.4-7-3-7"></path>		<use x="50.50" y="53.34" xlink:href="#flam_ghd"></use>		<path class="flam_stroke" d="m49.5 49.34l9-5"></path>		<path class="flam_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#flam_hd"></use>	</g></svg></i></div><div class="snare_drag note_part" id="snare_drag15" style="color: transparent;"><i class="fa "><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="30" height="30">	<style type="text/css">		.drag_fill {fill: currentColor}		.drag_stroke {stroke: currentColor; fill: none; stroke-width: .7}	</style>	<defs>		<path id="drag_ghd" class="drag_fill" d="m1.7-1c-1-1.7-4.5 0.2-3.4 2 1 1.7 4.5-0.2 3.4-2"></path>		<ellipse id="drag_hd" rx="4.1" ry="2.9" transform="rotate(-20)" class="drag_fill"></ellipse>	</defs>	<g id="note" transform="translate(-44 -35)">       <path class="fill" d="m51.81 38.34 l8.58 0.00v1.60l-8.58 0.00"></path>	    <path class="fill" d="m52.10 41.34 l8.00 0.00v1.60l-8.00 0.00"></path>		<path class="drag_stroke" d="m52.1 53.34v-15.00"></path>		<use x="50.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m49.50 49.34l8.00 -15.00"></path>		<path class="drag_stroke" d="m60.10 53.34v-15.00"></path>		<use x="58.50" y="53.34" xlink:href="#drag_ghd"></use>		<path class="drag_stroke" d="m50.5 58.34c2.9 3 11.6 3 14.5 0M69.5 53.34v-21"></path><use x="66.00" y="53.34" xlink:href="#drag_hd"></use>	</g></svg></i></div><div class="snare_accent note_part" id="snare_accent15" style="color: transparent;">  <i class="fa fa-chevron-right"></i></div></div> 
+<span class="unmuteSnareButton" id="unmutesnareButton1" onclick="myGrooveWriter.muteInstrument(&quot;snare&quot;, 1, false)"><span class="fa-stack unmuteStack"><i class="fa fa-ban fa-stack-2x" style="color:red"></i><i class="fa fa-volume-down fa-stack-1x"></i></span><div class="end_note_space"></div>
+</span></div>
+										<div class="toms-container" id="tom4-container" style="visibility: visible;">											<div class="opening_note_space"> </div>						<div id="tom4-0" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 0)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 0)">							<div class="tom_circle note_part" id="tom_circle4-0" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-1" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 1)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 1)">							<div class="tom_circle note_part" id="tom_circle4-1" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-2" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 2)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 2)">							<div class="tom_circle note_part" id="tom_circle4-2" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-3" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 3)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 3)">							<div class="tom_circle note_part" id="tom_circle4-3" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom4-4" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 4)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 4)">							<div class="tom_circle note_part" id="tom_circle4-4" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-5" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 5)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 5)">							<div class="tom_circle note_part" id="tom_circle4-5" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-6" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 6)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 6)">							<div class="tom_circle note_part" id="tom_circle4-6" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-7" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 7)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 7)">							<div class="tom_circle note_part" id="tom_circle4-7" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom4-8" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 8)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 8)">							<div class="tom_circle note_part" id="tom_circle4-8" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-9" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 9)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 9)">							<div class="tom_circle note_part" id="tom_circle4-9" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-10" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 10)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 10)">							<div class="tom_circle note_part" id="tom_circle4-10" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-11" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 11)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 11)">							<div class="tom_circle note_part" id="tom_circle4-11" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<div class="space_between_note_groups"> </div> 
+						<div id="tom4-12" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 12)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 12)">							<div class="tom_circle note_part" id="tom_circle4-12" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-13" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 13)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 13)">							<div class="tom_circle note_part" id="tom_circle4-13" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-14" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 14)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 14)">							<div class="tom_circle note_part" id="tom_circle4-14" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+												<div id="tom4-15" class="tom" onclick="myGrooveWriter.noteLeftClick(event, &#39;tom4&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;tom4&#39;, 15)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;tom4&#39;, 15)">							<div class="tom_circle note_part" id="tom_circle4-15" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>						</div>
+						<span class="unmuteTom4Button" id="unmutetom4Button1" onclick="myGrooveWriter.muteInstrument(&quot;tom4&quot;, 1, false)"><span class="fa-stack unmuteStack"><i class="fa fa-ban fa-stack-2x" style="color:red"></i><i class="fa fa-volume-down fa-stack-1x"></i></span><div class="end_note_space"></div>
+</span></div>
+										<div class="kick-container">											<div class="opening_note_space"> </div> 														<div id="kick0" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 0)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 0)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 0)">														<div class="kick_splash note_part" id="kick_splash0" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle0" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick1" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 1)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 1)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 1)">														<div class="kick_splash note_part" id="kick_splash1" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle1" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick2" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 2)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 2)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 2)">														<div class="kick_splash note_part" id="kick_splash2" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle2" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick3" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 3)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 3)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 3)">														<div class="kick_splash note_part" id="kick_splash3" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle3" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+													<div class="space_between_note_groups"> </div> 														<div id="kick4" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 4)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 4)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 4)">														<div class="kick_splash note_part" id="kick_splash4" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle4" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick5" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 5)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 5)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 5)">														<div class="kick_splash note_part" id="kick_splash5" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle5" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick6" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 6)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 6)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 6)">														<div class="kick_splash note_part" id="kick_splash6" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle6" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick7" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 7)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 7)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 7)">														<div class="kick_splash note_part" id="kick_splash7" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle7" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+													<div class="space_between_note_groups"> </div> 														<div id="kick8" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 8)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 8)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 8)">														<div class="kick_splash note_part" id="kick_splash8" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle8" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick9" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 9)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 9)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 9)">														<div class="kick_splash note_part" id="kick_splash9" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle9" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick10" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 10)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 10)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 10)">														<div class="kick_splash note_part" id="kick_splash10" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle10" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick11" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 11)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 11)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 11)">														<div class="kick_splash note_part" id="kick_splash11" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle11" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+													<div class="space_between_note_groups"> </div> 														<div id="kick12" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 12)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 12)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 12)">														<div class="kick_splash note_part" id="kick_splash12" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle12" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick13" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 13)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 13)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 13)">														<div class="kick_splash note_part" id="kick_splash13" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle13" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick14" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 14)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 14)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 14)">														<div class="kick_splash note_part" id="kick_splash14" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle14" style="background-color: rgb(0, 0, 0); border-color: rgb(153, 153, 153);"></div>														</div> 
+																											<div id="kick15" class="kick" onclick="myGrooveWriter.noteLeftClick(event, &#39;kick&#39;, 15)" oncontextmenu="event.preventDefault(); myGrooveWriter.noteRightClick(event, &#39;kick&#39;, 15)" onmouseenter="myGrooveWriter.noteOnMouseEnter(event, &#39;kick&#39;, 15)">														<div class="kick_splash note_part" id="kick_splash15" style="color: transparent;"><i class="fa fa-times"></i></div>														<div class="kick_circle note_part" id="kick_circle15" style="background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153);"></div>														</div> 
+													<span class="unmuteKickButton" id="unmutekickButton1" onclick="myGrooveWriter.muteInstrument(&quot;kick&quot;, 1, false)"><span class="fa-stack unmuteStack"><i class="fa fa-ban fa-stack-2x" style="color:red"></i><i class="fa fa-volume-down fa-stack-1x"></i></span><div class="end_note_space"></div>
+</span></div>
+								</div>							</div>						</span>
+<span class="closeMeasureButton"><i class="fa">&nbsp;&nbsp;&nbsp;</i></span><span id="addMeasureButton" title="Add measure" onclick="myGrooveWriter.addMeasureButtonClick(event)"><i class="fa fa-plus"></i></span></div></div>
+				</div>
+
+
+				<div id="bottomButtonRow" class="fullWidthEle">
+					<span class="pageBottomButton edit-block" id="clearAllNotesButton" style="display: block;"><span class="bottomButtonIcon"><i class="fa fa-trash fa-2x"></i></span><span class="bottomButtonLabel">CLEAR ALL</span></span>
+					<span class="pageBottomButton edit-block" id="showHideTomsButton" style="display: block;"><span class="bottomButtonIcon"><i id="icon-tom1" class="fa fa-circle"></i><i id="icon-tom2" class="fa fa-circle-o"></i><i id="icon-tom3" class="fa fa-circle-o"></i></span><span class="bottomButtonLabel">TOMS</span></span>
+					<span class=" grooveDB_hidden pageBottomButton" id="stickingsButton"><span class="bottomButtonLabel">STICKINGS</span></span>
+					<span class=" grooveDB_hidden pageBottomButton" id="downloadButton"><span class="bottomButtonIcon"><i class="fa fa-download fa-2x"></i></span><span class="bottomButtonLabel">DOWNLOAD</span></span>
+					<span class=" grooveDB_hidden pageBottomButton" id="printButton"><span class="bottomButtonIcon"><i class="fa fa-print fa-2x"></i></span><span class="bottomButtonLabel">PRINT</span></span>
+					<span class=" grooveDB_hidden pageBottomButton" id="shareSaveButton"><span class="bottomButtonIcon"><i class="fa fa-share fa-2x"></i></span><span class="bottomButtonLabel">SHARE</span></span>
+					<span class=" grooveDB_hidden pageBottomButton" id="saveGrooveButton" title="Save as new groove"><span class="bottomButtonIcon"><i class="fa fa-save fa-2x"></i></span><span class="bottomButtonLabel">SAVE</span></span>
+				</div>
+
+				<div id="midiTextOutput">
+				</div>
+
+				<span id="hiddenDescription">
+					GrooveScribe allows drummers to easily create grooves, listen, share, print sheet music, and more.
+					Use the GrooveScribe to create new grooves, figure out the groove to your favorite song,
+					or write down the groove to your latest tune.
+				</span>
+
+				<!-- GrooveDB output area -->
+				<div id="GrooveDB_MetaData" class="grooveDB_show" style="display:none;">
+					<div id="grooveDBInstructions">
+					This is the text that should be added to the GrooveDB for this groove.  <br>
+					<b>Copy and paste it into the GrooveDB edit window </b>
+					</div>
+					<div>
+					<textarea id="GrooveDB_source" class="fullWidthEle"></textarea>
+					</div>
+				</div>
+
+				<div id="debugDisplayArea">
+					<span id="undoStack"></span>
+					<span id="redoStack"></span>
+					<span id="URLSearchData"></span>
+					<!-- ABC notation -->
+					<a href="https://scribe.bahar.co.il/?TimeSig=4/4&amp;Div=16&amp;Tempo=80&amp;Measures=1&amp;H=|xxxx--xxxxxxxxxx|&amp;S=|-O--O-------O---|&amp;K=|o-------o-----o-|&amp;T1=|----------o---o-|&amp;T2=|--oo------------|&amp;T4=|------oo--------|" id="showHideABC">Show/Hide ABC Notation</a>
+
+					<div id="ABC_Results">
+						ABC Notation is used for rendering the music.  You can see what is being generated below.
+						You can even edit it.  <br>
+						NOTE: whenever the page is modified, the ABC Notation below will be overwritten automatically. <br>
+						For more information about ABC Notation go here: <a href="http://abcnotation.com/">http://abcnotation.com/</a>
+						<p></p>
+						<textarea id="ABCsource" rows="10" cols="72"></textarea>
+						<br>
+						<button type="button" id="reRenderABCButton">Re-render the music</button>
+						<button type="button" id="saveABCButton">Save ABC to file</button>
+					</div>
+					<span id="debugOutput"></span>
+				</div>
+
+				<div id="totalPlayTime">
+				</div>
+			</div>
+		</div>
+
+
+		<!-- context menu that will pop up over notes in advaced edit mode or right click -->
+		<div class="noteContextMenu">
+			<ul id="metronomeOptionsContextMenu" class="list">
+				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuSolo" title="Just hear the metronome.">Solo</li>
+				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuSpeedUp" title="Increase the tempo automatically">Auto speed up</li>
+				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuCountIn" title="One measure of metronome count in at the start">Count it in</li>
+				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuOffTheOne" title="Click on the e, &amp;, or a">Offset click</li>
+				<li class="metronomeOptionsContextMenuItem" id="metronomeOptionsContextMenuVisualSync" title="Adjust visual-audio synchronization">Visual sync</li>
+				<!--
+				<li id="metronomeOptionsContextMenuDropper"   onclick='myGrooveWriter.metronomeOptionsMenuPopupClick("Dropper")'  >Beat Dropper</li>
+				-->
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="metronomeOptionsOffsetClickContextMenu" class="list">
+				<li class="metronomeOptionsOffsetClickContextMenuItem menuChecked" id="metronomeOptionsOffsetClickContextMenuOnThe1" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;1&quot;);">Start on "<b>1</b>"</li>
+				<li class="metronomeOptionsOffsetClickContextMenuItem" id="metronomeOptionsOffsetClickContextMenuOnTheE" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;E&quot;);">Start on "<b>E</b>"</li>
+				<li class="metronomeOptionsOffsetClickContextMenuItem" id="metronomeOptionsOffsetClickContextMenuOnTheAND" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;AND&quot;);">Start on "<b>&amp;</b>"</li>
+				<li class="metronomeOptionsOffsetClickContextMenuItem" id="metronomeOptionsOffsetClickContextMenuOnTheA" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;A&quot;);">Start on "<b>A</b>"</li>
+				<li class="metronomeOptionsOffsetClickContextMenuItem" id="metronomeOptionsOffsetClickContextMenuOnTheROTATE" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;ROTATE&quot;);">Rotate through</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="metronomeOptionsOffsetClickForTripletsContextMenu" class="list">
+				<li class="metronomeOptionsOffsetClickContextMenuItem menuChecked" id="metronomeOptionsOffsetClickContextMenuOnThe1Triplet" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;1&quot;);">Start on "<b>1</b>"</li>
+				<li class="metronomeOptionsOffsetClickContextMenuItem" id="metronomeOptionsOffsetClickContextMenuOnTheTI" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;TI&quot;);">Start on "<b>&amp;</b>"</li>
+				<li class="metronomeOptionsOffsetClickContextMenuItem" id="metronomeOptionsOffsetClickContextMenuOnTheTA" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;TA&quot;);">Start on "<b>A</b>"</li>
+				<li class="metronomeOptionsOffsetClickContextMenuItem" id="metronomeOptionsOffsetClickContextMenuOnTheROTATE" onclick="myGrooveWriter.metronomeOptionsMenuOffsetClickPopupClick(&quot;ROTATE&quot;);">Rotate through</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="stickingContextMenu" class="list">
+				<li onclick="myGrooveWriter.notePopupClick(&quot;sticking&quot;, &quot;off&quot;);">Off</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;sticking&quot;,&quot;right&quot;);"><b>R</b>ight</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;sticking&quot;,&quot;left&quot;);"><b>L</b>eft</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;sticking&quot;,&quot;both&quot;);"><b>R/L</b></li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;sticking&quot;, &quot;count&quot;);">Count</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="hhContextMenu" class="list">
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;, &quot;off&quot;);">Off</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;normal&quot;);">Hi-hat normal</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;open&quot;);">Hi-hat open</li>
+				<!-- <li onclick='myGrooveWriter.notePopupClick("hh","close");'>Hi-hat closed</li> -->
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;accent&quot;);">Hi-hat accent</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;crash&quot;);">Crash</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;ride&quot;);">Ride</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;ride_bell&quot;);">Ride Bell</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;cow_bell&quot;);">Cow Bell</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;stacker&quot;);">Stacker</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;metronome_normal&quot;);">Click</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;hh&quot;,&quot;metronome_accent&quot;);">Click - accent</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="tom1ContextMenu" class="list">
+				<li onclick="myGrooveWriter.notePopupClick(&quot;tom1&quot;, &quot;off&quot;);">Off</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;tom1&quot;, &quot;normal&quot;);">Tom 1 Normal</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="tom2ContextMenu" class="list">
+				<li onclick="myGrooveWriter.notePopupClick(&quot;tom2&quot;, &quot;off&quot;);">Off</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;tom2&quot;, &quot;normal&quot;);">Tom 2 Normal</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="tom4ContextMenu" class="list">
+				<li onclick="myGrooveWriter.notePopupClick(&quot;tom4&quot;, &quot;off&quot;);">Off</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;tom4&quot;, &quot;normal&quot;);">Floor Tom Normal</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="snareContextMenu" class="list">
+				<li onclick="myGrooveWriter.notePopupClick(&quot;snare&quot;, &quot;off&quot;);">Off</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;snare&quot;, &quot;normal&quot;);">Snare Normal</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;snare&quot;, &quot;accent&quot;);">Snare Accent</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;snare&quot;, &quot;ghost&quot;);">Ghost Note</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;snare&quot;, &quot;xstick&quot;);">Cross Stick</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;snare&quot;, &quot;buzz&quot;);">Buzz Stroke</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;snare&quot;, &quot;flam&quot;);">Flam</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="kickContextMenu" class="list">
+				<li onclick="myGrooveWriter.notePopupClick(&quot;kick&quot;, &quot;off&quot;);">Off</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;kick&quot;, &quot;normal&quot;);">Kick Normal</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;kick&quot;, &quot;splash&quot;);">Hi-hat foot</li>
+				<li onclick="myGrooveWriter.notePopupClick(&quot;kick&quot;, &quot;kick_and_splash&quot;);">Kick &amp; Hi-hat foot</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="stickingsLabelContextMenu" class="list">
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;stickings&quot;, &quot;all_off&quot;);">all <b>Off</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;stickings&quot;, &quot;alternate&quot;);">alternate <b>R</b>/<b>L</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;stickings&quot;, &quot;all_right&quot;);">all <b>R</b>s</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;stickings&quot;, &quot;all_left&quot;);">all <b>L</b>s</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;stickings&quot;, &quot;all_count&quot;);"><b>C</b>ounts</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;stickings&quot;, &quot;cancel&quot;);">cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="hhLabelContextMenu" class="list">
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;hh&quot;, &quot;all_off&quot;);">all Hi-hats <b>Off</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;hh&quot;, &quot;all_on&quot;);">all Hi-hats <b>On</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;hh&quot;, &quot;downbeats&quot;);">downbeats</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;hh&quot;, &quot;upbeats&quot;);">upbeats</li>
+				<li id="mute_hh_menu_item" onclick="myGrooveWriter.noteLabelPopupClick(&quot;hh&quot;, &quot;mute&quot;);">mute HH sound</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;hh&quot;, &quot;cancel&quot;);">cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="tom1LabelContextMenu" class="list">
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom1&quot;, &quot;all_off&quot;);">all Toms <b>Off</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom1&quot;, &quot;all_on&quot;);">all Toms <b>On</b></li>
+				<li id="mute_tom1_menu_item" onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom1&quot;, &quot;mute&quot;);">mute Tom 1 sound</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom1&quot;, &quot;cancel&quot;);">cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="tom2LabelContextMenu" class="list">
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom2&quot;, &quot;all_off&quot;);">all Toms <b>Off</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom2&quot;, &quot;all_on&quot;);">all Toms <b>On</b></li>
+				<li id="mute_tom2_menu_item" onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom2&quot;, &quot;mute&quot;);">mute Tom 2 sound</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom2&quot;, &quot;cancel&quot;);">cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="tom4LabelContextMenu" class="list">
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom4&quot;, &quot;all_off&quot;);">all Toms <b>Off</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom4&quot;, &quot;all_on&quot;);">all Toms <b>On</b></li>
+				<li id="mute_tom4_menu_item" onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom4&quot;, &quot;mute&quot;);">mute Floor Tom sound</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;tom4&quot;, &quot;cancel&quot;);">cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="snareLabelContextMenu" class="list">
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;snare&quot;, &quot;all_off&quot;);">all Snares <b>Off</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;snare&quot;, &quot;all_on&quot;);">all <b>Accented</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;snare&quot;, &quot;all_on_normal&quot;);">all <b>Normal</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;snare&quot;, &quot;all_on_ghost&quot;);">all <b>Ghosts</b></li>
+				<li id="mute_snare_menu_item" onclick="myGrooveWriter.noteLabelPopupClick(&quot;snare&quot;, &quot;mute&quot;);">mute snare sound</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;snare&quot;, &quot;cancel&quot;);">cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="kickLabelContextMenu" class="list">
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;kick&quot;, &quot;all_off&quot;);">all Kicks <b>Off</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;kick&quot;, &quot;all_on&quot;);">all Kicks <b>On</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;kick&quot;, &quot;hh_foot_nums_on&quot;);">HH foot #'s <b>On</b></li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;kick&quot;, &quot;hh_foot_ands_on&quot;);">HH foot &amp;'s <b>On</b></li>
+				<li id="mute_kick_menu_item" onclick="myGrooveWriter.noteLabelPopupClick(&quot;kick&quot;, &quot;mute&quot;);">mute kick sound</li>
+				<li onclick="myGrooveWriter.noteLabelPopupClick(&quot;kick&quot;, &quot;cancel&quot;);">cancel</li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="myGrooveContextMenu" class="list"><li class="no-grooves">No saved grooves</li></ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="permutationContextMenu" class="list">
+				<li onclick="myGrooveWriter.permutationPopupClick(&quot;none&quot;);"><b>None</b></li>
+				<li onclick="myGrooveWriter.permutationPopupClick(&quot;kick_16ths&quot;);"><b>Kick</b> Permutation</li>
+				<li onclick="myGrooveWriter.permutationPopupClick(&quot;snare_16ths&quot;);"><b>Snare</b> Permutation</li>
+			</ul>
+		</div>
+        <div class="noteContextMenu">
+            <ul id="helpContextMenu" class="list">
+                <li onclick="myGrooveWriter.helpMenuPopupClick(&quot;undo&quot;);">Undo (Ctrl-Z)</li>
+                <li onclick="myGrooveWriter.helpMenuPopupClick(&quot;redo&quot;);">Redo (Ctrl-Y)</li>
+                <li onclick="myGrooveWriter.helpMenuPopupClick(&quot;help&quot;);">Help</li>
+                <li onclick="myGrooveWriter.helpMenuPopupClick(&quot;about&quot;);">About</li>
+                <li id="debugLogsToggleMenuItem" onclick="myGrooveWriter.helpMenuPopupClick(&quot;debug_toggle&quot;);">Debug Logs: Off</li>
+            </ul>
+        </div>
+		<div class="noteContextMenu">
+			<ul id="stickingsContextMenu" class="list" style="width: 200px;">
+				<li onclick="myGrooveWriter.stickingsShowHideToggle();"><b>Show or Hide stickings</b></li>
+				<li onclick="myGrooveWriter.stickingsReverseRL();"><b>Reverse stickings R/L</b></li>
+			</ul>
+		</div>
+		<div class="noteContextMenu">
+			<ul id="downloadContextMenu" class="list" style="width: 200px;">
+				<li onclick="myGrooveWriter.SVGSaveAs();"><b>Download SVG Images</b></li>
+				<li onclick="myGrooveWriter.PNGSaveAs();"><b>Download PNG Images</b></li>
+				<li onclick="myGrooveWriter.MIDISaveAs();"><b>Download MIDI file</b></li>
+			</ul>
+		</div>
+		<div id="grooveListWrapper"><ul class="grooveListUL">
+<li class="grooveListHeaderLI">Rock grooves</li>
+<ul class="grooveListUL">
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Tempo=80&amp;Measures=1&amp;H=|----------------|&amp;S=|----------------|&amp;K=|----------------|&#39;)">Empty 16th note groove</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=8&amp;Tempo=80&amp;Measures=1&amp;H=|xxxxxxxx|&amp;S=|--O---O-|&amp;K=|o---o--|&#39;)">8th Note Rock</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Tempo=80&amp;Measures=1&amp;H=|xxxxxxxxxxxxxxxx|&amp;S=|----O-------O---|&amp;K=|o-------o-------|&#39;)">16th Note Rock</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Title=Syncopated%20hi-hats%201&amp;Tempo=80&amp;Measures=1&amp;H=|x-xxx-xxx-xxx-xx|&amp;S=|----O-------O---|&amp;K=|o-------o-------|&#39;)">Syncopated Hi-hats #1</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Title=Syncopated%20hi-hats%202&amp;Tempo=80&amp;Measures=1&amp;H=|xxx-xxx-xxx-xxx-|&amp;S=|----O-------O---|&amp;K=|o-------o-------|&#39;)">Syncopated Hi-hats #2</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Swing=0&amp;Title=Train%20Beat&amp;Tempo=95&amp;Measures=1&amp;H=|----------------|&amp;S=|ggOgggOgggOggOOg|&amp;K=|o-x-o-x-o-x-o-x-|&#39;)">Train Beat</li>
+</ul>
+<li class="grooveListHeaderLI">Triplet grooves</li>
+<ul class="grooveListUL">
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=12&amp;Title=Jazz%20Shuffle&amp;Tempo=100&amp;Measures=1&amp;H=|r--r-rr--r-r|&amp;S=|g-gO-gg-gO-g|&amp;K=|o--X--o--X--|&#39;)">Jazz Shuffle</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=12&amp;Title=Half%20Time%20Shuffle&amp;Swing=0&amp;measures=1&amp;H=|x-xx-xx-xx-x|&amp;S=|-g--g-Og--g-|&amp;K=|------------|&#39;)">Half Time Shuffle in 8th notes</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=24&amp;Swing=0&amp;Tempo=85&amp;Measures=1&amp;H=|x-xx-xx-xx-xx-xx-xx-xx-x|&amp;S=|-g--g-Og--g--g--g-Og--g-|&amp;K=|------------------------|&#39;)">Half Time Shuffle in 16th notes</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=12&amp;Swing=0&amp;Tempo=120&amp;Title=Purdie%20Shuffle&amp;Swing=0&amp;measures=1&amp;H=|x-xx-xx-xx-x|&amp;S=|-g--g-Og--g-|&amp;K=|o----o-----o|&#39;)">Purdie Shuffle</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=12&amp;Tempo=80&amp;Measures=1&amp;H=|r--r-rr--r-r|&amp;S=|------------|&amp;K=|---x-----x--|&#39;)">Jazz Ride</li>
+</ul>
+<li class="grooveListHeaderLI">World grooves</li>
+<ul class="grooveListUL">
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=8&amp;Title=Bossa%20Nova&amp;Tempo=140&amp;Measures=2&amp;H=|xxxxxxxx|xxxxxxxx|&amp;S=|x-x--x-x|-x--x-x-|&amp;K=|o-xoo-xo|o-xoo-xo|&#39;)">Bossa Nova</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Title=Samba&amp;Tempo=80&amp;Measures=1&amp;H=|r-rrr-rrr-rrr-rr|&amp;S=|o-o--o-o-o-oo-o-|&amp;K=|o-xoo-xoo-xoo-xo|&#39;)">Jazz Samba</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Title=Songo&amp;Tempo=80&amp;Measures=1&amp;&amp;H=|x---x---x---x---|&amp;S=|--O--g-O-gg--g-g|&amp;K=|---o--o----o--o-|&#39;)">Songo</li>
+</ul>
+<li class="grooveListHeaderLI">Foot Ostinatos</li>
+<ul class="grooveListUL">
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Title=Samba Ostinato&amp;Tempo=60&amp;Swing=0&amp;measures=1&amp;H=|----------------|&amp;S=|----------------|&amp;K=|o-xoo-xoo-xoo-xo|&#39;)">Samba</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Title=Tumbao Ostinato&amp;Tempo=60&amp;Measures=1&amp;H=|----------------|&amp;S=|----------------|&amp;K=|x--ox-o-x--ox-o-|&#39;)">Tumbao</li>
+<li class="grooveListLI" onclick="myGrooveWriter.loadNewGroove(&#39;?TimeSig=4/4&amp;Div=16&amp;Title=Baiao Ostinato&amp;Tempo=60&amp;Measures=1&amp;H=|----------------|&amp;S=|----------------|&amp;K=|o-xo--X-o-xo--X-|&#39;)">Baiao</li>
+</ul>
+</ul>
+</div>
+
+		<!-- dialog for the TIME label, hidden by default -->
+		<div id="timeSigPopup">
+			<div id="timeSigPopupTitle">Choose a Time Signature</div>
+			<div id="timeSigPopupOptions">
+			 <select id="timeSigPopupTimeSigTop">
+			  <option value="2">2</option>
+			  <option value="3">3</option>
+			  <option selected="" value="4">4</option>
+			  <option value="5">5</option>
+			  <option value="6">6</option>
+			  <option value="7">7</option>
+			  <option value="8">8</option>
+			  <option value="9">9</option>
+			  <option value="10">10</option>
+			  <option value="11">11</option>
+			  <option value="12">12</option>
+			  <option value="13">13</option>
+			  <option value="14">14</option>
+			  <option value="15">15</option>
+			</select>
+			<b id="timeSigPopupSlash">/</b>
+			<select id="timeSigPopupTimeSigBottom">
+			  <option selected="" value="4">4</option>
+			  <option value="8">8</option>
+			  <option value="16">16</option>
+			</select>
+			</div>
+			<div id="timeSigPopupButtons">
+			<button id="timeSigPopupCancel">Cancel</button>
+			<button id="timeSigPopupOK">Done</button>
+			</div>
+		</div>
+
+		<!-- this is used by the share/save button, and is hidden by default -->
+		<div id="fullURLPopup">
+			<span id="fullURLPopupCloseButton"><i class="fa fa-lg fa-times-circle"></i></span>
+			<div id="fullURLPopupTitle">Share Your Groove</div>
+			<div id="fullURLPopupSubTitle">Use this URL to share or save this groove</div>
+			<div id="fullURLPopupSubSubTitle">(You can also bookmark this page)</div>
+			<div id="fullURLPopupCheckboxes">
+				<span><label id="shortURLLabel" class="fullURLPopupCheckboxLabel"><input disabled="" type="checkbox" id="shortenerCheckbox" onchange="myGrooveWriter.shortenerCheckboxChanged();">Short URL</label></span>
+				<span><label id="embedCodeLabel" class="fullURLPopupCheckboxLabel"><input type="checkbox" id="embedCodeCheckbox" onchange="myGrooveWriter.embedCodeCheckboxChanged();">Embed Code</label></span>
+			</div>
+			<div id="fullURLPopupTextFieldContainer"><input type="text" id="fullURLPopupTextField"></div>
+			<br>
+			<div id="shareButtonContainer">
+				<button id="fullURLPopupCopyButton">&nbsp;<i class="fa fa-copy"></i> &nbsp;COPY&nbsp;</button>
+				&nbsp; &nbsp; &nbsp;
+				<share-button id="shareButton"></share-button>
+			</div>
+		</div>
+
+
+		<!-- this is used by the metronome auto speed up option menu, and is hidden by default -->
+		<div id="metronomeAutoSpeedupConfiguration">
+			<div id="metronomeAutoSpeedupOutputText">
+				Increase <span id="metronomeAutoSpeedupTempoIncreaseAmountOutput">5</span> bpm in
+				<span id="metronomeAutoSpeedupTempoIncreaseIntervalOutput">2</span> min
+			</div>
+			<div id="metronomeAutoSpeedupConfigurationKeepIncreasing">
+				<input type="checkbox" checked="" id="metronomeAutoSpeedUpKeepGoingForever"><label for="metronomeAutoSpeedUpKeepGoingForever">Keep increasing after the first interval</label>
+			</div>
+			<div id="metronomeAutoSpeedupConfigurationSetDefault">
+				<input type="checkbox" id="metronomeAutoSpeedUpSetAsDefault"><label for="metronomeAutoSpeedUpSetAsDefault">Set as default</label>
+			</div>
+			<div id="metronomeAutoSpeedupConfigurationSliders">
+				<div id="metronomeAutoSpeedupConfigurationAmountLable">Amount in BPM</div>
+				<input type="range" min="1" max="100" value="5" class="metronomeAutoSpeedUpRange" id="metronomeAutoSpeedupTempoIncreaseAmount" oninput="myGrooveWriter.updateRangeLabel(event, &#39;metronomeAutoSpeedupTempoIncreaseAmountOutput&#39;);">
+				<div id="metronomeAutoSpeedupConfigurationIntervalLable">Interval in Minutes</div>
+				<input type="range" min="1" max="20" value="2" class="metronomeAutoSpeedUpRange" id="metronomeAutoSpeedupTempoIncreaseInterval" step="1" oninput="myGrooveWriter.updateRangeLabel(event, &#39;metronomeAutoSpeedupTempoIncreaseIntervalOutput&#39;);">
+			</div>
+			<div id="metronomeAutoSpeedupCloseButtonDiv">
+				<button id="metronomeAutoSpeedupConfigurationCloseButton" onclick="if(window.myGrooveWriter){ myGrooveWriter.close_MetronomeAutoSpeedupConfiguration(&#39;done&#39;); }">Done</button>
+			</div>
+		</div>
+
+		<!-- Visual Sync Configuration Popup -->
+		<div id="visualSyncConfiguration">
+			<div id="visualSyncOutputText">
+				Visual sync offset: <span id="visualSyncOffsetOutput">50 ms</span>
+			</div>
+			<div id="visualSyncDescription">
+				Adjust timing to synchronize visual highlighting with audio playback.<br>
+				<strong>Positive values:</strong> Visual appears earlier than audio<br>
+				<strong>Negative values:</strong> Visual appears later than audio
+			</div>
+			<div id="visualSyncConfigurationSliders">
+				<div id="visualSyncConfigurationOffsetLabel">Timing Offset (milliseconds)</div>
+				<input type="range" min="-200" max="200" value="50" step="5" class="visualSyncRange" id="visualSyncOffset" oninput="myGrooveWriter.applyVisualSyncOffset();">
+			</div>
+			<div id="visualSyncSaveDefault">
+				<input type="checkbox" id="visualSyncSetAsDefault"><label for="visualSyncSetAsDefault">Save as default for future sessions</label>
+			</div>
+			<div id="visualSyncPresets">
+				<strong>Presets:</strong>
+				<button onclick="document.getElementById(&#39;visualSyncOffset&#39;).value=-100; myGrooveWriter.applyVisualSyncOffset();">-100ms</button>
+				<button onclick="document.getElementById(&#39;visualSyncOffset&#39;).value=-50; myGrooveWriter.applyVisualSyncOffset();">-50ms</button>
+				<button onclick="document.getElementById(&#39;visualSyncOffset&#39;).value=0; myGrooveWriter.applyVisualSyncOffset();">0ms</button>
+				<button onclick="document.getElementById(&#39;visualSyncOffset&#39;).value=50; myGrooveWriter.applyVisualSyncOffset();">50ms</button>
+				<button onclick="document.getElementById(&#39;visualSyncOffset&#39;).value=100; myGrooveWriter.applyVisualSyncOffset();">100ms</button>
+			</div>
+			<div id="visualSyncCloseButtonDiv">
+				<button id="visualSyncConfigurationCloseButton" onclick="if(window.myGrooveWriter){ myGrooveWriter.close_VisualSyncConfiguration(); }">Done</button>
+			</div>
+		</div>
+
+
+		<script>
+			// Modern page initialization
+			document.addEventListener('DOMContentLoaded', function() {
+				'use strict';
+
+				// Wait for myGrooveWriter to be fully initialized
+				function initializeWhenReady() {
+					if (window.myGrooveWriter && window.grooves &&
+						typeof window.myGrooveWriter.runsOnPageLoad === 'function') {
+
+						// Populate dynamic content
+						populateDynamicContent();
+
+						// Initialize the application
+						window.myGrooveWriter.runsOnPageLoad();
+
+						// Add modern enhancements
+						initializeModernFeatures();
+					} else {
+						// Wait a bit more for everything to load
+						setTimeout(initializeWhenReady, 50);
+					}
+				}
+
+				// Start initialization
+				initializeWhenReady();
+			});
+
+			function populateDynamicContent() {
+				// Populate grooves list
+				if (window.grooves && typeof window.grooves.getGroovesAsHTML === 'function') {
+					const grooveListWrapper = document.getElementById('grooveListWrapper');
+					if (grooveListWrapper) {
+						grooveListWrapper.innerHTML = window.grooves.getGroovesAsHTML();
+					}
+				}
+
+				// Add View/Edit button if not in authoring mode
+				if (window.myGrooveWriter && window.myGrooveWriter.myGrooveUtils) {
+					const divisionContainer = document.getElementById('divisionButtonContainer');
+					if (divisionContainer && !window.myGrooveWriter.myGrooveUtils.grooveDBAuthoring) {
+						const viewEditButton = document.createElement('span');
+						viewEditButton.className = 'left-button';
+						viewEditButton.onclick = function() { window.myGrooveWriter.swapViewEditMode(); };
+						viewEditButton.innerHTML = '<span class="left-button-content"><span id="view-edit-switch">Switch to EDIT mode</span></span>';
+						divisionContainer.appendChild(viewEditButton);
+					}
+
+					// Add Advanced Edit button for touch devices
+					if (window.myGrooveWriter.myGrooveUtils.is_touch_device()) {
+						const advancedEditButton = document.createElement('span');
+						advancedEditButton.className = 'left-button edit-block';
+						advancedEditButton.id = 'advancedEditAnchor';
+						advancedEditButton.onclick = function(event) {
+							event.preventDefault();
+							window.myGrooveWriter.toggleAdvancedEdit();
+						};
+						advancedEditButton.innerHTML = '<span class="left-button-content">Advanced Edit</span>';
+						divisionContainer.appendChild(advancedEditButton);
+					}
+				}
+
+				// Populate permutation options
+				if (window.myGrooveWriter && typeof window.myGrooveWriter.HTMLforPermutationOptions === 'function') {
+					const permutationOptions = document.getElementById('PermutationOptions');
+					if (permutationOptions) {
+						permutationOptions.innerHTML = window.myGrooveWriter.HTMLforPermutationOptions();
+					}
+				}
+
+				// Populate measure container
+				if (window.myGrooveWriter &&
+					typeof window.myGrooveWriter.numberOfMeasures === 'function' &&
+					typeof window.myGrooveWriter.HTMLforStaffContainer === 'function' &&
+					typeof window.myGrooveWriter.notesPerMeasure === 'function') {
+
+					const measureContainer = document.getElementById('measureContainer');
+					if (measureContainer) {
+						var genHTML = "";
+						var cur_measure;
+						for (cur_measure = 1; cur_measure <= window.myGrooveWriter.numberOfMeasures(); cur_measure++) {
+							genHTML += window.myGrooveWriter.HTMLforStaffContainer(cur_measure, (cur_measure - 1) * window.myGrooveWriter.notesPerMeasure());
+						}
+						measureContainer.innerHTML = genHTML;
+					}
+				}
+			}
+
+			function initializeModernFeatures() {
+				// Add loading indicator
+				const loadingIndicator = document.createElement('div');
+				loadingIndicator.id = 'loadingIndicator';
+				loadingIndicator.innerHTML = '<div class="spinner"></div><p>Loading GrooveScribe...</p>';
+				loadingIndicator.style.cssText = `
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba(57, 57, 57, 0.9);
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					z-index: 10000;
+					color: white;
+					font-family: 'Lato', sans-serif;
+				`;
+
+				// Add spinner CSS
+				const style = document.createElement('style');
+				style.textContent = `
+					.spinner {
+						border: 4px solid #f3f3f3;
+						border-top: 4px solid #2484C0;
+						border-radius: 50%;
+						width: 40px;
+						height: 40px;
+						animation: spin 1s linear infinite;
+						margin-bottom: 20px;
+					}
+					@keyframes spin {
+						0% { transform: rotate(0deg); }
+						100% { transform: rotate(360deg); }
+					}
+				`;
+				document.head.appendChild(style);
+				document.body.appendChild(loadingIndicator);
+
+				// Remove loading indicator after initialization
+				setTimeout(() => {
+					if (loadingIndicator.parentNode) {
+						loadingIndicator.parentNode.removeChild(loadingIndicator);
+					}
+				}, 2000);
+
+				// Add modern touch and gesture support
+				if ('ontouchstart' in window) {
+					document.body.classList.add('touch-device');
+				}
+
+				// Re-enable service worker in safe mode (no auto reload on update)
+				if ('serviceWorker' in navigator) {
+					(async function registerServiceWorker() {
+						try {
+							const reg = await navigator.serviceWorker.register('./sw.js');
+							console.log('Service worker registered successfully at:', './sw.js');
+							// No controllerchange reload — updates will take effect on next load
+						} catch (err) {
+							console.log('Service worker registration failed:', err.message);
+						}
+					})();
+				}
+			}
+		</script>
+
+
+	</div>
+
+	<!-- Version Display -->
+	<div class="version-display" id="versionDisplay">
+		<div class="version-tooltip" id="versionTooltip">
+			Built: <span id="buildDateTime">Sep 5, 2025, 1:39 PM</span>
+		</div>
+		v<span id="versionNumber">1.5.4</span>
+	</div>
+
+	<script>
+		// Version and build information
+		(function() {
+			// Version number - increment this for each release
+			const VERSION = '1.5.4';
+
+			// Optional: keep EXPECTED_VERSION for UI display; use version.json for checks
+			const EXPECTED_VERSION = '1.5.4';
+
+			async function fetchVersionJson() {
+				try {
+					const url = 'version.json?cb=' + Date.now();
+					const resp = await fetch(url, { cache: 'no-store' });
+					if (!resp.ok) throw new Error('version.json not found');
+					const text = await resp.text();
+					try { return JSON.parse(text); }
+					catch (err) { console.warn('Version JSON parse failed:', err, text); return null; }
+				} catch (e) {
+					console.warn('Version check failed:', e.message);
+					return null;
+				}
+			}
+
+			async function checkVersionAndReload() {
+				const data = await fetchVersionJson(true);
+				if (!data || !data.version) return;
+
+				const current = EXPECTED_VERSION;
+				if (data.version !== current) {
+					console.log('New version detected:', data.version, 'current:', current);
+					// Ask SW (if any) to activate immediately; fallback to soft reload
+					if (navigator.serviceWorker?.controller) {
+						navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+						// controllerchange listener elsewhere will reload
+					} else {
+						window.location.reload();
+					}
+				}
+			}
+
+			// Temporarily disable auto-reload version check to stop loops
+			// checkVersionAndReload();
+
+			// Get build date from this script's last modified date
+			function getBuildDateTime() {
+				// Try to get the last modified date of index.html
+				const buildDate = new Date(document.lastModified);
+
+				// If document.lastModified is not reliable, use current date as fallback
+				const now = new Date();
+				const dateToUse = buildDate.getTime() > 0 ? buildDate : now;
+
+				// Format: "Dec 19, 2024 at 3:45 PM"
+				const options = {
+					year: 'numeric',
+					month: 'short',
+					day: 'numeric',
+					hour: 'numeric',
+					minute: '2-digit',
+					hour12: true
+				};
+
+				return dateToUse.toLocaleDateString('en-US', options);
+			}
+
+			// Update version display
+			document.addEventListener('DOMContentLoaded', function() {
+				const versionNumber = document.getElementById('versionNumber');
+				const buildDateTime = document.getElementById('buildDateTime');
+
+				if (versionNumber) {
+					versionNumber.textContent = VERSION;
+				}
+
+				if (buildDateTime) {
+					buildDateTime.textContent = getBuildDateTime();
+				}
+			});
+		})();
+	</script>
+
+    
+
+<style id="tempoInput1CSSRules">#tempoInput1::-moz-range-track{ background: -moz-linear-gradient(left, rgb(136, 136, 136) 19%, rgb(68, 68, 68) 19%)}
+#tempoInput1::-webkit-slider-runnable-track{ background: -webkit-linear-gradient(left, rgb(136, 136, 136) 0%, rgb(136, 136, 136) 19%, rgb(68, 68, 68) 19%)}
+</style><style id="swingInput1CSSRules">#swingInput1::-moz-range-track{ background: -moz-linear-gradient(left, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 0%)}
+#swingInput1::-webkit-slider-runnable-track{ background: -webkit-linear-gradient(left, rgb(136, 136, 136) 0%, rgb(136, 136, 136) 0%, rgb(68, 68, 68) 0%)}
+</style></body></html>
