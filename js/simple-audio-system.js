@@ -22,6 +22,8 @@
                 
                 // Snare variations
                 38: 'snare_normal',   // constant_OUR_MIDI_SNARE_NORMAL  
+                38: 'snare_left',
+                38: 'snare_right',
                 21: 'snare_ghost',    // constant_OUR_MIDI_SNARE_GHOST
                 22: 'snare_accent',   // constant_OUR_MIDI_SNARE_ACCENT
                 37: 'snare_xstick',   // constant_OUR_MIDI_SNARE_XSTICK
@@ -64,6 +66,8 @@
                 'snare_flam': 'Snare Flam.mp3',
                 'snare_drag': 'Drag.mp3',
                 'snare_buzz': 'Buzz.mp3',
+                'snare_left': 'Snare-L.mp3',
+                'snare_right': 'Snare-R.mp3,'
                 'hihat_normal': 'Hi Hat Normal.mp3',
                 'hihat_open': 'Hi Hat Open.mp3',
                 'hihat_foot': 'Hi Hat Foot.mp3', 

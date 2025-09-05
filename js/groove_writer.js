@@ -420,6 +420,8 @@ function GrooveWriter() {
 				document.getElementById("snare_circle" + id).style.backgroundColor = constant_note_off_color_hex;
 				document.getElementById("snare_circle" + id).style.borderColor = constant_note_border_color_hex;
 				break;
+			case "left":
+			case "right":
 			case "normal":
 				document.getElementById("snare_circle" + id).style.backgroundColor = constant_note_on_color_hex;
 				document.getElementById("snare_circle" + id).style.borderColor = constant_note_border_color_hex;
@@ -3822,6 +3824,8 @@ function GrooveWriter() {
 			case constant_ABC_SN_Accent:
 				setFunction(displayIndex, "accent", false);
 				break;
+			case constant_ABC_SN_Left:
+			case constant_ABC_SN_Right:
 			case constant_ABC_SN_Normal:
 				setFunction(displayIndex, "normal", false);
 				break;
